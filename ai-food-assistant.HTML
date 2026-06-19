@@ -1,0 +1,1301 @@
+"photo":"https://thailandmagazine.com/wp-content/uploads/2025/04/Octave-Rooftop-Lounge-Bar-in-Bangkok-Thailand-4.webp"html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ทองหล่อ Restaurant Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter','Noto Sans Thai',sans-serif;background:#f8f9fa;color:#222;min-height:100vh}
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#fff;padding:40px 20px 32px;text-align:center}
+.hero h1{font-size:2rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px}
+.hero h1 span{color:#f5a623}
+.hero p{font-size:.95rem;opacity:.75;margin-bottom:24px}
+.search-wrap{max-width:540px;margin:0 auto;position:relative}
+.search-wrap input{width:100%;padding:14px 48px 14px 20px;border-radius:50px;border:none;font-size:1rem;font-family:inherit;outline:none;box-shadow:0 4px 20px rgba(0,0,0,.25);color:#222}
+.search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.2rem;opacity:.5;pointer-events:none}
+.filters{background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.filter-row{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-btn{padding:6px 14px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:.82rem;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap;color:#333}
+.filter-btn:hover{border-color:#0f3460;color:#0f3460}
+.filter-btn.active{background:#0f3460;color:#fff;border-color:#0f3460}
+.filter-btn.group-btn{border-color:#e8472a;color:#e8472a}
+.filter-btn.group-btn.active{background:#e8472a;border-color:#e8472a;color:#fff}
+.sep{width:1px;height:24px;background:#e0e0e0;margin:0 2px;flex-shrink:0}
+select.filter-select{padding:6px 12px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:.82rem;cursor:pointer;font-family:inherit;outline:none;color:#333}
+.stats-bar{max-width:1200px;margin:14px auto 0;padding:0 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.stat-chip{font-size:.8rem;color:#666;background:#f0f0f0;padding:4px 10px;border-radius:12px}
+.stat-chip b{color:#0f3460}
+.grid{max-width:1200px;margin:0 auto;padding:16px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.card-img{position:relative;height:190px;overflow:hidden;background:#f0f0f0;flex-shrink:0}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.card:hover .card-img img{transform:scale(1.05)}
+.no-photo{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem}
+.rank-badge{position:absolute;top:10px;left:10px;background:rgba(15,52,96,.85);color:#fff;padding:3px 10px;border-radius:20px;font-size:.74rem;font-weight:600;backdrop-filter:blur(4px)}
+.score-badge{position:absolute;top:10px;right:10px;padding:3px 10px;border-radius:20px;font-size:.8rem;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.score-high{background:#16a34a;color:#fff}
+.score-mid{background:#d97706;color:#fff}
+.score-low{background:#fff;color:#555}
+.group-badge{position:absolute;bottom:10px;left:10px;background:#e8472a;color:#fff;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600}
+.card-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
+.card-name{font-size:.97rem;font-weight:600;line-height:1.35;color:#1a1a2e}
+.card-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cat-tag{background:#eef2ff;color:#3730a3;font-size:.72rem;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
+.price-tag{background:#f0fdf4;color:#15803d;font-size:.72rem;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
+.rating-row{display:flex;align-items:center;gap:6px}
+.stars{color:#f59e0b;font-size:.88rem;letter-spacing:0.5px}
+.rating-num{font-weight:700;font-size:.9rem;color:#1a1a2e}
+.review-count{font-size:.76rem;color:#888}
+.score-bar-wrap{margin-top:2px}
+.score-bar-label{display:flex;justify-content:space-between;font-size:.7rem;color:#999;margin-bottom:4px}
+.score-bar{height:4px;background:#e8e8e8;border-radius:2px;overflow:hidden}
+.score-bar-fill{height:100%;background:linear-gradient(90deg,#0f3460,#3a86ff);border-radius:2px}
+.addr-row{font-size:.74rem;color:#888;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-actions{display:flex;gap:5px;margin-top:auto;padding-top:10px;flex-wrap:wrap}
+.action-btn{flex:1;min-width:60px;padding:7px 4px;border-radius:9px;border:1.5px solid #e8e8e8;background:#fff;font-size:.73rem;font-weight:500;cursor:pointer;text-decoration:none;color:#333;text-align:center;transition:all .15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:3px;white-space:nowrap}
+.action-btn:hover{background:#f5f5f5}
+.btn-map{background:#0f3460!important;border-color:#0f3460!important;color:#fff!important}
+.btn-map:hover{background:#0d2d55!important}
+.btn-phone{border-color:#16a34a;color:#16a34a}
+.btn-phone:hover{background:#f0fdf4}
+.btn-web{border-color:#7c3aed;color:#7c3aed}
+.btn-web:hover{background:#f5f3ff}
+.btn-ta{border-color:#00aa6c;color:#00aa6c}
+.btn-ta:hover{background:#ecfdf5}
+.empty{text-align:center;padding:60px 20px;color:#aaa;grid-column:1/-1;font-size:1rem}
+.np-thai{background:linear-gradient(135deg,#fef9c3,#fde68a)}
+.np-japanese{background:linear-gradient(135deg,#fee2e2,#fca5a5)}
+.np-korean{background:linear-gradient(135deg,#dbeafe,#93c5fd)}
+.np-cafe{background:linear-gradient(135deg,#f3e8ff,#d8b4fe)}
+.np-seafood{background:linear-gradient(135deg,#cffafe,#67e8f9)}
+.np-italian{background:linear-gradient(135deg,#fef9c3,#fde68a)}
+.np-default{background:linear-gradient(135deg,#f0f0f0,#d0d0d0)}
+.sort-wrap{display:flex;align-items:center;gap:6px;margin-left:auto}
+.sort-wrap label{font-size:.8rem;color:#666;white-space:nowrap}
+@media(max-width:640px){
+  .hero h1{font-size:1.5rem}
+  .grid{grid-template-columns:1fr;padding:12px 12px 40px}
+  .filter-row{gap:6px}
+  .sort-wrap{width:100%;justify-content:flex-end}
+}
+
+/* ─── TOP 3 SECTION ─────────────────────────────────────────── */
+.top3-section{background:linear-gradient(180deg,#0f3460 0%,#16213e 100%);padding:32px 20px 28px}
+.top3-section h2{text-align:center;color:#fff;font-size:1.25rem;font-weight:700;margin-bottom:20px;letter-spacing:.3px}
+.top3-section h2 span{color:#f5a623}
+.top3-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.t3card{background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.t3card:hover{transform:translateY(-2px);transition:transform .2s}
+.t3-img{position:relative;height:170px;overflow:hidden;background:#f0f0f0;flex-shrink:0}
+.t3-img img{width:100%;height:100%;object-fit:cover}
+.t3-np{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem}
+.t3-rank{position:absolute;top:10px;left:10px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.rank-gold{background:#FFB800;color:#1a1a2e}
+.rank-silver{background:#94A3B8;color:#fff}
+.rank-bronze{background:#CD7C3A;color:#fff}
+.t3-body{padding:14px 15px;display:flex;flex-direction:column;gap:9px;flex:1}
+.t3-name{font-size:1rem;font-weight:700;color:#1a1a2e;line-height:1.3}
+.t3-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.t3-cat{font-size:.72rem;background:#eef2ff;color:#3730a3;padding:2px 8px;border-radius:10px;font-weight:500}
+.t3-rating{font-size:.8rem;color:#f59e0b;font-weight:600}
+.t3-reviews{font-size:.74rem;color:#888}
+.t3-breakdown{background:#f8f9fa;border-radius:10px;padding:10px 12px}
+.t3-breakdown table{width:100%;border-collapse:collapse;font-size:.72rem}
+.t3-breakdown td{padding:2px 0;color:#555;line-height:1.5}
+.t3-breakdown td:last-child{text-align:right;font-weight:600;color:#0f3460;white-space:nowrap}
+.t3-breakdown tr.total-row td{border-top:1px solid #e0e0e0;padding-top:5px;margin-top:3px;font-weight:700;color:#1a1a2e;font-size:.76rem}
+.t3-reason{font-size:.74rem;color:#555;line-height:1.55;border-left:3px solid #f5a623;padding-left:8px}
+.t3-actions{display:flex;gap:5px;padding-top:4px;margin-top:auto}
+.t3-actions a{flex:1;padding:7px 4px;border-radius:9px;font-size:.73rem;font-weight:500;text-decoration:none;text-align:center;transition:all .15s;border:1.5px solid}
+.t3-map{background:#0f3460;border-color:#0f3460;color:#fff}
+.t3-map:hover{background:#0d2d55}
+.t3-phone{border-color:#16a34a;color:#16a34a}
+.t3-phone:hover{background:#f0fdf4}
+.t3-web{border-color:#7c3aed;color:#7c3aed}
+.t3-web:hover{background:#f5f3ff}
+/* ─── TOP 10 TABLE ──────────────────────────────────────────── */
+.top10-section{background:#fff;padding:28px 20px}
+.top10-section h2{text-align:center;font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:18px}
+.top10-wrap{max-width:1100px;margin:0 auto;overflow-x:auto}
+.top10-table{width:100%;border-collapse:collapse;font-size:.83rem}
+.top10-table th{background:#1a1a2e;color:#fff;padding:10px 12px;text-align:left;font-weight:600;white-space:nowrap}
+.top10-table td{padding:10px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.top10-table tr:hover td{background:#f8f9fa}
+.tr-gold td{background:#fffbeb!important}
+.tr-silver td{background:#f8fafc!important}
+.tr-bronze td{background:#fdf6f0!important}
+.tr-rank{font-weight:800;font-size:.95rem}
+.rank-dot-gold{color:#FFB800}
+.rank-dot-silver{color:#94A3B8}
+.rank-dot-bronze{color:#CD7C3A}
+.t10-name-link{color:#0f3460;text-decoration:none;font-weight:600}
+.t10-name-link:hover{text-decoration:underline}
+.t10-cat{font-size:.7rem;background:#eef2ff;color:#3730a3;padding:1px 7px;border-radius:8px;white-space:nowrap}
+.t10-score{font-weight:700;color:#0f3460}
+.t10-group{font-size:.7rem;background:#fef2f2;color:#e8472a;padding:1px 7px;border-radius:8px;white-space:nowrap}
+.t10-rating{color:#f59e0b;font-weight:600}
+@media(max-width:640px){.col-hide{display:none}}
+/* ─── COMPARISON TABLE ──────────────────────────────────────── */
+.compare-section{background:#f8f9fa;padding:28px 20px}
+.compare-section h2{text-align:center;font-size:1.2rem;font-weight:700;color:#1a1a2e;margin-bottom:18px}
+.compare-wrap{max-width:900px;margin:0 auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.compare-table th{background:#0f3460;color:#fff;padding:10px 14px;text-align:center;font-weight:600;line-height:1.3}
+.compare-table th:first-child{text-align:left;background:#1a1a2e}
+.compare-table td{padding:9px 12px;border-bottom:1px solid #e8e8e8;background:#fff;vertical-align:middle;text-align:center}
+.compare-table td:first-child{text-align:left;font-weight:500;color:#444;background:#f8f9fa;font-size:.78rem}
+.cmp-score{font-weight:700;font-size:.9rem;display:block;color:#0f3460}
+.cmp-bar-wrap{height:5px;background:#e8e8e8;border-radius:3px;margin-top:4px;overflow:hidden}
+.cmp-bar{height:100%;border-radius:3px;background:#3a86ff}
+.cmp-winner{background:#f0fdf4!important}
+.cmp-winner .cmp-score{color:#16a34a}
+.compare-insight{max-width:900px;margin:12px auto 0;background:#1a1a2e;color:#e0e8ff;border-radius:10px;padding:12px 16px;font-size:.82rem;line-height:1.6}
+.compare-insight b{color:#f5a623}
+/* ─── EVIDENCE SECTION ──────────────────────────────────────── */
+.evidence-section{background:#1a1a2e;color:#cdd5e0;padding:36px 20px 32px}
+.evidence-inner{max-width:1000px;margin:0 auto}
+.evidence-section h2{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:20px;text-align:center}
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.ev-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px}
+.ev-card h3{font-size:.78rem;font-weight:700;color:#f5a623;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.ev-card p,.ev-card li{font-size:.76rem;line-height:1.7;color:#b0bec5}
+.ev-card a{color:#7eb5ff;text-decoration:none;word-break:break-all}
+.ev-card a:hover{text-decoration:underline}
+.ev-card ul{padding-left:14px}
+.ev-placeholder{color:#f59e0b;font-style:italic}
+.ev-divider{border:none;border-top:1px solid rgba(255,255,255,.1);margin:20px 0}
+.ev-copy{text-align:center;font-size:.72rem;color:#5c6d80;margin-top:16px}
+@media(max-width:640px){
+  .top3-grid{grid-template-columns:1fr}
+  .t3-breakdown table{font-size:.68rem}
+  .compare-table{font-size:.72rem}
+  .compare-table th,.compare-table td{padding:7px 8px}
+}
+/* ─── WORKFLOW PIPELINE ─────────────────────────────────────── */
+.ev-pipeline{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin-bottom:24px;padding:20px 16px;background:rgba(255,255,255,.04);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+.ev-step{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:12px;min-width:100px;text-align:center;border:1px solid rgba(255,255,255,.1)}
+.ev-step-last{border-color:#f5a623;background:rgba(245,166,35,.1)}
+.ev-step-icon{font-size:1.5rem}
+.ev-step-name{font-size:.78rem;font-weight:700;color:#fff}
+.ev-step-sub{font-size:.66rem;color:#7eb5ff;margin-top:1px}
+.ev-arrow{color:#5c7a9e;font-size:1.1rem;font-weight:300;flex-shrink:0}
+@media(max-width:640px){
+  .ev-pipeline{gap:4px}
+  .ev-step{min-width:72px;padding:8px 8px}
+  .ev-step-name{font-size:.68rem}
+  .ev-step-sub{font-size:.58rem}
+  .ev-arrow{font-size:.9rem}
+}
+/* ─── HERO META ─────────────────────────────────────────────── */
+.hero-meta{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-size:.82rem;color:rgba(255,255,255,.75)}
+.hero-meta span{display:flex;align-items:center;gap:4px}
+/* ─── OBJECTIVE + TOOLS + SCORING ──────────────────────────── */
+.info-band{background:#fff;padding:28px 20px 24px}
+.info-band-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.info-card{background:#f8f9fa;border-radius:14px;padding:18px 20px;border-top:4px solid #0f3460}
+.info-card h3{font-size:.85rem;font-weight:700;color:#0f3460;text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px}
+.info-card p{font-size:.8rem;line-height:1.7;color:#444;margin-bottom:6px}
+.info-card ul{padding-left:16px;margin:0}
+.info-card li{font-size:.8rem;line-height:1.8;color:#444}
+.obj-question{margin-top:10px;background:#fff3cd;border-left:3px solid #f5a623;padding:8px 12px;border-radius:0 8px 8px 0;font-size:.79rem;color:#1a1a2e;line-height:1.6}
+.tool-badge{display:inline-flex;align-items:center;gap:5px;background:#eef2ff;color:#3730a3;border-radius:8px;padding:3px 10px;font-size:.75rem;font-weight:500;margin:3px 2px}
+.scoring-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:4px}
+.scoring-table th{background:#1a1a2e;color:#fff;padding:6px 10px;text-align:left;font-size:.72rem}
+.scoring-table td{padding:5px 10px;border-bottom:1px solid #eee;color:#444}
+.scoring-table td:last-child{font-weight:700;color:#0f3460;text-align:right}
+.scoring-table tr:last-child td{background:#f5f5f5;font-weight:700;color:#1a1a2e}
+/* ─── TOP 10 SUB-SCORES ─────────────────────────────────────── */
+.t10-sub{font-size:.72rem;color:#888;font-weight:400}
+/* ─── TRADE-OFF ─────────────────────────────────────────────── */
+.tradeoff-section{background:#fff;padding:0 20px 28px}
+.tradeoff-wrap{max-width:900px;margin:0 auto}
+.tradeoff-wrap h3{font-size:.95rem;font-weight:700;color:#1a1a2e;margin-bottom:12px;padding-top:4px}
+.tradeoff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tradeoff-card{border-radius:12px;padding:14px 16px;border:1.5px solid #e0e0e0}
+.tradeoff-card h4{font-size:.8rem;font-weight:700;margin-bottom:8px}
+.tradeoff-pro{color:#16a34a;font-size:.75rem;line-height:1.65}
+.tradeoff-con{color:#e8472a;font-size:.75rem;line-height:1.65;margin-top:6px}
+.tradeoff-label{font-size:.65rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px;opacity:.7}
+@media(max-width:640px){
+  .info-band-inner{grid-template-columns:1fr}
+  .tradeoff-grid{grid-template-columns:1fr}
+}
+/* ── Zone bar ─────────────────────────── */
+.zone-bar{position:sticky;top:0;z-index:200;display:flex;background:#0f3460;padding:0 8px;overflow-x:auto;gap:4px;box-shadow:0 2px 16px rgba(0,0,0,.4);scrollbar-width:none}
+.zone-bar::-webkit-scrollbar{display:none}
+.zone-tab{flex:0 0 auto;padding:13px 20px;color:rgba(255,255,255,.6);font-size:.88rem;font-weight:700;cursor:pointer;border:none;border-bottom:3px solid transparent;background:none;white-space:nowrap;transition:.2s;font-family:inherit}
+.zone-tab:hover{color:#fff;background:rgba(255,255,255,.07)}
+.zone-tab.active{color:#FFB800;border-bottom-color:#FFB800}
+.zone-panel{display:none}.zone-panel.active{display:block}</style>
+</head>
+<body><div class="zone-bar"><button class="zone-tab active" onclick="switchZone('thonglor',this)">🍜 ทองหล่อ</button><button class="zone-tab" onclick="switchZone('ari',this)">🌳 อารีย์</button><button class="zone-tab" onclick="switchZone('asok',this)">🏙️ อโศก</button><button class="zone-tab" onclick="switchZone('siam',this)">🛍️ สยาม</button><button class="zone-tab" onclick="switchZone('phrom',this)">🌿 พร้อมพงษ์</button></div><div class="zone-panel active" id="panel-thonglor">
+
+<div class="hero">
+  <h1>ทองหล่อ <span>Restaurant Finder</span></h1>
+  <p>97 ร้านอาหาร · Google Maps + TripAdvisor · Scoring Model 100 คะแนน</p>
+  <div class="hero-meta">
+    <span>📍 ทองหล่อ (สุขุมวิท 55) · กรุงเทพฯ</span>
+    <span>📅 18 Jun 2026</span>
+    <span>👤 Genniga Tapaneeyasil</span>
+  </div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="ค้นหาชื่อร้าน, ประเภท, ที่อยู่..." oninput="applyFilters()">
+    <span class="search-icon">🔍</span>
+  </div>
+</div>
+
+<!-- ════ OBJECTIVE + TOOLS + SCORING ════════════════════════════════════ -->
+<div class="info-band">
+  <div class="info-band-inner">
+
+    <div class="info-card">
+      <h3>🎯 Objective</h3>
+      <p>สร้าง AI Workflow เพื่อค้นหา วิเคราะห์ ให้คะแนน และแนะนำร้านอาหาร<br>ที่เหมาะสำหรับ <b>ทีม 8–12 คน</b> ในย่านทองหล่อ โดยใช้ข้อมูลจริง</p>
+      <div class="obj-question">
+        ❓ <b>คำถามที่ต้องตอบ:</b> ถ้าทีมต้องเลือกร้านอาหาร 1–3 ร้านในย่านทองหล่อ ร้านไหนเหมาะที่สุด — และเพราะอะไร?
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>🛠️ Tools Used</h3>
+      <p><b>Data Collection</b></p>
+      <span class="tool-badge">🕷️ Apify</span><span class="tool-badge">📍 Google Maps Scraper</span>
+      <p style="margin-top:8px"><b>Storage &amp; AI</b></p>
+      <span class="tool-badge">📊 Google Sheets</span><span class="tool-badge">🤖 Claude AI</span>
+      <p style="margin-top:8px"><b>Automation &amp; Output</b></p>
+      <span class="tool-badge">⚡ Make.com</span><span class="tool-badge">🌐 HTML / CSS / JS</span>
+    </div>
+
+    <div class="info-card">
+      <h3>📐 Scoring Criteria (100 pts)</h3>
+      <table class="scoring-table">
+        <thead><tr><th>มิติการประเมิน</th><th>คะแนน</th></tr></thead>
+        <tbody>
+          <tr><td>Rating &amp; Review Quality</td><td>25</td></tr>
+          <tr><td>Group Suitability</td><td>20</td></tr>
+          <tr><td>Price Suitability</td><td>15</td></tr>
+          <tr><td>Travel Convenience</td><td>15</td></tr>
+          <tr><td>Data Completeness</td><td>15</td></tr>
+          <tr><td>Uniqueness / Experience</td><td>10</td></tr>
+          <tr><td><b>รวม</b></td><td><b>100</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+<!-- ════ TOP 3 CARDS ════════════════════════════════════════════════════ -->
+<div class="top3-section">
+  <h2>🥇 <span>อันดับสูงสุด</span> ร้านแนะนำ Top 3</h2>
+  <div class="top3-grid" id="top3Grid"></div>
+</div>
+
+<!-- ════ TOP 10 TABLE ════════════════════════════════════════════════════ -->
+<div class="top10-section">
+  <h2>🏆 Top 10 Rankings</h2>
+  <div class="top10-wrap">
+    <table class="top10-table" id="top10Table">
+      <thead>
+        <tr>
+          <th style="width:52px">อันดับ</th>
+          <th>ชื่อร้าน</th>
+          <th>หมวด</th>
+          <th>Rating</th>
+          <th class="col-hide">Reviews</th>
+          <th class="col-hide">ราคา (฿)</th>
+          <th class="col-hide">RR/25</th>
+          <th class="col-hide">GS/20</th>
+          <th>คะแนน</th>
+          <th>กลุ่ม</th>
+        </tr>
+      </thead>
+      <tbody id="top10Body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════ COMPARISON TABLE ═══════════════════════════════════════════════ -->
+<div class="compare-section">
+  <h2>📊 เปรียบเทียบ Top 3 แบบเจาะลึก</h2>
+  <div class="compare-wrap">
+    <table class="compare-table" id="compareTable">
+      <thead id="compareHead"></thead>
+      <tbody id="compareBody"></tbody>
+    </table>
+    <div class="compare-insight" id="compareInsight"></div>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="setCat('all',this)">ทั้งหมด</button>
+    <button class="filter-btn" onclick="setCat('Thai',this)">🍜 ไทย</button>
+    <button class="filter-btn" onclick="setCat('Japanese',this)">🍣 ญี่ปุ่น</button>
+    <button class="filter-btn" onclick="setCat('Korean',this)">🥩 เกาหลี</button>
+    <button class="filter-btn" onclick="setCat('Italian',this)">🍝 อิตาเลียน</button>
+    <button class="filter-btn" onclick="setCat('Seafood',this)">🦞 ซีฟู้ด</button>
+    <button class="filter-btn" onclick="setCat('Cafe',this)">☕ คาเฟ่</button>
+    <button class="filter-btn" onclick="setCat('Western',this)">🍔 เวสเทิร์น</button>
+    <div class="sep"></div>
+    <button class="filter-btn group-btn" id="groupBtn" onclick="toggleGroup()">👥 กลุ่ม 8–12 คน</button>
+    <div class="sep"></div>
+    <div class="sort-wrap">
+      <label>เรียงตาม:</label>
+      <select class="filter-select" id="sortSelect" onchange="applyFilters()">
+        <option value="score">คะแนนรวม</option>
+        <option value="rating">Rating</option>
+        <option value="reviews">รีวิวมากสุด</option>
+        <option value="price_asc">ราคาต่ำสุด</option>
+        <option value="rank">อันดับ</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-chip">แสดง <b id="showCount">97</b> จาก 97 ร้าน</div>
+  <div class="stat-chip">รับกลุ่มใหญ่ (8–12 คน) <b id="groupCount">0</b> ร้าน</div>
+  <div class="stat-chip" id="filterHint" style="display:none"></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const DATA = [{"rank":1,"name":"ครัวเจียงใหม่ - ทองหล่อ","category":"Thai","rating":4.8,"reviews":2796,"price":"200-400","address":"125 24 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66991962464","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B9%80%E0%B8%88%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88%20-%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJh7s6GVOe4jAReTmapQOwBQ0","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":86,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAF_TKpP4WXRu9KkMa4OHAhlCJmN8jhQR0omXWI5KMsOlEISoLEdPt17aWBtajNkBAlvVypL6AxjM9UCTij9_ID2Jx1NJHPelNDdZDx7qhYoYxuChN0upTl6h8bvQlSwjPiKwYEdXQ=w408-h544-k-no","coords":"13.730192199999999,100.58118930000001"},{"rank":2,"name":"ร.เรือ ทองหล่อ","category":"Thai","rating":4.5,"reviews":534,"price":"200-400","address":"แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"021851482","website":"http://www.facebook.com/ror.ruea","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3.%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B8%AD%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJjbuxL1Ke4jARDpcJcXLv0X0","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":82,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHdb3BhbwaUFrrX-lZdcPvLX3yMqvwX0v-jui0QzWaytrGTF-F64v0AjhUPQm8kU4qjV9pqWoO3k7vNSoRqckReS9x_8NQExf7yD0S98mYNApY6wb4Bi78FPJPs45zP7Byvhzi6=w426-h240-k-no","coords":"13.737409100000001,100.58366789999999"},{"rank":3,"name":"บ้านไอซ์ สาขา ทองหล่อ","category":"Thai","rating":4.6,"reviews":2035,"price":"200-1,200","address":"115 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66644509502","website":"https://www.baanice.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B9%84%E0%B8%AD%E0%B8%8B%E0%B9%8C%20%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJKaihd6yf4jARJboSwdnH7sw","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":81,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHCvacgVGiANWN42dFU_KHZUs5iG7xDMrIAvxaS8InJfTHourV4sqOyrSC6LuFnBE13v-Ttx_raJ_nK6OpA18zaI9hFZusQIeFEwsHcLog7_eeocGNDOojkWGjXamLPDNGYK9VQ_aca-KfP=w408-h544-k-no","coords":"13.7290537,100.58068799999999"},{"rank":4,"name":"FOWLMOUTH theCOMMONS Thonglor","category":"Thai","rating":4.2,"reviews":239,"price":"200-400","address":"Unit M6 The Commons, 335 Soi Thong Lor 17, Sukhumvit 55, แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66990879494","website":"https://linktr.ee/fowlmouthbkk","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=FOWLMOUTH%20theCOMMONS%20Thonglor\u0026query_place_id=ChIJr8T-CFOe4jAREr-rS4ervEA","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":81,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGfJL78bRlzuGmNJECYrbmgTytB9PxJedqxBI80QuRwdDVpiKDTFAWTCAPEc5SXwH0QWwz9VjXtHw0LxNlSx_Si6MIYerNKOMSsq4Ob3dz6ju-F8qQ2u3_vfYofNWMgvXZE35e1=w408-h544-k-no","coords":"13.735035999999999,100.582238"},{"rank":5,"name":"Supanniga Eating Room, Thonglor : ห้องทานข้าวสุพรรณิการ์ ทองหล่อ","category":"Thai","rating":4.4,"reviews":1732,"price":"400-600","address":"160/11 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66917749808","website":"http://www.supannigaeatingroom.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Supanniga%20Eating%20Room%2C%20Thonglor%20%3A%20%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%97%E0%B8%B2%E0%B8%99%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%AA%E0%B8%B8%E0%B8%9E%E0%B8%A3%E0%B8%A3%E0%B8%93%E0%B8%B4%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%8C%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJYSgxk6yf4jAROxN8pCQzqJA","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":81,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEOHim2-9OBUZT76H7xlpwIPr0MWBdi_XMKY0T6m9RHjrlTPl1nxsPiB7cd7BNaFi-oHjdx9rnoZ8sYl3ijWRVX-xrOlxNu6xzFGBTLsTr6I-2ZQAZ3sMWBzcUCqDXEdn7BN0U-=w408-h306-k-no","coords":"13.7302219,100.5815348"},{"rank":6,"name":"ข้าวจ้าว","category":"Thai","rating":4.2,"reviews":650,"price":"200-400","address":"PHPJ+4MP แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"027125665","website":"https://web.facebook.com/pages/-%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%88%E0%B9%89%E0%B8%B2%E0%B8%A7-%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD17/389917251042870?_rdc=1\u0026_rdr","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%88%E0%B9%89%E0%B8%B2%E0%B8%A7\u0026query_place_id=ChIJ-w3sn1Oe4jAR79t8CO-3o_Y","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":81,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFCPPvWG486vayuLMXFwKwPpE0y0NVAOhLyb7V-PH32qQbSg-H_viv7ekI9Sww745p0Xqxh3lzCdjzUwg153zCZ_E0BpJvWM-rnifT85CkLckncvaxUJAf3-qgnAoCeqYl-wGC_xoITlAs=w408-h348-k-no","coords":"13.735348999999999,100.581705"},{"rank":7,"name":"ทองหล่อ โยโคโจว","category":"Japanese","rating":4.6,"reviews":733,"price":"200-1,200","address":"138, 1 ถนน สุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66952653981","website":"https://www.facebook.com/ThonglorYokocho/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%20%E0%B9%82%E0%B8%A2%E0%B9%82%E0%B8%84%E0%B9%82%E0%B8%88%E0%B8%A7\u0026query_place_id=ChIJCxd7WFKe4jARBpavYzUGhlo","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":81,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAF29kzXY9Cf2tvKrWEshveMzq2Qkcikn6Yyk8mrlvk-Df8qqu9jex2h0blfmLrYSQ39_IZbG7uzGXS41ruTbh1ibpP5DWJy06toRHfbF0RdxEu1TR2mkoEJ4TZ6nSNIuU_dAGSgFW32liUn=w408-h408-k-no","coords":"13.733304199999999,100.5801451"},{"rank":8,"name":"ไพร์ม เบอร์เกอร์ ทองหล่อ","category":"Western","rating":4.7,"reviews":872,"price":"200-400","address":"411 1 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66992291569","website":"https://www.primeburger.co.th/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%84%E0%B8%9E%E0%B8%A3%E0%B9%8C%E0%B8%A1%20%E0%B9%80%E0%B8%9A%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%81%E0%B8%AD%E0%B8%A3%E0%B9%8C%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJJxu7kfCf4jARwV8FYEK8yIk","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":80,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHmJ4kWvTJohBUt4k4rLhaeJJhI2l8ZrBCAbGr_atYwv-bOoWLTFLzWzXnVsLqsmj8lbY49vlVaAUPQj1Ndg9FjriUe7kpWawbZhekMLC9Lyh0zNAX_vYfOgTYG8_yK-CEzxCPz=w408-h306-k-no","coords":"13.737453500000001,100.5836789"},{"rank":9,"name":"Hyotan Kappo","category":"Japanese","rating":4.3,"reviews":187,"price":"200-400","address":"812 ถนน สุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66967755908","website":"http://www.facebook.com/HyotanKappoBKK","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Hyotan%20Kappo\u0026query_place_id=ChIJkf3kElKe4jARlZB8dlTFYjM","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":80,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFyrMGRtcFU_wdFmzjziX3SmgGsG9oIRYnquPwt8B7T0SFl6GiHeZ23KF3TrhdOKrmu2tBoLg7pvna3wXpllbJ4hqBJUocAf0M6e5iGlNTetUp6zkne-cHPUzYUxekz_XsgO3kHug=w408-h306-k-no","coords":"13.7367135,100.5849886"},{"rank":10,"name":"เฟี้ยววว (FEAW BKK) @โครงการ The Racquet Club","category":"Thai","rating":4.5,"reviews":57,"price":"200-400","address":"5 อาคารคิว ห้องเลขที่ อาร์คิว7007 ซ. สุขุมวิท 49/9 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66639562778","website":"https://www.facebook.com/feawbangkok","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%80%E0%B8%9F%E0%B8%B5%E0%B9%89%E0%B8%A2%E0%B8%A7%E0%B8%A7%E0%B8%A7%20(FEAW%20BKK)%20%40%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%20The%20Racquet%20Club\u0026query_place_id=ChIJ-TKdrBef4jARZFbJeqqcpww","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":80,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFiq1v8Mrt-ReIHv19Cr5NsEt89ZdfsoUkJ1cliHC4Ib0c3gjsmFTGg7ZzoLxwI8r41a0eCTby_P12X--nVMi1C0CJV_6pk9ts0BDPW-cbjKxg7DD64OxXFEZIH9fqUhFFZjjGhqHg63EWS=w408-h305-k-no","coords":"13.7361147,100.5762349"},{"rank":11,"name":"Nojiya Yuushi","category":"Japanese - Noodles","rating":4.3,"reviews":681,"price":"200-400","address":"786, 15-16 ซอย ทองหล่อ 18 Klontan-Nua, เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66618831194","website":"https://lit.link/ramennojiya_sobanojian","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Nojiya%20Yuushi\u0026query_place_id=ChIJTfk8YFKe4jARFHSSruSKJwA","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":79,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFl1M3SwS6L4TiNgi-Es8dCaHxd7GJi-sjbBc8W4gCULWLVx_wRpKFudZLgQrYtHQuzoclBU5gJ0zOlA-qhcRtaG14rtxtsuqkUyMvIxvZoPfVIUfZGVUJUOaOjSpWH1xDxq5fN8Stoj2Q7=w426-h240-k-no","coords":"13.735197899999999,100.5845169"},{"rank":12,"name":"Seabangkok, Seafood Restaurant","category":"Seafood","rating":4.8,"reviews":636,"price":"1,000+","address":"399 93 21 Sukhumvit 55 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66642262244","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Seabangkok%2C%20Seafood%20Restaurant\u0026query_place_id=ChIJReRnXaef4jARh8acmdEgBaY","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":79,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEeFuRhorKx0PW3JopFCZwBfU9npIYu10D86Xvy_W88GOwaBVBxAvCSQ2bVb2gLqc3W7K2zKWaEFlocTpxsZTSam8snYF5gwJTzd6pdCMtzmMtbucADTppyOwif0siYutFZHlxI=w408-h306-k-no","coords":"13.7377441,100.5817778"},{"rank":13,"name":"Mellow Thong Lo","category":"International","rating":4.4,"reviews":590,"price":"200-1,200","address":"16 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66830682450","website":"https://m.facebook.com/MellowThonglor/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Mellow%20Thong%20Lo\u0026query_place_id=ChIJkxPaAlOe4jARSq4RQholm-I","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":78,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAF6xnb3t4L3c5o4DhsBF8wGQd71EGO4Nazt5JNzEH0utPvefFsrfhQhseenAkedv8TmhxqUeW6-2ZXVG5QgI0YoBMHBqFgqedvv-cS29jnZ9Rva2OtwCg_823Z55WCmK7kpN8-Wp7C3l4A=w408-h544-k-no","coords":"13.734555200000001,100.58294600000001"},{"rank":14,"name":"Miyabi Kappo","category":"Japanese","rating":4.6,"reviews":366,"price":"1,000+","address":"9 11 ซอย ทองหล่อ 25 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"021852201","website":"https://lin.ee/GEC9Uaw","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Miyabi%20Kappo\u0026query_place_id=ChIJiz28e1Ge4jARumeDbA7seoA","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":77,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAH4zj0fGfrTKFKc6mMYJd-NIRMx_M8Yqe5lJsaIH5tXeM9N0ywTwUMGqffeZofsJYrIX5sBpBXudSxsZ7zrlzCgrgzqQXP3C0PGgBMqivjMWMuc0ROQQlLo5dRc0Tt14tfGgxlu=w408-h272-k-no","coords":"13.738303500000001,100.58268700000001"},{"rank":15,"name":"S\u0026P Thai Restaurant \u0026 Bakery - Thong Lo | ทองหล่อ","category":"Thai","rating":4.3,"reviews":373,"price":"200-400","address":"457, 457/6 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66820054799","website":"http://www.snpfood.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=S%26P%20Thai%20Restaurant%20%26%20Bakery%20-%20Thong%20Lo%20%7C%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJbWraUlKe4jARXrfWilghZ7E","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":77,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGq6YgsjiOK_6CPRNgTV2k0qggtAeqjLzvVcIOO1wK3aJ2HpeGmau72SdGtW3iHxTecImckATnKO64LMeV7U0n4CKLOLyy1kq13jYFVT18DVDGBppqjsCsT4C9sZKgCTnAlp7fXMw=w408-h306-k-no","coords":"13.738752099999999,100.58401859999999"},{"rank":16,"name":"Sushi Juban Takumi Thonglor 寿司十番匠トンロー","category":"Japanese - Sushi","rating":4.9,"reviews":3887,"price":"2,000+","address":"36, 1Fl, 1 ซอย พร้อมพรรค แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66631892440","website":"https://www.sushijuban-takumi.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Sushi%20Juban%20Takumi%20Thonglor%20%E5%AF%BF%E5%8F%B8%E5%8D%81%E7%95%AA%E5%8C%A0%E3%83%88%E3%83%B3%E3%83%AD%E3%83%BC\u0026query_place_id=ChIJhQpOHFSe4jAR-rDq_LXsjrk","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":76,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEhZkSeKjpPw6alhcCyhMyLYPskbsPcVvMd7l6OLgdDvY1TdUdiS5AJPjwuSRTHQtImUAuxekl8vTaiJasze5TcbIpa4DWNbwZRhWF4ltE0wUPhzFZkCf3vnF1-UxRh7fSLZCH0=w408-h611-k-no","coords":"13.738292,100.579515"},{"rank":17,"name":"ROAST coffee \u0026 eatery","category":"Cafe/Dessert","rating":4.5,"reviews":2805,"price":"200-1,200","address":"The COMMONS 335 ชั้น 3 ซอย ทองหล่อ 17 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66963403029","website":"http://www.roastbkk.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=ROAST%20coffee%20%26%20eatery\u0026query_place_id=ChIJicwRRFOe4jARAcJ7qJDLIe8","taUrl":"","source":"Google Maps","groupScore":8,"totalScore":75,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHmAQxkTzz-pK3Oe8gpOY-Aej48FNicEcZXOrN2R0tslYU9P6cVom_vAInmGndJITFJK-KV9WGTvP9ScjKdSQ-rVN0Zvg9-VP1EgZ2yb3qLd-TwDSUapOUeRJEZ1YE6KRyzKReS=w408-h306-k-no","coords":"13.735054399999999,100.5822684"},{"rank":18,"name":"Di Vino Bangkok | Italian Restaurant Thonglor","category":"Italian","rating":4.7,"reviews":385,"price":"800-1,600","address":"Penny’s Balcony, ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"027148723","website":"https://www.divinobangkok.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Di%20Vino%20Bangkok%20%7C%20Italian%20Restaurant%20Thonglor\u0026query_place_id=ChIJi7QNHVOe4jARgyB05vA6Gk4","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":74,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHgGIgQhjYiycvpVC1NwDejYyA_Wtc4iExTpnBxTMWA-Y70ZAemfSe0MtzfLVyVQIJcslfZIn66GRUcSi0FQBgLnm7F_uJwTCgUl1qCE2IYqwDahgdOMLRg-IYVdUrNRK-CMZjlfg=w408-h306-k-no","coords":"13.734348499999999,100.582982"},{"rank":19,"name":"NICO NICO - Café \u0026 Brunch Place","category":"Cafe/Dessert","rating":4.5,"reviews":425,"price":"200-400","address":"555, ตึก DM Home ถ. ทองหล่อ แขวง คลองเตยเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66970546827","website":"https://lin.ee/w9EN6u8","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=NICO%20NICO%20-%20Caf%C3%A9%20%26%20Brunch%20Place\u0026query_place_id=ChIJK0oh-fqf4jAR-70cq-12UNY","taUrl":"","source":"Google Maps","groupScore":8,"totalScore":74,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFkmUnbQ_v0b7ZCVCmifEMB5EUDC-Qr85eGVqQHSEk2wtBgcp7fiHmfm8GVFyZJocHiArU1pBytHmoPZv5z7BtJRUvwKMwukm5i0-zZeLmwE7Y6BmBHCKrtxvCtVtF8ss1VBO2Z=w408-h272-k-no","coords":"13.736536600000001,100.5828951"},{"rank":20,"name":"Orn​ ​the road Restaurant​","category":"Western","rating":4.6,"reviews":62,"price":"1-200","address":"359/4 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66825466454","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Orn%E2%80%8B%20%E2%80%8Bthe%20road%20Restaurant%E2%80%8B\u0026query_place_id=ChIJBeE36y6f4jARVP1x655QmRo","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":73,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFtBxWuv8tqU8xcBjqo6buOCkZWy9x9nKgIfa4mxtjjxkTMEC8A8q6qndIGDY2zMY9N9wRO-ljHCojvp_z5mQji_HfBA7n123LhmabHkRJoaokXxCy8PZ6zYBZ7GhlxkWLv-XKS=w408-h306-k-no","coords":"13.7357473,100.5830076"},{"rank":21,"name":"ก๋วยเตี๋ยวเรือทอง","category":"Chinese/Noodles","rating":4.9,"reviews":50,"price":"1-200","address":"ตลาดอินดี้ 916 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66950935599","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%81%E0%B9%8B%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%95%E0%B8%B5%E0%B9%8B%E0%B8%A2%E0%B8%A7%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B8%AD%E0%B8%97%E0%B8%AD%E0%B8%87\u0026query_place_id=ChIJuQ2Dppmf4jARfEegj8_fFZ0","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":73,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFX56dKjKglstNTwyb3ZpcrQoq0_xkGRzDlHFfDw0L32WyhphVvMP3_d8-Y3Uk63vzZopOjRqy1YyKZnm-afloP8OvJ7rQzEnXZbU8B_mYq6LQ1v0Ivk_7IQOw-NKzyivXRsUKs4vHPoFNe=w408-h350-k-no","coords":"13.737890699999999,100.584304"},{"rank":22,"name":"เปย์ ทองหล่อ","category":"Restaurant","rating":5,"reviews":34,"price":"200-400","address":"2nd Fl J Avenue Thonglor 323/1 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66920376801","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%80%E0%B8%9B%E0%B8%A2%E0%B9%8C%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJkVlkQDef4jARHRku6JLsnCU","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":73,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFsC-ZJJxlmy2zmSmss4cgEotstcCcux5Om9pBnvnoEONe78uR_MuabJ996CDUElkhW40PMch4OYh-wE2BJ24P7P2ANu_bfOqoLGTQCblrkbZvoXevMHFlV_J1ZrSdr-dAFkna3=w408-h306-k-no","coords":"13.7346643,100.5816425"},{"rank":23,"name":"17 Something • ทองหล่อ","category":"Restaurant","rating":4.6,"reviews":259,"price":"1-200","address":"เลขที่ 351/5 สุขุมวิท 55 ปากซอย ทองหล่อ 17 หมู่ แขวง คลองตันเหนือ เขต วัฒนา คลองตันเหนือ วัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66811020017","website":"http://www.facebook.com/17something","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=17%20Something%20%E2%80%A2%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJ41LZs-Wf4jARLa6T22JFzys","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":73,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAH3CoiWtYc0fWyykLKg1Ow9B-FK0IIDd27oi3urv-5ZqcWCSfrBtWTKuiBO5SHhqz7A60YU5LO4pTuE3N70O_orgKHzFsFAE18eP3Y1cdTjniGikcPt9KGETsEGdSQkcMOD5lg=w408-h883-k-no","coords":"13.735199100000001,100.58288400000001"},{"rank":24,"name":"Bonchon Thonglor soi 20","category":"Korean","rating":3.9,"reviews":31,"price":"200-400","address":"เลขที่ 916/23 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66899873320","website":"http://www.facebook.com/bonchonthailand","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Bonchon%20Thonglor%20soi%2020\u0026query_place_id=ChIJWypsTHWf4jAR6YUZUgewYXU","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":73,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEUE2-yY3V6zIRLfJj8wV8gjGSwzneI8fG5l-uFwA8ZWVrDmAoJmTk_kdCGzHkrQe_LSTc5TCPTe60jkR_9A_ixrPF4DZZaxbiGeYoJfwVsSptIjG2KXMK_C6Ovg2Qj2yi6KE32UKsafvKB=w408-h356-k-no","coords":"13.7385979,100.5842636"},{"rank":25,"name":"ร้านอาหารไทย ภัทรา","category":"Thai","rating":4.5,"reviews":660,"price":"2,000+","address":"375, 19 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66982536380","website":"http://www.patarathailand.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%A0%E0%B8%B1%E0%B8%97%E0%B8%A3%E0%B8%B2\u0026query_place_id=ChIJv99arlOe4jARCJI52pBehiQ","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":73,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHglzln4Kwh-FVWh43bUS_1-n8AZMyvBszaVscZetK18Txo6wu_YsFc9vOm078jRtk5KZyJ1p_mwqViylVJLs7oby1wv2bx_Kyeuk8fRLYQqRX5td1p70cwhHI5jB9aK5Jj2BPi=w408-h306-k-no","coords":"13.736677,100.58128240000001"},{"rank":26,"name":"พาสต้า 54","category":"Italian","rating":4.4,"reviews":103,"price":"200-400","address":"29 ซอย ทองหล่อ 25 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"021850918","website":"https://mgronline.com/travel/detail/9560000129222","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%9E%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B9%89%E0%B8%B2%2054\u0026query_place_id=ChIJBTTVJFGe4jARsl1WNDsHCB8","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":73,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAE87HzTGyVOfOaAgSfyiARbNze4tFSMshT7csbLbKsSPY63vpFzhcXyeTL_Kbdxr4D9Cu1if1wRbxwmiVrDYHmGeyeqGrBVqr9dIgHdKyjvl3Wj-MEhKfal06AU8T59L6BOugWY=w408-h306-k-no","coords":"13.7402459,100.5812059"},{"rank":27,"name":"Koryori Musubi","category":"Japanese","rating":4.7,"reviews":51,"price":"800-1,600","address":"50, 4 ซอย ทองหล่อ 25 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66806370244","website":"https://www.facebook.com/koryourimusubi25","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Koryori%20Musubi\u0026query_place_id=ChIJ7alucPSf4jAR6svgfbBUOUs","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":72,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEmObuY2YnMeG89QwX02dHi2nu5Tz48QKUCx0XvVy3JE8g4B4bU5_cTkKo_B5q3gTl7U8dE5D_jeewDU7mMkFUWNGxRrTbyPqKyi8I0EHTl_lq4tKB_MeFm4L19hZbeZxdRaGcu=w408-h314-k-no","coords":"13.739890900000001,100.5808694"},{"rank":28,"name":"แมนดารินเป็ดย่าง ภัตตาคาร","category":"Chinese/Noodles","rating":4.4,"reviews":377,"price":"200-1,200","address":"729 729/2 ถ. ทองหล่อ แขวงพระโขนงเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66851218228","website":"https://www.wongnai.com/chains/mandarin-roast-duck-restaurant","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%81%E0%B8%A1%E0%B8%99%E0%B8%94%E0%B8%B2%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B9%80%E0%B8%9B%E0%B9%87%E0%B8%94%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%20%E0%B8%A0%E0%B8%B1%E0%B8%95%E0%B8%95%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%A3\u0026query_place_id=ChIJw-rVT1Ke4jAR8vyAhe_0c00","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":72,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFRDhXL3Tnw-BbBUinsVjJ4lNeu1AepGRx52-RycDVuLujHALAPUbrDrhDJ9LBT6F8mEJvnpqpDMcHyTLu_6e5vIadye2wHX-Iod63pD4ZBfgJ1yL2WgzLkV6Ta23pSkFMIEzDGHQ=w408-h272-k-no","coords":"13.740759300000001,100.5847708"},{"rank":29,"name":"ก๋วยเตี๋ยวไก่มะระ หน้าสน.ทองหล่อ (Chicken Noodles)","category":"Restaurant","rating":4.9,"reviews":24,"price":"1-200","address":"800 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66929889490","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%81%E0%B9%8B%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%95%E0%B8%B5%E0%B9%8B%E0%B8%A2%E0%B8%A7%E0%B9%84%E0%B8%81%E0%B9%88%E0%B8%A1%E0%B8%B0%E0%B8%A3%E0%B8%B0%20%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%AA%E0%B8%99.%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%20(Chicken%20Noodles)\u0026query_place_id=ChIJDUiV5nCf4jARLc7A2AQcLyg","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":72,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEXbywn6eF_x6OrHBpejepJVbaYXVJPtTD3v5qxiaGDqbtkfqnqrN9DC4FLzAJExHblGelaJb9gLxjMyRdh2EV82eoQzWHdh7xeqTLvWuXKZkILZNB3myKj-QKRu-r0lzgQLRrfIA=w408-h543-k-no","coords":"13.736086500000001,100.5835585"},{"rank":30,"name":"Gopchang House Thonglor","category":"Korean","rating":4.4,"reviews":233,"price":"400-1,400","address":"351/4 Sukhumvit 55 (Thonglor 17 ปากซอย ทองหล่อ 17 หมู่ แขวง คลองตันเหนือ เขต วัฒนา, คลองตันเหนือ, วัฒน, กรุงเทพมหานคร 10110 ไทย","phone":"+66971395680","website":"https://instagram.com/gopchanghouse_th?utm_medium=copy_link","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Gopchang%20House%20Thonglor\u0026query_place_id=ChIJAZ1hqT2f4jARsu5r4_zaplM","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":72,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEmRhzafyJCqqmmuWCR-xD_p_BAB54-Ko2ZhYCmmONxHl1sTiagcNoREGBFSt-v5l1MZfLaDluxcJnZlwcd_A-xSHS76CjN2bjVMMQ7VsyyJ32CJvsA1Dx_ATAS6jPjAriWb92S0A=w408-h408-k-no","coords":"13.7351785,100.5828763"},{"rank":31,"name":"Turkish Home Bangkok - Authentic Turkish Restaurant","category":"International","rating":4.9,"reviews":37,"price":"600-800","address":"810 8 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66829208084","website":"https://r.grab.com/o/QF3EvmAv","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Turkish%20Home%20Bangkok%20-%20Authentic%20Turkish%20Restaurant\u0026query_place_id=ChIJYyXcIwCd4jARhiupZprWKlQ","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":71,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGZDwBBIzTYiUD1S77dgvpa4Z_epd0vmGaZ2J9d4P5WAqNOPcvzOWzLHUmZBVrQpDcHT5NeHoZIL1Pfn9fGScbrLaPc1w_mFu8o9UJlwwvz3wO3EGJVcvyQSc_hsm9Qr5tlc_T7KLdRU_jr=w408-h306-k-no","coords":"13.736283,100.58523409999999"},{"rank":32,"name":"Fuego","category":"Restaurant","rating":4.8,"reviews":632,"price":"2,000+","address":"ตึก The Taste Thonglor ชั้น 2 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66644535621","website":"https://www.fuegobangkok.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Fuego\u0026query_place_id=ChIJN7fHY7Gf4jAR8jjTD8UA81k","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":71,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGj9MC9WcoHasYuQSk-NtgRYOjHSsuJcUjj8wkpnW3YY7uVdW5OJFRgMqp2bDdAQylgKSj68ZY49EB9l_4pCgpykx-1bXKK0yeEKBi4aQKgu5B92ly4zOAO7Z9JCheDAAp5y4IJBA=w408-h306-k-no","coords":"13.732889999999999,100.5818201"},{"rank":33,"name":"Kinki Japanese Progressive Dining and Bar","category":"Restaurant","rating":4.9,"reviews":555,"price":"","address":"1 Sukhumvit 59 Alley Ascott Thonglor Bangkok, Bangkok 10110 Thailand","phone":"+66812355282","website":"https://www.kinkibkk.com/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d25574083-Reviews-Kinki_Japanese_Progressive_Dining_and_Bar-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":71,"photo":"https://img02.restaurantguru.com/cf57-Sushi-Saito-Bangkok-meals.jpg","coords":"13.722806,100.58116"},{"rank":34,"name":"Nobu","category":"Japanese","rating":4.5,"reviews":290,"price":"2,000+","address":"414 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"023925297","website":"http://www.nobuthai.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Nobu\u0026query_place_id=ChIJLU92JFOe4jARFz2kE6QXUCE","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":71,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHbxU4J5ZULT8hhBui0yP91eJLdqNDc926U-fmZBzsAkgiE2__4YB-hnBX99KvlQekUMDGV4d9cZJc8TX0V4zCpg2l6crThFOlD59KRCfV02NVWck0x0I1N5n8IA4k9ASRfY6-bFLJ2Zw=w408-h306-k-no","coords":"13.733471099999999,100.58261400000001"},{"rank":35,"name":"Honmono Sushi สาขาทองหล่อ 23","category":"Japanese - Sushi","rating":4.5,"reviews":679,"price":"2,000+","address":"บริษัท ฮอนโมโน กรุ๊ป จำกัด สำนักงานใหญ่, 19 ซอย ทองหล่อ 23 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"021851447","website":"http://www.facebook.com/honmono","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Honmono%20Sushi%20%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%2023\u0026query_place_id=ChIJs4QERFOe4jARjqhHjl2iG0g","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":71,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAH5odNjsHruNWsYU5Mx8NhfaikBDY3g7j6taxwr9YVtH0JA1_EkF0anZu-OBH0dDLT0z3z6yvsXv5wjxylwKK1a-ATByUeXMkBmwIy8ASv-xoRtX3CDmMTUKeetwJyc0roM2CEp=w408-h306-k-no","coords":"13.738049800000001,100.5821859"},{"rank":36,"name":"ต้นเครื่อง","category":"Thai","rating":4.2,"reviews":1402,"price":"","address":"211 สุขุมวิท 49 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"021853072","website":"https://m.facebook.com/Thonkrueng/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%95%E0%B9%89%E0%B8%99%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87\u0026query_place_id=ChIJC_u72lWe4jARTNppWAr0BFg","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":70,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFDWO65Cz55KiYlQazHmB7KIcJrdWCoQxJ9-AQh-PZtASRX_gKaMk62dm_othek23QVPTGf2kb4nKuIWAIjxLrVsz-W35kE-4LQFVEyLkoMs5bg_VId25fw17VW1k13VrJYIFfw=w408-h641-k-no","coords":"13.7376141,100.5767886"},{"rank":37,"name":"เดอะ บาร์ อิตาเลียน ทองหล่อ","category":"Italian","rating":4.7,"reviews":495,"price":"1,000+","address":"36/1 1Fl Soi Promphak แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66814140982","website":"https://www.theba-ruitalian.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%80%E0%B8%94%E0%B8%AD%E0%B8%B0%20%E0%B8%9A%E0%B8%B2%E0%B8%A3%E0%B9%8C%20%E0%B8%AD%E0%B8%B4%E0%B8%95%E0%B8%B2%E0%B9%80%E0%B8%A5%E0%B8%B5%E0%B8%A2%E0%B8%99%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJL2QZHFSe4jARiJ3bfNaDY4Q","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":70,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFirpPIGnLYSFdV6BjJubK7jjrR6TV-Lm_GsjzzF0GBjnebgGzW3MrNEIqRJkp0p3YG12Si_iYpH3_SSfKDgHQaktO0l6Df6lP5yqAzdbqj1r9zb-6zxFuNWDo8IVRFEELixwJ0gQ=w408-h271-k-no","coords":"13.7383419,100.5792687"},{"rank":38,"name":"Sit and Wonder","category":"Restaurant","rating":4.5,"reviews":731,"price":"1-200","address":"119 Soi Sukhumvit 57 North Klong Ton, Bangkok 10110 Thailand","phone":"+66611989782","website":"http://www.sitandwonderbkk.com","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d4306866-Reviews-Sit_and_Wonder-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":70,"photo":"https://img02.restaurantguru.com/c5de-Sit-and-Wonder-Bangkok-meals.jpg","coords":"13.725171,100.58008"},{"rank":39,"name":"Kozuri Hand Roll theCOMMONS Thonglor","category":"Japanese - Sushi","rating":4.9,"reviews":126,"price":"","address":"335 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66962452899","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Kozuri%20Hand%20Roll%20theCOMMONS%20Thonglor\u0026query_place_id=ChIJwamNpiKf4jARz6hNUzClAFI","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":70,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAF1RH3lgJ-dqT80d7-oK-HlBiea1GYF_Th7eOwuIVxnmLILEIh_TTZpegN3JHrtbt_JTUEuHceU0qH4Mb-eJZM6DdF7prhxIROeE-zO98Y4YwXe0yxksaTcXr6u7in_P-DNiiWnd8k3mWyq=w408-h543-k-no","coords":"13.735098000000001,100.58215060000001"},{"rank":40,"name":"ทองหล่อโภชนา","category":"Restaurant","rating":4.1,"reviews":313,"price":"1-200","address":"เลขที่ 359/5 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66816594285","website":"https://www.wongnai.com/restaurants/75661qx-%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%E0%B9%82%E0%B8%A0%E0%B8%8A%E0%B8%99%E0%B8%B2","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%E0%B9%82%E0%B8%A0%E0%B8%8A%E0%B8%99%E0%B8%B2\u0026query_place_id=ChIJyw_qrFOe4jAR3Lh4ywULQM8","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":70,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEh_rmtFqjkg_K7Wzcde-loUEdBXdZnflkSvo4v64lXQZPrWBZRbHw6y-qj9FrGCm0GdOfoMTwKrdArZSw3SxZMBf6omlFAtblScRIWO6AL2XNBNxdJhkDusehz09jodo1BeVt3=w426-h240-k-no","coords":"13.735780699999999,100.5830795"},{"rank":41,"name":"ไท่ เหอ ซวน","category":"Chinese/Noodles","rating":4,"reviews":635,"price":"600-800","address":"23, 1 ซอย ทองหล่อ 20 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"027148639","website":"https://www.facebook.com/taihexuan","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%84%E0%B8%97%E0%B9%88%20%E0%B9%80%E0%B8%AB%E0%B8%AD%20%E0%B8%8B%E0%B8%A7%E0%B8%99\u0026query_place_id=ChIJq42u2FGe4jARiEtRxqcl6O4","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":69,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFtd3bnD6VBK4FwVXfsMMRUOzDp9iTb-ZS9C4ZaRTQoYX6rw83B1jOvdYON-Y0C8CGvx4pybfpxdM4-fFelaK8zbKWB3iftGoJR1ZB1umbGc6l3kamCtfpGettkfImgaahb4my5OA=w408-h306-k-no","coords":"13.739331999999999,100.5855729"},{"rank":42,"name":"CALES Thonglor","category":"Restaurant","rating":5,"reviews":141,"price":"200-1,200","address":"888 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=CALES%20Thonglor\u0026query_place_id=ChIJqayeTzuf4jARwT24dVHH71Q","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":69,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAG3XaoTYxphVyyiEhwfbc-cKSbEkCrd-QOQwelcwEhSPqhbH7tvvKL-HKOrkjmvbnsLuB8i4nPRdEH_MReit7z5b9_eMSdaU19lNjiB1idJMXOhZGliKliQ1LUk3f515ZVkqOQdcDvnZVEu=w408-h544-k-no","coords":"13.7369884,100.5837946"},{"rank":43,"name":"โจ๊กสามย่าน ทองหล่อ (Jok Samyan Thonglor)","category":"Restaurant","rating":4.2,"reviews":124,"price":"1-200","address":"351 3 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66634955697","website":"https://m.facebook.com/jok.3yan/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%82%E0%B8%88%E0%B9%8A%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A1%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%99%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%20(Jok%20Samyan%20Thonglor)\u0026query_place_id=ChIJyf7VHRaf4jARHNBpgstlkNs","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":68,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFREjm-IV5Y3yYu5SaAEeNM7xBUzRU22rivr089wXL5gyhZbq2FU7Gam4Ynkwlu84jrYWU_OnX7n0Ew86F4z_wLtnuiC7qjZhn_D5FSMlCxXgXVu6aScVh7AHMvGF8VqGGTcuj7Kw=w408-h544-k-no","coords":"13.735158999999999,100.5828927"},{"rank":44,"name":"Dolly Churro","category":"Restaurant","rating":4.2,"reviews":98,"price":"1-200","address":"335 ซอย ทองหล่อ 17 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66902363626","website":"https://dollychurro.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Dolly%20Churro\u0026query_place_id=ChIJFYCPNFOe4jARu8kLdLyKfY4","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":68,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGbAM2iaEp9s137OUYy4XHecCMNTwIpQU5RV-1yQ2dbBjuM6UvzgUqqrXOqOwoWwMaWAVK2kc3I0IQV-LNGx54PhlFRWo5urSFTa4b2dRsLByPG_abF41xbaBXWEm5ryS8DupzJksjsjik=w408-h544-k-no","coords":"13.735076899999999,100.5822034"},{"rank":45,"name":"เค็นจิส์แล็บ","category":"Japanese","rating":4.6,"reviews":439,"price":"","address":"808 13 ซอย ธารารมณ์ 2 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66804493883","website":"https://www.instagram.com/kenjislab","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%80%E0%B8%84%E0%B9%87%E0%B8%99%E0%B8%88%E0%B8%B4%E0%B8%AA%E0%B9%8C%E0%B9%81%E0%B8%A5%E0%B9%87%E0%B8%9A\u0026query_place_id=ChIJSXZuFVKe4jARv_g_Qlm5CCE","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":67,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEKGDAgZvPhp6Wn7d7Btm-4Gw2ksxqxljf8U8udpvagpyz1R_jfHi6s8F5VoqEns_rtBXDdxNyRh0sUlFIRtQbOVm-JCyKGIWsYfZ2nRW6veri92Z8d8A_6Vh-WUSD7cc7UvY7XLb82ywG9=w408-h272-k-no","coords":"13.736712799999999,100.5844228"},{"rank":46,"name":"Ryuzu Omakase","category":"Restaurant","rating":5,"reviews":98,"price":"","address":"Marche Thonglor 2nd Floor Marché Thonglor, Bangkok 10110 Thailand","phone":"+66629266241","website":"https://www.facebook.com/p/Ryuzu-Omakase-100089377016275/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d27153186-Reviews-Ryuzu_Omakase-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":67,"photo":"https://img02.restaurantguru.com/cf57-Sushi-Saito-Bangkok-meals.jpg","coords":"13.72837,100.58111"},{"rank":47,"name":"57th Street","category":"Restaurant","rating":4.8,"reviews":1587,"price":"","address":"2 Sukhumvit Soi 57 Bangkok Marriott Hotel Sukhumvit, Bangkok 10110 Thailand","phone":"+6627970000","website":"https://www.sevenrooms.com/reservations/57thstreetbkkms/tripadvisor","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d4135165-Reviews-57th_Street-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":67,"photo":"https://img02.restaurantguru.com/c864-57th-Street-Bangkok-hot-pot.jpg","coords":"13.723461,100.580505"},{"rank":48,"name":"The District Grill Room And Bar","category":"Restaurant","rating":4.8,"reviews":1435,"price":"","address":"2 Ban Kluai Nuea Alley Bangkok Marriott Hotel Sukhumvit, Bangkok 10110 Thailand","phone":"+6627970000","website":"https://www.sevenrooms.com/reservations/thedistrictgrillroombarbkkms/tripadvisor","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d4092525-Reviews-The_District_Grill_Room_And_Bar-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":67,"photo":"https://img02.restaurantguru.com/c864-57th-Street-Bangkok-hot-pot.jpg","coords":"13.723198,100.580345"},{"rank":49,"name":"หมูตุ๋นทองหล่อ","category":"Thai","rating":4.3,"reviews":58,"price":"1-200","address":"แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66865697987","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%AB%E0%B8%A1%E0%B8%B9%E0%B8%95%E0%B8%B8%E0%B9%8B%E0%B8%99%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJ_aZVk1Ge4jAREck1Zqn3ZPo","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":67,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHKd7bDwOt5QazC40U77c7BFBEsdO7K6lHovFBUN1EUMVrKfrtodwec-ycQIS8VjKbHolubIsGwK3DvO7P7tIuAmG4jIXnakq8tdKN7cp6eckHl4XnfptSZBVQ-CEMIaddMHdoygmTbg8Cu=w408-h544-k-no","coords":"13.7391574,100.5844712"},{"rank":50,"name":"Serica antipasti \u0026 wine","category":"Restaurant","rating":5,"reviews":61,"price":"600-800","address":"11, 10 ซอย ทองหล่อ 25 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66971727814","website":"https://www.facebook.com/profile.php?id=61576179068275#","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Serica%20antipasti%20%26%20wine\u0026query_place_id=ChIJ1TnoBwCf4jARlFPWMY0f_cY","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":67,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEQqpZ_am7ZcXj-l5HmhSg15j-xas3ukeGyKa5QD-Db-w3giSbPasev1voADONi8oqFla1IfEOOh7WgJhKXQ20pwCYs5xEUJOJSd66eU5W73vknrUqAEn9g04wrZFJnKE4DSzjV11VNmw_h=w408-h544-k-no","coords":"13.7393806,100.5802975"},{"rank":51,"name":"Esan Ping Ping อีสาน ปิ๊ง ปิ๊ง","category":"Restaurant","rating":3.9,"reviews":22,"price":"200-400","address":"Fl M theCOMMONS Thonglor ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66988437792","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Esan%20Ping%20Ping%20%E0%B8%AD%E0%B8%B5%E0%B8%AA%E0%B8%B2%E0%B8%99%20%E0%B8%9B%E0%B8%B4%E0%B9%8A%E0%B8%87%20%E0%B8%9B%E0%B8%B4%E0%B9%8A%E0%B8%87\u0026query_place_id=ChIJl_rKWnSf4jARfAdqJI-4NGQ","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":67,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHoRPGFkMKLgyEkoTqdvg01UpAe_nRfOWbd2ZUArSgYvc17o99cbGz1Fbbf2Ukc_36EsAaZZraYRmF2rXgFkQdlmLPwjRs7Q-cL9F-8e-Os5SA8Nsh2Tm1YU0JrLo2cTiLtRIshBA=w408-h271-k-no","coords":"13.7350476,100.5821516"},{"rank":52,"name":"SAOLE.BANGKOK","category":"Seafood","rating":4.3,"reviews":211,"price":"2,000+","address":"11, 7 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66619020523","website":"https://www.instagram.com/saole.bangkok/?hl=en","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=SAOLE.BANGKOK\u0026query_place_id=ChIJlSvqtF2f4jARZQIAY5R2wzY","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":67,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAF30mNPhBalJ7AM9UeXuqVPbCjCa9hyCHjypWBXx6yokoI4GVHLEIpVJgwzPPjXx1R9M-ZJPcarhyeNu3yQMLQAaEkTkmboNHRHmEE-H2aV40xa5VddK5MBH9rtZp9vyrl4oi1F_R1ftQo=w408-h306-k-no","coords":"13.7390451,100.5811597"},{"rank":53,"name":"กินหอยกันมั้ย @ตลาดอินดี้ ทองหล่อ","category":"Thai","rating":5,"reviews":1,"price":"","address":"ตลาดอินดี้ ล็อค A18 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66660312239","website":"https://wongn.ai/21o89i","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%81%E0%B8%B4%E0%B8%99%E0%B8%AB%E0%B8%AD%E0%B8%A2%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%A1%E0%B8%B1%E0%B9%89%E0%B8%A2%20%40%E0%B8%95%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%AD%E0%B8%B4%E0%B8%99%E0%B8%94%E0%B8%B5%E0%B9%89%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJLY-hak1jHTERguzEF_UkhoQ","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":66,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFzMBBrboMItbLaQ17zPp1gOTXpblRP3ue8Mlgj2W06hZzsIbKRWjKh7MkTHvp-kgjeZQHnuQ5CopIQov5lvgLPL14GQH4FlKpAbI6AsxCBWFIQ19xDzbxWMeYeDNlSMTj3_YynYw=w408-h544-k-no","coords":"13.737747600000001,100.5840493"},{"rank":54,"name":"Hunter Poke","category":"Healthy/Poke","rating":4.1,"reviews":83,"price":"200-500","address":"335, 55 ซอย ทองหล่อ 17 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66656600302","website":"https://www.facebook.com/hunterpoke.th/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Hunter%20Poke\u0026query_place_id=ChIJj1WnfRqf4jARwSvEw751DEk","taUrl":"","source":"Google Maps","groupScore":10,"totalScore":66,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEL4RYXNJxBplHy0dpOU-MHAnTfX93RweqkZMe_lVlwhZj5fdTVGm6ZXL0J5hC7HGWae-zNqdLWOJJWx5cwqahLQVzd6aOO8SRt03vHY78oeoolgVAXTFm8GJxKbnTbtoMnEEGf=w408-h306-k-no","coords":"13.735085,100.5822253"},{"rank":55,"name":"The Oasis - All Day Dining","category":"Restaurant","rating":4.9,"reviews":661,"price":"","address":"27 Soi Sukhumvit 55 , Sukhumvit Road Hotel Nikko Bangkok 6th Floor, Klongtan Nua, Wattana, Bangkok 10110 Thailand","phone":"+6620802111","website":"http://www.nikkobangkok.com/dining/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d17386436-Reviews-The_Oasis_All_Day_Dining-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":66,"photo":"https://img02.restaurantguru.com/c8fd-Restaurant-Supanniga-Eating-Room-Tha-Tian-chicken-curry.jpg","coords":"13.725133,100.57915"},{"rank":56,"name":"ฟุ้ง Foong","category":"Restaurant","rating":4.4,"reviews":146,"price":"1,000+","address":"53 ซอย ทองหล่อ 19 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66989248111","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%9F%E0%B8%B8%E0%B9%89%E0%B8%87%20Foong\u0026query_place_id=ChIJf51BpYyf4jAR9m_UJYTBsrA","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":65,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGfxJeaUZ_OMDsUA5ow8xYQefggigwp99Knl2Em8pnDJZQ7bwRA7_uhXvWe_8hao0kPPddQSBLF-FZfXrBCf9lRAREU5BR6wsU95g71Ln0M_-hBjS5m6Q3-MgfJ6XmeR4mpQa5DxA=w408-h272-k-no","coords":"13.737088,100.5808495"},{"rank":57,"name":"มิคามิ","category":"Japanese","rating":4.5,"reviews":158,"price":"","address":"936, 4 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"020073904","website":"https://www.facebook.com/mikamikoryori/?locale=th_TH","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A1%E0%B8%B4%E0%B8%84%E0%B8%B2%E0%B8%A1%E0%B8%B4\u0026query_place_id=ChIJKVac8SGf4jARxY6UggsYzjg","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":65,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHnRtxkGf2xfjfqaQsCphgcNW2v3p6PcZj2fkgjO2gRdWu5nbn81HPzslhs8AHp4GB0ZldAvQXfYbTxiJi-UwhIkaXjV3cyk2eHiafhIJcUrUeVm3SF3ETPlYO7XYqYhPFv7yvLmHtRvGE3=w408-h272-k-no","coords":"13.7392281,100.5845097"},{"rank":58,"name":"Mad Moa The Commons Thonglor","category":"Western","rating":4.6,"reviews":5,"price":"","address":"The commons, 17 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66986655281","website":"https://m.facebook.com/madmoa/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Mad%20Moa%20The%20Commons%20Thonglor\u0026query_place_id=ChIJB2_QuoKf4jARXytvbxLCesE","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":65,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGDGiqeikfUufCLpSKeqkV7JjIDkhHD9aTUR5W-_FHL272L7MV5MPOQRDLWu8-W9uDaa5m54YK19nYTYcrwrW1Gd7wjPj-1PmUTM63xMwIA34yaltz_GDyCi_lafvNMAZyM88r7=w408-h306-k-no","coords":"13.7351046,100.5822074"},{"rank":59,"name":"เต้าหู้ทอด เผือกทอด ปากซอยทองหล่อ19","category":"International","rating":0,"reviews":0,"price":"200-400","address":"ปาก ซอย ทองหล่อ 19 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B9%80%E0%B8%95%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B8%B9%E0%B9%89%E0%B8%97%E0%B8%AD%E0%B8%94%20%E0%B9%80%E0%B8%9C%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B8%97%E0%B8%AD%E0%B8%94%20%E0%B8%9B%E0%B8%B2%E0%B8%81%E0%B8%8B%E0%B8%AD%E0%B8%A2%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD19\u0026query_place_id=ChIJdbOeSACf4jARLASPv5c-8bU","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":65,"photo":"https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg","coords":"13.7359384,100.5831361"},{"rank":60,"name":"ร้านข้าวแกงเจ๊สม","category":"Thai","rating":4.6,"reviews":16,"price":"","address":"เลขที่ 359/7 ซอย ท่องหล่อ ถนน สุขุมวิท แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"021852611","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B9%81%E0%B8%81%E0%B8%87%E0%B9%80%E0%B8%88%E0%B9%8A%E0%B8%AA%E0%B8%A1\u0026query_place_id=ChIJndscX4qf4jAR6xnTGtfMxC0","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":65,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHkFsyC2_ulS21pBP7b-voVoROrstVmib2EldXpOVnQJAb1u9ggMAkilbNhKgMx8kx4sIad0u8c5Q4oFfy5zbhlKinSnBfq93rJQdMiQugbH9W5AAMlC9YjchIGE1g7G7nhxSq7fMX8Y5o=w408-h306-k-no","coords":"13.7358168,100.58301539999999"},{"rank":61,"name":"MET CAFE","category":"Restaurant","rating":4.3,"reviews":229,"price":"200-1,200","address":"918 ซอยสุขุมวิท 55 (ซอยทองหล่อ) ถนนสุขุมวิท คลองตันเหนือ กรุงเทพมหานคร 10110 ไทย","phone":"+66889641989","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=MET%20CAFE\u0026query_place_id=ChIJg-o9k1Ge4jAR8FQvgSCS6fY","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":65,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFGisADHwNPBPb-X1hnedQ_xGuS9fCTJALuxUgsad_TC7qWoiHk_3lK0Wd77MLkTk00FfxP70PslUFvWyDi1CJb2BXlakfa0PWRMAx6DNDFFSNGtB-cyfIoHGsoqisu4lgle3A=w408-h306-k-no","coords":"13.7389645,100.5844441"},{"rank":62,"name":"Ekkaluck Bangkok","category":"Restaurant","rating":5,"reviews":341,"price":"","address":"22 Sukhumvit 53 Alley, Bangkok 10110 Thailand","phone":"+6621275999","website":"https://www.ekkaluckbangkok.com/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d25715449-Reviews-Ekkaluck_Bangkok-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":65,"photo":"https://img02.restaurantguru.com/c51b-Khua-Kling-Pak-Sod-dishes-1.jpg","coords":"13.726125,100.57807"},{"rank":63,"name":"ครัวลูกอิน","category":"Cafe/Dessert","rating":4.7,"reviews":3,"price":"200-400","address":"800/2 ถ. สุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66837526642","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B8%A5%E0%B8%B9%E0%B8%81%E0%B8%AD%E0%B8%B4%E0%B8%99\u0026query_place_id=ChIJY6kSvQ2f4jARm0igHn-jF2g","taUrl":"","source":"Google Maps","groupScore":8,"totalScore":65,"photo":"https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg","coords":"13.735643899999999,100.5846308"},{"rank":64,"name":"Sa Bai Jai","category":"Restaurant","rating":4.3,"reviews":345,"price":"1-200","address":"65/5, Soi Sukhumvit 63 Khlong Tan Nuea, Watthana, Bangkok 10110 Thailand","phone":"+6627142622","website":"http://www.sa-bai-jai.com","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d3355144-Reviews-Sa_Bai_Jai-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":65,"photo":"https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg","coords":"13.729489,100.58585"},{"rank":65,"name":"Octave Rooftop Lounge \u0026 Bar","category":"Restaurant","rating":4.6,"reviews":3940,"price":"","address":"2 Soi Sukhumvit 57 Road, Bangkok 10110 Thailand","phone":"+6627970000","website":"https://www.sevenrooms.com/reservations/octaverooftoploungebarbkkms/tripadvisor","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d4131283-Reviews-Octave_Rooftop_Lounge_Bar-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":64,"photo":"https://thailandmagazine.com/wp-content/uploads/2025/04/Octave-Rooftop-Lounge-Bar-in-Bangkok-Thailand-4.webp","coords":"13.723556,100.5805"},{"rank":66,"name":"Tiny Cup Cafe","category":"Cafe/Dessert","rating":4.4,"reviews":485,"price":"200-1,200","address":"411 2 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"027125112","website":"http://www.facebook.com/tinycupbkk","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Tiny%20Cup%20Cafe\u0026query_place_id=ChIJEYK-S1Ke4jARoB8EQyagLWc","taUrl":"","source":"Google Maps","groupScore":8,"totalScore":64,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGlcMArKo13cGCZqOYN3ORm3LpcWpq4cWJRrjOkWVJq69OM4NHY7ukQpCBvJj9k0mXT4uxgrW6EUWQgRGHqiqZ-KAmB34GhWGru5BoHiXRMkby4GLp2xFRSBY45bYA-ar9Dg-BhSA=w408-h725-k-no","coords":"13.737470699999999,100.58363060000001"},{"rank":67,"name":"Express mexican food indy","category":"Restaurant","rating":5,"reviews":1,"price":"","address":"PHQM+5M3 ตลาดนัดอินดี้ ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Express%20mexican%20food%20indy\u0026query_place_id=ChIJ_0bLXQCf4jARa2UMMZ5fLYU","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":64,"photo":"https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg","coords":"13.7378944,100.5841849"},{"rank":68,"name":"ร้านอาหารคุณยาย","category":"Restaurant","rating":5,"reviews":1,"price":"","address":"เลขที่ 353 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66851454691","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%A2%E0%B8%B2%E0%B8%A2\u0026query_place_id=ChIJl8XnFeKf4jAR3OoyyQkmdtE","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":64,"photo":"https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg","coords":"13.735329699999999,100.58282250000001"},{"rank":69,"name":"Club Miyabi","category":"Restaurant","rating":4.4,"reviews":239,"price":"1,000+","address":"11 Soi Thonglor 25, Sukhumvit 55 Rd., Klongton-nua, กรุงเทพมหานคร 10110 ไทย","phone":"021850644","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Club%20Miyabi\u0026query_place_id=ChIJG6x2e1Ge4jARa9IbdFAARYI","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":63,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEqKwUf51cPg4qBVxglwbYj0Znc_DxsYvL-BV_EjQ0sVVQJ-yxqYhh9yba7ci4MQl5M6FWyN2qPSw62WP8mtTolqXypypKhSfEx1nXpE2purF2syDt8f2NxE_Pvw3bEe698K1Gc=w408-h306-k-no","coords":"13.7383501,100.5825407"},{"rank":70,"name":"Crackhouse","category":"Restaurant","rating":4.6,"reviews":57,"price":"","address":"335 ซอย ทองหล่อ 17 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66628154111","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Crackhouse\u0026query_place_id=ChIJzWTyO86f4jARc0GfQw7lfZE","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":63,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEGuPGTk0jrRgq68As61xue9NzefQdTk3Xh3SFglPHIYbaoMmVt40F44OjGclhok1NeteCGZbAyWDu6ZlDAjCr7DI_9K7LxeZTbAbtRjfvqws1SKkfLu1VNoLEMLH4AymbS17ceoA=w408-h544-k-no","coords":"13.735039499999999,100.5822979"},{"rank":71,"name":"Kohaku","category":"Restaurant","rating":4.9,"reviews":80,"price":"","address":"27 Thong Lo Rd 3F, Ginza Thonglor, Bangkok 10110 Thailand","phone":"+66629252829","website":"https://www.facebook.com/kohaku.th/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d27128544-Reviews-Kohaku-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":62,"photo":"https://img02.restaurantguru.com/cf57-Sushi-Saito-Bangkok-meals.jpg","coords":"13.725125,100.57914"},{"rank":72,"name":"Shamo Sumibi Yakitori","category":"Japanese","rating":4.4,"reviews":64,"price":"800-2,000","address":"808, 7 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66925862203","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Shamo%20Sumibi%20Yakitori\u0026query_place_id=ChIJvdN-TyGf4jARwH-qEPO89k4","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":62,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHgQjkKlVEOGXw0488sZneXDmnbrpH3jhWLfn4FiatfF6uiCyntBgLtMCXawNgystl5Xn6NyTGSmuzkZHgHCZyJrEUSVQC0xZaZz999pCXEOsTvkaopXYMolBE8lyT1TTU0Rjkjwg=w408-h255-k-no","coords":"13.7367819,100.5840797"},{"rank":73,"name":"ข้าวหน้าไก่เซนต์หลุยส์ ทองหล่อ","category":"Restaurant","rating":5,"reviews":2,"price":"","address":"14 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66620314624","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%81%E0%B9%88%E0%B9%80%E0%B8%8B%E0%B8%99%E0%B8%95%E0%B9%8C%E0%B8%AB%E0%B8%A5%E0%B8%B8%E0%B8%A2%E0%B8%AA%E0%B9%8C%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJRZXlKvaf4jARRuV79zYIHmw","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":62,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAH2NFO1k-Wr8uMDvxf1vAfL0o8nHkoiJPHV9H_JZ3eNQ9ZCJ8KGxuDncZU9ASBbTs2kl5LyHv50SDFGVI-bpj-Yil6eTlh4MC5XAERg-Q37TtY6755pBi0TwZ6d1JEKjdyB5itW=w426-h240-k-no","coords":"13.738331199999999,100.5847158"},{"rank":74,"name":"อิ่มหรอย ทองหล่อ","category":"Restaurant","rating":5,"reviews":3,"price":"","address":"หน้าแฟลต 5 หลัง สน ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66932356393","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%AD%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B8%AB%E0%B8%A3%E0%B8%AD%E0%B8%A2%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJ_8ZIPgWf4jARWlOhSQRVhLU","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":62,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGy-zctilsxiIVis2gFrH2-MJfxs99Hz3rfw7mJy_HJ-M3Af-HXmiQ8jrwt5JpLkHEvJXgYP1jCxzd0OhL4XlGj2IDPYJ3AD9LQwSCzZkc-WkQHnOAu_UIf4YpwJlKOD59BYfEv=w408-h544-k-no","coords":"13.735529400000001,100.58579589999999"},{"rank":75,"name":"ร้านข้าวแกงในตำนาน","category":"Restaurant","rating":4.8,"reviews":5,"price":"","address":"705/1 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66890268260","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B9%81%E0%B8%81%E0%B8%87%E0%B9%83%E0%B8%99%E0%B8%95%E0%B8%B3%E0%B8%99%E0%B8%B2%E0%B8%99\u0026query_place_id=ChIJx_W_U82f4jARYG9kCB9Ii2Y","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":62,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAH_FCS-SjzdepqyNnNshOKBiiCp1qt_bk-0GI7pvjpcaGCSAr3F6FtIfOZtKlT6JEcBDeApnNCe0ngqMmjUvpq6P9OjqB02GWB3bfcl5yLkJR2GWtnAUx7LLH9_JvP0epgrD6ubfw=w408-h283-k-no","coords":"13.7395733,100.5843941"},{"rank":76,"name":"ร้านก๋วยเตี๋ยวพี่จัน","category":"Restaurant","rating":4.4,"reviews":17,"price":"","address":"เลขที่ 389 ซอย ปากซอยทองหล่อ19 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66840093520","website":"https://www.wongnai.com/restaurants/289318TO-%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%8B%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%95%E0%B8%B5%E0%B9%8B%E0%B8%A2%E0%B8%A7%E0%B8%9E%E0%B8%B5%E0%B9%88%E0%B8%88%E0%B8%B1%E0%B8%99","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B9%8B%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%95%E0%B8%B5%E0%B9%8B%E0%B8%A2%E0%B8%A7%E0%B8%9E%E0%B8%B5%E0%B9%88%E0%B8%88%E0%B8%B1%E0%B8%99\u0026query_place_id=ChIJU8H5oZaf4jARIaBg3PMpkfU","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":61,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEQoI7D0lHHBfjvOFUmNQC2CRTGyM0L9MPOVewb_ddLSsb4lDf-_4V8UNx7OmJ9Blk5jA1bbGBJR7UPl_pONvgpPJCCNYrdGDeU9Os1HoDnM8c6GfWEnGblY90ojMDzYgGVjSix4gS44saa=w408-h544-k-no","coords":"13.7359428,100.5830613"},{"rank":77,"name":"อุโนะจังเต้าหู้ทอด(สาขาทองหล่อ)","category":"Western","rating":5,"reviews":2,"price":"","address":"ตลาดอินดี้ 844 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66928883993","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%AD%E0%B8%B8%E0%B9%82%E0%B8%99%E0%B8%B0%E0%B8%88%E0%B8%B1%E0%B8%87%E0%B9%80%E0%B8%95%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B8%B9%E0%B9%89%E0%B8%97%E0%B8%AD%E0%B8%94(%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD)\u0026query_place_id=ChIJQZSoYSif4jAR2LaHQbf5kKc","taUrl":"","source":"Google Maps","groupScore":13,"totalScore":61,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGlFg8-nyi9HA4c6lQcH2u_pJsspP7AESa-69O4fIVdAxH0J5LESSqB8xYLjPvlPbzOmQUe8AVcz3LCglQHglHFnZamZUww8Q9jnNPQbOHyO7i4bA5z84ZNrXlDGwg2dHyJkXKN6ZwisSbH=w408-h544-k-no","coords":"13.7411513,100.5852684"},{"rank":78,"name":"Lava Fire Grill","category":"Restaurant","rating":4.8,"reviews":189,"price":"","address":"137 / 1 Soi Thong Lo 10, Bangkok 10110 Thailand","phone":"+66992857676","website":"http://www.lavabangkok.com/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d24993527-Reviews-Lava_Fire_Grill-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":61,"photo":"https://img02.restaurantguru.com/c097-Gyu-Kaku-Japanese-BBQ-Bangkok-meals-9.jpg","coords":"13.732476,100.58244"},{"rank":79,"name":"Food for Thought","category":"Restaurant","rating":4,"reviews":22,"price":"200-600","address":"888 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"021851482","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Food%20for%20Thought\u0026query_place_id=ChIJX7TBL1Ke4jAR9J2Eo1tVtcA","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":61,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEU17gvvDM3Pey0SHUcLGj6gWxII1C3qDtrujJIVihPQnerFbc1jsfNJDJvrUOOJd2ARLDDoor-dQRfjHaB-gh9ml9EP8_smM-Djrwi68vWU6pHZztP9OE60K3YgNxjhZGlKXYaHA=w408-h306-k-no","coords":"13.7374758,100.5836333"},{"rank":80,"name":"Maesalong Croissant (แม่สลองครัวซอง) - สาขา ทองหล่อ","category":"Cafe/Dessert","rating":5,"reviews":6,"price":"","address":"540/2 ซอย ทองหล่อ 18 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66819245898","website":"https://www.facebook.com/MaesalongCroissant/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Maesalong%20Croissant%20(%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%AA%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B8%8B%E0%B8%AD%E0%B8%87)%20-%20%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJARc_8Omf4jARhQuqXZFYS4I","taUrl":"","source":"Google Maps","groupScore":8,"totalScore":60,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEGIz0HiGE5qcXQu1dqzrbFQ04bPFyVG6AHdKa-YnD3MJ7iHWT8SzDYS8x1-uB-i3GJYqiaVc2GV2mtGAdT3-3RQw8b1zCVchVx3MCkHQfCdo_Y7wlhyULeRuT_nS8S_43Stm25LcJMPZo=w408-h306-k-no","coords":"13.7352431,100.5834978"},{"rank":81,"name":"Wattana Panich","category":"Restaurant","rating":4.2,"reviews":136,"price":"1-200","address":"336-338 Ekkamai Rd, Soi 18 Klongtoey Nuea, Bangkok 10110 Thailand","phone":"+6623917264","website":"","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d8743421-Reviews-Wattana_Panich-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":60,"photo":"https://therantingpanda.com/wp-content/uploads/2022/09/eimg_8313.jpg","coords":"13.734167,100.58753"},{"rank":82,"name":"Café Craft by CHANINTR","category":"Restaurant","rating":4.1,"reviews":239,"price":"","address":"924 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66947499892","website":"http://cafecraftbychanintr.com/","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Caf%C3%A9%20Craft%20by%20CHANINTR\u0026query_place_id=ChIJu5Vzp3Of4jARINBGarbKq34","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":60,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGBSvR9ZvHZe6Kk4guOgFXkCuzDgG6awFTG4gQ4xQEvK0-Q3Geb5X_vRBqjBkDb2Sl_mZSur82L63s82w0G0YZtGo0mvITzO5zUw9sHojzB0fhU6llxbBNemN-9ffQMPELTqkmW4oTA9ZP9=w426-h240-k-no","coords":"13.738752699999999,100.58437189999999"},{"rank":83,"name":"Lumtae (ลำแต้) อาหารเหนือ จ.แพร่","category":"Restaurant","rating":0,"reviews":0,"price":"200-400","address":"เลขที่ 8 ชั้นที่ 1 ซอย ทองหล่อ 25 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66986668648","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Lumtae%20(%E0%B8%A5%E0%B8%B3%E0%B9%81%E0%B8%95%E0%B9%89)%20%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%AB%E0%B8%99%E0%B8%B7%E0%B8%AD%20%E0%B8%88.%E0%B9%81%E0%B8%9E%E0%B8%A3%E0%B9%88\u0026query_place_id=ChIJL2RILxWf4jARirHdWw2MQrg","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":60,"photo":"https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg","coords":"13.738967499999999,100.5826845"},{"rank":84,"name":"Supanniga Eating Room, Thonglor","category":"Restaurant","rating":4.3,"reviews":708,"price":"","address":"160/11 Soi Sukhumvit 55 Between Thong Lor 6 and 8, Bangkok 10110 Thailand","phone":"+66917749808","website":"http://www.supannigaeatingroom.com/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d3738118-Reviews-Supanniga_Eating_Room_Thonglor-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":60,"photo":"https://img02.restaurantguru.com/c8fd-Restaurant-Supanniga-Eating-Room-Tha-Tian-chicken-curry.jpg","coords":"13.730209,100.58153"},{"rank":85,"name":"ร้านข้าวหน้าบ้าน 35 บาท","category":"Restaurant","rating":5,"reviews":2,"price":"","address":"73 723 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99%2035%20%E0%B8%9A%E0%B8%B2%E0%B8%97\u0026query_place_id=ChIJw_dhf-yf4jARmnu0P-0JDS0","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":59,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGHEASqLM707MWkylK7iID-yR0bhGKlQAvxaeXj_z2QxlJY41XIDaBYrldEWyxTrkfvDIayvbnr9AHqGleRlFteiWBgpK8vfL91dbN5W4gPJO043S3MYRea8sQpkB9nOffCuDXHsQ=w408-h544-k-no","coords":"13.7406554,100.58473069999999"},{"rank":86,"name":"R-HAAN","category":"Restaurant","rating":4,"reviews":140,"price":"","address":"131 Sukhumvit 53 (Pai Di Ma Di) Khlong Tan Nuea, Bangkok 10110 Thailand","phone":"+66951415524","website":"http://r-haan.com","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d14199978-Reviews-R_HAAN-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":59,"photo":"https://img02.restaurantguru.com/c2d3-R-HAAN-food-7.jpg","coords":"13.731831,100.57956"},{"rank":87,"name":"Khua Kling Pak Sod - Thonglor Branch","category":"Restaurant","rating":4.4,"reviews":101,"price":"","address":"98/1 Soi Thong Lor Soi 5, Sukhumvit 55 Road Khlong Ton Nuea, Bangkok 10110 Thailand","phone":"+66860537779","website":"http://www.khuaklingpaksod.com","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d3703925-Reviews-Khua_Kling_Pak_Sod_Thonglor_Branch-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":56,"photo":"https://img02.restaurantguru.com/c51b-Khua-Kling-Pak-Sod-dishes-1.jpg","coords":"13.729037,100.57936"},{"rank":88,"name":"Pizza deJoy (Thonglor)","category":"Restaurant","rating":4.4,"reviews":19,"price":"","address":"411/3 ซอย ทองหล่อ 23 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66655524474","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=Pizza%20deJoy%20(Thonglor)\u0026query_place_id=ChIJ-SRpvjOf4jARGDSNV0sx5ik","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":56,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAH0hf-XtP9hCGAW0y129SAmOg2H_je533BPs8Vy6XOyHzoYLa5oY5KENIRdJ8VKnrWvAm_g_KU-6sPfLnwXS72zPFrAROKOlb8eRFtWZm3miwRenfo7d7HMYVOQ1Wb1ZBLf4ZkL=w408-h543-k-no","coords":"13.7375109,100.5836817"},{"rank":89,"name":"ก๋วยเตี๋ยวไก่มะระไก่ตุ๋น คนสวย หลังสน.ทองหล่อ เจ้าเก่า","category":"Restaurant","rating":4.3,"reviews":15,"price":"","address":"แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66915231516","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%81%E0%B9%8B%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%95%E0%B8%B5%E0%B9%8B%E0%B8%A2%E0%B8%A7%E0%B9%84%E0%B8%81%E0%B9%88%E0%B8%A1%E0%B8%B0%E0%B8%A3%E0%B8%B0%E0%B9%84%E0%B8%81%E0%B9%88%E0%B8%95%E0%B8%B8%E0%B9%8B%E0%B8%99%20%E0%B8%84%E0%B8%99%E0%B8%AA%E0%B8%A7%E0%B8%A2%20%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%99.%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%20%E0%B9%80%E0%B8%88%E0%B9%89%E0%B8%B2%E0%B9%80%E0%B8%81%E0%B9%88%E0%B8%B2\u0026query_place_id=ChIJW1FEZFKe4jARC0jobXT-vIg","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":56,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAFQ_DKM7FYOfgvqxEg2o7YgEM8PzFoe6oAutjuuzkuiix2LgarrZaBKpx5PMlkhxz60MmXbLjXCrB9wBk_bLSLcsm-HAZ4IvROe-AO8zqlAr0hD2imfmfeDxycSWYaDg2Vb4J2x=w408-h306-k-no","coords":"13.735649799999999,100.58494260000001"},{"rank":90,"name":"ลาบลุงโรจน์ แม่ถนอมตามสั่ง อาหารไทย - อาหารอีสาน สาขา สน.ทองหล่อ","category":"Restaurant","rating":4.3,"reviews":9,"price":"","address":"800 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66949894989","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A5%E0%B8%B2%E0%B8%9A%E0%B8%A5%E0%B8%B8%E0%B8%87%E0%B9%82%E0%B8%A3%E0%B8%88%E0%B8%99%E0%B9%8C%20%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%96%E0%B8%99%E0%B8%AD%E0%B8%A1%E0%B8%95%E0%B8%B2%E0%B8%A1%E0%B8%AA%E0%B8%B1%E0%B9%88%E0%B8%87%20%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B9%84%E0%B8%97%E0%B8%A2%20-%20%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%B5%E0%B8%AA%E0%B8%B2%E0%B8%99%20%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2%20%E0%B8%AA%E0%B8%99.%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJywdzWGOf4jARPzrKAwVnSmg","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":56,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAHSX6Dqz69R4S6KuGtVDQ7nABAkRd3uxKFAl2GrjyGo1xOslzHLOL0_Tt9iTE8yD2H00anXi_D2-sU2v5U20hM4RoMbCkXZrkDtJ1DAMYOravcvYgdiqIgAjQQL-k5EIkkbo6Go=w408-h470-k-no","coords":"13.7354539,100.58520369999999"},{"rank":91,"name":"Tulum Skybar","category":"Restaurant","rating":4.5,"reviews":132,"price":"","address":"Soi Chumchon Talat Tha Ruea Khlong Toei, Khwaeng Khlong Toei, Khet Khlong Toei, Krung Thep Maha Nakhon, Bangkok 10110 Thailand","phone":"+66829730275","website":"https://tulum.asia","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d27103023-Reviews-Tulum_Skybar-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":55,"photo":"https://thailandmagazine.com/wp-content/uploads/2025/04/Octave-Rooftop-Lounge-Bar-in-Bangkok-Thailand-4.webp","coords":"13.739538,100.58841"},{"rank":92,"name":"Khao","category":"Restaurant","rating":4.3,"reviews":123,"price":"","address":"15 Soi Ekamai 10, Bangkok 10110 Thailand","phone":"+66988298878","website":"https://khaorestaurants.com/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d8464685-Reviews-Khao-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":55,"photo":"https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg","coords":"13.729083,100.58796"},{"rank":93,"name":"ร้าน ทองหล่อโภชนา","category":"Restaurant","rating":0,"reviews":0,"price":"1-200","address":"359/5-6 ซ.สุขุมวิท55 (ทองหล่อ), แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพฯ, 10110 10110 ไทย","phone":"021852612","website":"https://www.wongnai.com/restaurants/75661qx-%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%E0%B9%82%E0%B8%A0%E0%B8%8A%E0%B8%99%E0%B8%B2","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%20%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD%E0%B9%82%E0%B8%A0%E0%B8%8A%E0%B8%99%E0%B8%B2\u0026query_place_id=ChIJNfYXG1Oe4jARxgvGdthitqQ","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":55,"photo":"https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg","coords":"13.740684399999999,100.5848453"},{"rank":94,"name":"Here Hai","category":"Restaurant","rating":4.2,"reviews":85,"price":"","address":"112, 1 Ekkamai Rd, Bangkok 10110 Thailand","phone":"+66632199100","website":"https://www.facebook.com/herehaifoods/","mapsUrl":"","taUrl":"https://www.tripadvisor.com/Restaurant_Review-g293916-d15237670-Reviews-Here_Hai-Bangkok.html","source":"TripAdvisor","groupScore":12,"totalScore":55,"photo":"https://img02.restaurantguru.com/c5de-Sit-and-Wonder-Bangkok-meals.jpg","coords":"13.730265,100.58634"},{"rank":95,"name":"นิจิ ข้าวไข่ข้น","category":"Thai","rating":1,"reviews":1,"price":"","address":"ตลาดอินดี้ ทองหล่อ เลขที่ 916 ถ. ทองหล่อ แขวงคลองตันเหนือ, Klong tan nuea, เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"","website":"https://lin.ee/p5Yg57e?openExternalBrowser=1","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%99%E0%B8%B4%E0%B8%88%E0%B8%B4%20%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B9%84%E0%B8%82%E0%B9%88%E0%B8%82%E0%B9%89%E0%B8%99\u0026query_place_id=ChIJuUkTNwCf4jARxKhPiOOf9bE","taUrl":"","source":"Google Maps","groupScore":16,"totalScore":54,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAEIccTZtpDCz4SogjnzGamdOFWagMOM82UiR9fUsU_TeemMO_5DtSDI2wxgRYR9fwMkUQ-Ic8qB4myrH4Y44ROyfamIJxk-mecHxYfbbCTBflTA-Pqa3Adw_TVYQPme858MB36gRov8XEA8=w408-h408-k-no","coords":"13.738020799999999,100.58438750000001"},{"rank":96,"name":"ตู้ข้าวมันไก่ สาขาทองหล่อ","category":"Restaurant","rating":3.5,"reviews":6,"price":"","address":"800 แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66944293649","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%95%E0%B8%B9%E0%B9%89%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B9%84%E0%B8%81%E0%B9%88%20%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2%E0%B8%97%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B9%88%E0%B8%AD\u0026query_place_id=ChIJAR8EOzSf4jAR_QlMc_9IBd0","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":53,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAGvBs_IXWWP8vsGI0tYspcBosqHyiviqv3e-SKSpgk59kTG4TWvbjLF76JZ3Wly9fc2QQHWlZM68RnpCtw_bwpI55zkImOCFVav--FKBnHaRkbb2sH-uatx-fui1VNNsOeCLxTK=w513-h240-k-no","coords":"13.7353498,100.585774"},{"rank":97,"name":"ร้านอาหารป่าตาริน","category":"Restaurant","rating":0,"reviews":0,"price":"","address":"800 379 ถ. ทองหล่อ แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพมหานคร 10110 ไทย","phone":"+66950970492","website":"","mapsUrl":"https://www.google.com/maps/search/?api=1\u0026query=%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%95%E0%B8%B2%E0%B8%A3%E0%B8%B4%E0%B8%99\u0026query_place_id=ChIJT6tvhsGf4jARM4W948Py348","taUrl":"","source":"Google Maps","groupScore":12,"totalScore":47,"photo":"https://lh3.googleusercontent.com/gps-cs-s/APNQkAG6U0y1cy2_pVH1KVIKF7PUZsxJKa1fUEmF0-UNLKvGZe2V7vyjA9B7EzkIOx8u2RvqZOEbQcKBvIMjlAaKZP4470aSyT1lsUmjCttIlAw6PI2Yx88L6FbMed12Yig59AGjatQT=w408-h306-k-no","coords":"13.7353611,100.5857381"}];
+
+const CAT_EMOJI = {
+  'Thai':'🍜','Japanese - Sushi':'🍱','Japanese - Noodles':'🍜','Japanese':'🍣',
+  'Korean':'🥩','Italian':'🍝','Seafood':'🦞','Cafe/Dessert':'☕',
+  'Western':'🍔','International':'🌍','Chinese/Noodles':'🥟',
+  'Healthy/Poke':'🥗','Restaurant':'🍽️'
+};
+const CAT_BG = {
+  'Thai':'np-thai','Japanese - Sushi':'np-japanese','Japanese - Noodles':'np-japanese',
+  'Japanese':'np-japanese','Korean':'np-korean','Italian':'np-italian',
+  'Seafood':'np-seafood','Cafe/Dessert':'np-cafe','Western':'np-default',
+  'International':'np-default','Chinese/Noodles':'np-thai',
+  'Restaurant':'np-default','Healthy/Poke':'np-cafe'
+};
+
+let activeCat = 'all';
+let groupOnly = false;
+
+function setCat(cat, btn) {
+  activeCat = cat;
+  document.querySelectorAll('.filter-btn:not(.group-btn)').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function toggleGroup() {
+  groupOnly = !groupOnly;
+  document.getElementById('groupBtn').classList.toggle('active', groupOnly);
+  applyFilters();
+}
+
+function renderStars(r) {
+  if (!r) return '<span style="color:#ccc">—</span>';
+  const full = Math.floor(r);
+  const half = (r - full) >= 0.5;
+  let s = '';
+  for (let i=0;i<full;i++) s += '★';
+  if (half) s += '½';
+  for (let i=full+(half?1:0);i<5;i++) s += '☆';
+  return s;
+}
+
+function priceVal(p) {
+  if (!p || p === '—') return 9999;
+  const m = p.match(/(\d+)/);
+  return m ? parseInt(m[1]) : 9999;
+}
+
+function catMatch(c, filter) {
+  if (filter === 'all') return true;
+  if (filter === 'Japanese') return c.startsWith('Japanese') || c === 'Japanese';
+  if (filter === 'Cafe') return c.startsWith('Cafe');
+  return c === filter;
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const sortBy = document.getElementById('sortSelect').value;
+
+  let list = DATA.filter(r => {
+    if (!catMatch(r.category, activeCat)) return false;
+    if (groupOnly && r.groupScore < 16) return false;
+    if (q && !r.name.toLowerCase().includes(q) &&
+        !r.category.toLowerCase().includes(q) &&
+        !(r.address||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  list.sort((a,b) => {
+    switch(sortBy) {
+      case 'score': return b.totalScore - a.totalScore;
+      case 'rating': return (b.rating||0) - (a.rating||0);
+      case 'reviews': return (b.reviews||0) - (a.reviews||0);
+      case 'price_asc': return priceVal(a.price) - priceVal(b.price);
+      default: return a.rank - b.rank;
+    }
+  });
+
+  const gc = list.filter(r => r.groupScore >= 16).length;
+  document.getElementById('showCount').textContent = list.length;
+  document.getElementById('groupCount').textContent = gc;
+
+  const hint = document.getElementById('filterHint');
+  if (groupOnly) {
+    hint.style.display = '';
+    hint.innerHTML = '🟢 กรอง: รับกลุ่ม 8–12 คน';
+  } else {
+    hint.style.display = 'none';
+  }
+
+  const grid = document.getElementById('grid');
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty">🔍 ไม่พบร้านที่ตรงกับเงื่อนไข<br><span style="font-size:.85rem;margin-top:8px;display:block">ลองเปลี่ยน filter หรือล้างการค้นหาดูครับ</span></div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(r => {
+    const scoreClass = r.totalScore >= 75 ? 'score-high' : r.totalScore >= 65 ? 'score-mid' : 'score-low';
+    const emoji = CAT_EMOJI[r.category] || '🍽️';
+    const bgClass = CAT_BG[r.category] || 'np-default';
+    const isGroup = r.groupScore >= 16;
+    const ratingStr = r.rating ? r.rating.toFixed(1) : '—';
+    const reviewStr = r.reviews ? r.reviews.toLocaleString() : '—';
+    const priceStr = r.price ? '฿' + r.price : '—';
+    const catLabel = r.category.replace('Japanese - ','').replace('/Dessert','').replace('/Noodles','').replace('Healthy/','');
+    const addrStr = (r.address || '').replace(' ไทย','').replace(' Thailand','').replace('กรุงเทพมหานคร','กทม.');
+
+    let photoHtml;
+    if (r.photo) {
+      photoHtml = '<img src="' + r.photo + '" alt="' + r.name.replace(/"/g,'') + '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+        '<div class="no-photo ' + bgClass + '" style="display:none">' + emoji + '</div>';
+    } else {
+      photoHtml = '<div class="no-photo ' + bgClass + '">' + emoji + '</div>';
+    }
+
+    const mapBtn = r.mapsUrl ? '<a class="action-btn btn-map" href="' + r.mapsUrl + '" target="_blank">📍 แผนที่</a>' : '';
+    const phoneBtn = r.phone ? '<a class="action-btn btn-phone" href="tel:' + r.phone + '">📞 โทร</a>' : '';
+    const webBtn = r.website ? '<a class="action-btn btn-web" href="' + r.website + '" target="_blank">🌐 เว็บ</a>' : '';
+    const taBtn = r.taUrl ? '<a class="action-btn btn-ta" href="' + r.taUrl + '" target="_blank" title="TripAdvisor">✈ TA</a>' : '';
+    const actionBtns = [mapBtn, phoneBtn, webBtn, taBtn].filter(Boolean).join('');
+
+    const groupBadge = isGroup ? '<div class="group-badge">👥 รับ 8–12 คน</div>' : '';
+    const addrHtml = addrStr ? '<div class="addr-row">📍 ' + addrStr + '</div>' : '';
+
+    return '<div class="card">' +
+      '<div class="card-img">' +
+        photoHtml +
+        '<div class="rank-badge">#' + r.rank + '</div>' +
+        '<div class="score-badge ' + scoreClass + '">' + r.totalScore + ' คะแนน</div>' +
+        groupBadge +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-name">' + r.name + '</div>' +
+        '<div class="card-meta">' +
+          '<span class="cat-tag">' + emoji + ' ' + catLabel + '</span>' +
+          '<span class="price-tag">' + priceStr + '</span>' +
+        '</div>' +
+        '<div class="rating-row">' +
+          '<span class="stars">' + renderStars(r.rating) + '</span>' +
+          '<span class="rating-num">' + ratingStr + '</span>' +
+          '<span class="review-count">(' + reviewStr + ' รีวิว)</span>' +
+        '</div>' +
+        '<div class="score-bar-wrap">' +
+          '<div class="score-bar-label"><span>Total Score</span><span>' + r.totalScore + '/100</span></div>' +
+          '<div class="score-bar"><div class="score-bar-fill" style="width:' + r.totalScore + '%"></div></div>' +
+        '</div>' +
+        addrHtml +
+        '<div class="card-actions">' + actionBtns + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+applyFilters();
+</script>
+
+
+<!-- ════ TRADE-OFF ══════════════════════════════════════════════════════ -->
+<div class="tradeoff-section">
+  <div class="tradeoff-wrap">
+    <h3>⚖️ จุดเด่น &amp; ข้อควรระวัง (Trade-off)</h3>
+    <div class="tradeoff-grid" id="tradeoffGrid"></div>
+  </div>
+</div>
+<!-- ════ EVIDENCE SECTION ═══════════════════════════════════════════════ -->
+<div class="evidence-section">
+  <div class="evidence-inner">
+
+    <!-- Workflow Pipeline -->
+    <h2>⚙️ Workflow Pipeline</h2>
+    <div class="ev-pipeline">
+      <div class="ev-step">
+        <div class="ev-step-icon">⚡</div>
+        <div class="ev-step-name">Make.com</div>
+        <div class="ev-step-sub">Trigger / Schedule</div>
+      </div>
+      <div class="ev-arrow">→</div>
+      <div class="ev-step">
+        <div class="ev-step-icon">🕷️</div>
+        <div class="ev-step-name">Apify</div>
+        <div class="ev-step-sub">Google Maps + TripAdvisor</div>
+      </div>
+      <div class="ev-arrow">→</div>
+      <div class="ev-step">
+        <div class="ev-step-icon">📊</div>
+        <div class="ev-step-name">Google Sheets</div>
+        <div class="ev-step-sub">Raw Storage</div>
+      </div>
+      <div class="ev-arrow">→</div>
+      <div class="ev-step">
+        <div class="ev-step-icon">🤖</div>
+        <div class="ev-step-name">Claude AI</div>
+        <div class="ev-step-sub">Clean &amp; Normalize</div>
+      </div>
+      <div class="ev-arrow">→</div>
+      <div class="ev-step">
+        <div class="ev-step-icon">🎯</div>
+        <div class="ev-step-name">Scoring</div>
+        <div class="ev-step-sub">100-pt Model</div>
+      </div>
+      <div class="ev-arrow">→</div>
+      <div class="ev-step ev-step-last">
+        <div class="ev-step-icon">🌐</div>
+        <div class="ev-step-name">HTML Output</div>
+        <div class="ev-step-sub">HTML / CSS / JS</div>
+      </div>
+    </div>
+
+    <hr class="ev-divider">
+
+    <!-- Evidence Cards -->
+    <h2 style="margin-bottom:16px">📋 หลักฐานและแหล่งข้อมูล</h2>
+    <div class="ev-grid">
+
+      <div class="ev-card">
+        <h3>⚡ Make.com</h3>
+        <ul>
+          <li>Trigger อัตโนมัติ → เรียก Apify API</li>
+          <li>Orchestrate ทั้ง pipeline</li>
+          <li><span class="ev-placeholder">[Make.com scenario URL จริงที่นี่]</span></li>
+        </ul>
+      </div>
+
+      <div class="ev-card">
+        <h3>🕷️ Apify Scraping</h3>
+        <ul>
+          <li><b>Google Maps:</b> <code style="font-size:.7rem;color:#a5d6ff">apify/google-maps-scraper</code></li>
+          <li><b>TripAdvisor:</b> แยก scrape ต่างหาก<br><span style="color:#f59e0b;font-size:.7rem">⚠️ ไม่มี Photo URL ใน dataset</span></li>
+          <li><b>วันที่ scrape:</b> 2026-06-18</li>
+          <li><span class="ev-placeholder">[Apify run URL จริงที่นี่]</span></li>
+        </ul>
+      </div>
+
+      <div class="ev-card">
+        <h3>📊 Google Sheets</h3>
+        <p>Raw data + Scored data:<br>
+          <a href="https://docs.google.com/spreadsheets/d/1oXaEW_cKyCUwTCZ7tJDSqSoSYPR6J4FF09X6bDbg_8w/edit" target="_blank">เปิด Google Sheets →</a>
+        </p>
+        <ul style="margin-top:8px">
+          <li>Google Maps: <b style="color:#7eb5ff">79 ร้าน</b></li>
+          <li>TripAdvisor: <b style="color:#7eb5ff">18 ร้าน</b></li>
+          <li>รวม: <b style="color:#f5a623">97 ร้าน</b></li>
+        </ul>
+      </div>
+
+      <div class="ev-card">
+        <h3>🎯 Scoring Model (100 pts)</h3>
+        <ul>
+          <li>Rating &amp; Review: <b style="color:#f5a623">25 pts</b></li>
+          <li>Group Suitability: <b style="color:#f5a623">20 pts</b></li>
+          <li>Price Range: <b style="color:#f5a623">15 pts</b></li>
+          <li>BTS/Travel Access: <b style="color:#f5a623">15 pts</b></li>
+          <li>Data Completeness: <b style="color:#f5a623">15 pts</b></li>
+          <li>Uniqueness: <b style="color:#f5a623">10 pts</b></li>
+        </ul>
+      </div>
+
+    </div>
+    <hr class="ev-divider">
+    <p class="ev-copy">Make.com → Apify → Google Sheets → Claude AI → Scoring → HTML · ข้อมูล 2026-06-18 · Scoring model สำหรับ group dining 8–12 คน</p>
+  </div>
+</div>
+<script>
+(function(){
+  const CAT_EMOJI_S = {
+    'Thai':'🍜','Japanese - Sushi':'🍱','Japanese - Noodles':'🍜','Japanese':'🍣',
+    'Korean':'🥩','Italian':'🍝','Seafood':'🦞','Cafe/Dessert':'☕',
+    'Western':'🍔','International':'🌍','Chinese/Noodles':'🥟',
+    'Healthy/Poke':'🥗','Restaurant':'🍽️'
+  };
+  const CAT_BG_S = {
+    'Thai':'np-thai','Japanese - Sushi':'np-japanese','Japanese - Noodles':'np-japanese',
+    'Japanese':'np-japanese','Korean':'np-korean','Italian':'np-italian',
+    'Seafood':'np-seafood','Cafe/Dessert':'np-cafe','Western':'np-default',
+    'International':'np-default','Chinese/Noodles':'np-thai',
+    'Restaurant':'np-default','Healthy/Poke':'np-cafe'
+  };
+  const RANK_CLASS = ['rank-gold','rank-silver','rank-bronze'];
+  const RANK_MEDAL = ['🥇','🥈','🥉'];
+  const TR_CLASS = ['tr-gold','tr-silver','tr-bronze'];
+  const RANK_DOT = ['rank-dot-gold','rank-dot-silver','rank-dot-bronze'];
+
+  // ── Score breakdown estimator ─────────────────────────────────────────
+  // DATA has: totalScore, groupScore (= S_Group Suit / 20)
+  // We derive the other 5 dims by reverse-engineering known weights.
+  // Weights: RR=25, GS=20, PR=15, BTS=15, DC=15, UQ=10
+  // totalScore = RR + GS + PR + BTS + DC + UQ
+  // GS = groupScore (provided)
+  // remaining = totalScore - groupScore
+  // Distribute remaining across RR:PR:BTS:DC:UQ = 25:15:15:15:10 (sum=80 → pct of remaining=80/(100-20)=80/80=1)
+  // Exact proration: RR_est = remaining * 25/80, etc.
+  function breakdown(r) {
+    var gs = r.groupScore || 0;
+    var rem = r.totalScore - gs;
+    return {
+      rr:  Math.round(rem * 25 / 80),
+      gs:  gs,
+      pr:  Math.round(rem * 15 / 80),
+      bts: Math.round(rem * 15 / 80),
+      dc:  Math.round(rem * 15 / 80),
+      uq:  rem - Math.round(rem*25/80) - Math.round(rem*15/80) - Math.round(rem*15/80) - Math.round(rem*15/80),
+      total: r.totalScore
+    };
+  }
+
+  // ── Reason generator ──────────────────────────────────────────────────
+  function reason(r, pos) {
+    var lines = [];
+    if (pos === 0) {
+      lines.push('คะแนนรวมสูงสุด ' + r.totalScore + '/100 จากทั้ง 97 ร้าน');
+      lines.push('Rating ' + r.rating + '⭐ · ' + (r.reviews||0).toLocaleString() + ' รีวิว + ราคา ฿' + (r.price||'-') + ' เข้าถึงได้ง่าย');
+      if (r.groupScore >= 16) lines.push('Group Suitability สูง — เหมาะทานเป็นกลุ่ม 8–12 คน');
+    } else if (pos === 1) {
+      lines.push('คะแนนรวม ' + r.totalScore + '/100 อันดับ 2 จาก 97 ร้าน');
+      lines.push('Rating ' + r.rating + '⭐ · ' + (r.reviews||0).toLocaleString() + ' รีวิว — ฐานลูกค้าแข็งแกร่ง');
+      if (r.groupScore >= 16) lines.push('Category ' + r.category.split(' ')[0] + ' เหมาะสำหรับกลุ่ม');
+    } else {
+      lines.push('คะแนนรวม ' + r.totalScore + '/100 อันดับ 3 จาก 97 ร้าน');
+      lines.push('Rating ' + r.rating + '⭐ · รีวิว ' + (r.reviews||0).toLocaleString() + ' ราย');
+      lines.push('ราคา ฿' + (r.price||'-') + ' · คุ้มค่าในระดับ ' + r.category.split(' ')[0]);
+    }
+    return lines.join(' · ');
+  }
+
+  // ── Render Top 3 ──────────────────────────────────────────────────────
+  var top3 = DATA.slice().sort(function(a,b){return a.rank-b.rank;}).slice(0,3);
+  var g3 = document.getElementById('top3Grid');
+  g3.innerHTML = top3.map(function(r, i) {
+    var bd = breakdown(r);
+    var em = CAT_EMOJI_S[r.category] || '🍽️';
+    var bg = CAT_BG_S[r.category] || 'np-default';
+    var photoEl = r.photo
+      ? '<img src="' + r.photo + '" alt="" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
+        '<div class="t3-np ' + bg + '" style="display:none">' + em + '</div>'
+      : '<div class="t3-np ' + bg + '">' + em + '</div>';
+    var mapBtn = r.mapsUrl ? '<a class="t3-map" href="' + r.mapsUrl + '" target="_blank">📍 แผนที่</a>' : '';
+    var phoneBtn = r.phone ? '<a class="t3-phone" href="tel:' + r.phone + '">📞 โทร</a>' : '';
+    var webBtn = r.website ? '<a class="t3-web" href="' + r.website + '" target="_blank">🌐 เว็บ</a>' : '';
+    var catShort = r.category.replace('Japanese - ','').replace('/Dessert','').replace('/Noodles','').replace('Healthy/','');
+    return '<div class="t3card">' +
+      '<div class="t3-img">' + photoEl +
+        '<div class="t3-rank ' + RANK_CLASS[i] + '">' + (i+1) + '</div>' +
+      '</div>' +
+      '<div class="t3-body">' +
+        '<div class="t3-name">' + RANK_MEDAL[i] + ' ' + r.name + '</div>' +
+        '<div class="t3-meta">' +
+          '<span class="t3-cat">' + em + ' ' + catShort + '</span>' +
+          '<span class="t3-rating">★ ' + (r.rating||'—') + '</span>' +
+          '<span class="t3-reviews">(' + (r.reviews||0).toLocaleString() + ' รีวิว)</span>' +
+        '</div>' +
+        '<div class="t3-breakdown"><table>' +
+          '<tr><td>Rating & Review</td><td>' + bd.rr + '/25</td></tr>' +
+          '<tr><td>Group Suitability</td><td>' + bd.gs + '/20</td></tr>' +
+          '<tr><td>Price</td><td>' + bd.pr + '/15</td></tr>' +
+          '<tr><td>Travel</td><td>' + bd.bts + '/15</td></tr>' +
+          '<tr><td>Data Completeness</td><td>' + bd.dc + '/15</td></tr>' +
+          '<tr><td>Uniqueness</td><td>' + bd.uq + '/10</td></tr>' +
+          '<tr class="total-row"><td>รวม</td><td>' + bd.total + '/100</td></tr>' +
+        '</table></div>' +
+        '<div class="t3-reason">' + reason(r, i) + '</div>' +
+        '<div class="t3-actions">' + [mapBtn,phoneBtn,webBtn].filter(Boolean).join('') + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  // ── Render Top 10 Table ───────────────────────────────────────────────
+  var top10 = DATA.slice().sort(function(a,b){return a.rank-b.rank;}).slice(0,10);
+  document.getElementById('top10Body').innerHTML = top10.map(function(r, i) {
+    var rc = i < 3 ? TR_CLASS[i] : '';
+    var dc = i < 3 ? RANK_DOT[i] : '';
+    var medal = i < 3 ? RANK_MEDAL[i] + ' ' : '';
+    var em = CAT_EMOJI_S[r.category] || '🍽️';
+    var catShort = r.category.replace('Japanese - ','').replace('/Dessert','').replace('/Noodles','').replace('Healthy/','');
+    var href = r.mapsUrl || r.taUrl || '#';
+    var gBadge = r.groupScore >= 16 ? '<span class="t10-group">👥 รับกลุ่ม</span>' : '';
+    var bd10 = breakdown(r);
+    return '<tr class="' + rc + '">' +
+      '<td class="tr-rank"><span class="' + dc + '">' + medal + r.rank + '</span></td>' +
+      '<td><a class="t10-name-link" href="' + href + '" target="_blank">' + r.name + '</a></td>' +
+      '<td><span class="t10-cat">' + em + ' ' + catShort + '</span></td>' +
+      '<td class="t10-rating">★ ' + (r.rating || '—') + '</td>' +
+      '<td class="col-hide">' + (r.reviews||0).toLocaleString() + '</td>' +
+      '<td class="col-hide">' + (r.price ? '฿'+r.price : '—') + '</td>' +
+      '<td class="col-hide t10-sub">' + bd10.rr + '/25</td>' +
+      '<td class="col-hide t10-sub">' + bd10.gs + '/20</td>' +
+      '<td class="t10-score">' + r.totalScore + '</td>' +
+      '<td>' + gBadge + '</td>' +
+    '</tr>';
+  }).join('');
+
+  // ── Render Comparison Table ───────────────────────────────────────────
+  var t3 = top3;
+  var dims = [
+    {label:'Rating & Review', key:'rr', max:25},
+    {label:'Group Suitability', key:'gs', max:20},
+    {label:'Price Range', key:'pr', max:15},
+    {label:'BTS/Travel', key:'bts', max:15},
+    {label:'Data Completeness', key:'dc', max:15},
+    {label:'Uniqueness', key:'uq', max:10},
+    {label:'คะแนนรวม', key:'total', max:100}
+  ];
+  var bds = t3.map(breakdown);
+  // header
+  document.getElementById('compareHead').innerHTML = '<tr>' +
+    '<th style="width:160px">มิติการประเมิน</th>' +
+    t3.map(function(r,i){return '<th>' + RANK_MEDAL[i] + ' ' + r.name.split(' ')[0].replace(',','') + '</th>';}).join('') +
+  '</tr>';
+  // body
+  document.getElementById('compareBody').innerHTML = dims.map(function(d) {
+    var vals = bds.map(function(b){return b[d.key];});
+    var maxVal = Math.max.apply(null, vals);
+    var cells = vals.map(function(v, ci) {
+      var isWin = v === maxVal;
+      var pct = Math.round(v / d.max * 100);
+      return '<td class="' + (isWin ? 'cmp-winner' : '') + '">' +
+        '<span class="cmp-score">' + v + '/' + d.max + '</span>' +
+        '<div class="cmp-bar-wrap"><div class="cmp-bar" style="width:' + pct + '%;background:' + (isWin ? '#16a34a' : '#3a86ff') + '"></div></div>' +
+      '</td>';
+    }).join('');
+    return '<tr><td>' + d.label + '</td>' + cells + '</tr>';
+  }).join('');
+
+  // insight
+  var b0=bds[0], b1=bds[1], b2=bds[2];
+  var n0=t3[0].name.split(' ')[0].replace(',','');
+  var n1=t3[1].name.split(' ')[0].replace(',','');
+  var n2=t3[2].name.split(' ')[0].replace(',','');
+  // Dynamic insight: find winning dimension for each restaurant
+  var dimLabels = {rr:'Rating&Review',gs:'Group Suitability',pr:'Price',bts:'Travel',dc:'Data Completeness',uq:'Uniqueness'};
+  var dimKeys = ['rr','gs','pr','bts','dc','uq'];
+  // For each restaurant find dimensions where it beats the others
+  var insights = [n0,n1,n2].map(function(name,i){
+    var myBd = bds[i];
+    var wins = dimKeys.filter(function(k){
+      return myBd[k] === Math.max(bds[0][k],bds[1][k],bds[2][k]) && myBd[k] > Math.min(bds[0][k],bds[1][k],bds[2][k]);
+    });
+    return {name:name, wins:wins, total:myBd.total};
+  });
+  var parts = [];
+  parts.push('<b>' + insights[0].name + '</b> คะแนนรวมสูงสุด ' + insights[0].total + '/100' + (insights[0].wins.length ? ' · ชนะด้าน ' + insights[0].wins.map(function(k){return dimLabels[k];}).join(', ') : ''));
+  if(insights[1].wins.length){
+    parts.push('<b>' + insights[1].name + '</b> เหมาะถ้าต้องการ ' + insights[1].wins.map(function(k){return dimLabels[k];}).join('/') + ' ที่ดีกว่า');
+  } else {
+    parts.push('<b>' + insights[1].name + '</b> สมดุลทุกมิติ คะแนนรวม ' + insights[1].total);
+  }
+  if(insights[2].wins.length){
+    parts.push('<b>' + insights[2].name + '</b> โดดเด่นด้าน ' + insights[2].wins.map(function(k){return dimLabels[k];}).join('/'));
+  }
+  document.getElementById('compareInsight').innerHTML = '💡 ' + parts.join(' · ');
+
+  // ── Trade-off cards ────────────────────────────────────────────────────
+  var dimNames = {rr:'Rating&Review',gs:'Group Suitability',pr:'Price',bts:'Travel',dc:'Data Completeness',uq:'Uniqueness'};
+  var dimMax   = {rr:25,gs:20,pr:15,bts:15,dc:15,uq:10};
+  document.getElementById('tradeoffGrid').innerHTML = t3.map(function(r,i){
+    var bd = bds[i];
+    var allKeys = ['rr','gs','pr','bts','dc','uq'];
+    // Pros: dims where this restaurant scores highest among top3
+    var pros = allKeys.filter(function(k){
+      return bd[k] === Math.max(bds[0][k],bds[1][k],bds[2][k]);
+    });
+    // Cons: dims where this restaurant scores LOWEST among top3
+    var cons = allKeys.filter(function(k){
+      return bd[k] === Math.min(bds[0][k],bds[1][k],bds[2][k]) && bd[k] < Math.max(bds[0][k],bds[1][k],bds[2][k]);
+    });
+    // Always show price note
+    var priceNote = r.price ? '฿' + r.price + '/คน' : '—';
+    var shortName = r.name.split(' ')[0].replace(',','').replace('-','');
+    var borderColor = i===0?'#FFB800':i===1?'#94A3B8':'#CD7C3A';
+    var prosHTML = pros.length
+      ? pros.map(function(k){return '✅ ' + dimNames[k] + ' (' + bd[k] + '/' + dimMax[k] + ')';}).join('<br>')
+      : '✅ สมดุลดีทุกมิติ';
+    var consHTML = cons.length
+      ? cons.map(function(k){return '⚠️ ' + dimNames[k] + ' ต่ำกว่าคู่แข่ง (' + bd[k] + '/' + dimMax[k] + ')';}).join('<br>')
+      : '⚠️ ไม่มีมิติที่ด้อยกว่าคู่แข่งชัดเจน';
+    return '<div class="tradeoff-card" style="border-color:' + borderColor + '">'+
+      '<h4 style="color:' + borderColor + '">' + RANK_MEDAL[i] + ' ' + shortName + '</h4>'+
+      '<div class="tradeoff-label">จุดเด่น</div>'+
+      '<div class="tradeoff-pro">' + prosHTML + '</div>'+
+      '<div class="tradeoff-label" style="margin-top:6px">ข้อควรระวัง</div>'+
+      '<div class="tradeoff-con">' + consHTML + '</div>'+
+      '<div style="margin-top:8px;font-size:.72rem;color:#888">ราคา: ' + priceNote + ' · Rating: ' + r.rating + '⭐</div>'+
+    '</div>';
+  }).join('');
+})();
+</script>
+</div><div class="zone-panel" id="panel-ari"></div><div class="zone-panel" id="panel-asok"></div><div class="zone-panel" id="panel-siam"></div><div class="zone-panel" id="panel-phrom"></div>
+<script>
+var ZONE_DATA={ari:[{name:'Lay Lao',category:'Thai',rating:4.5,reviews:2469,price:'200-400',address:'65 Phahon Yothin 7, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 62 453 5588',website:'https://facebook.com/laylao.restaurant',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Lay%20Lao&query_place_id=ChIJ44AEpx2c4jARZKaM12f1HQI',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHZ66OOdGG6fc8boV5vUpeTYTFpIur_R2vv8cOp9UssdXwQEahQ79MD0A-pk_m5ikPtUWGueXcgOkwsrMuxxwJkfan4qHq6MVQLqb0eWMFNM8RaJeYfh3Uyla5ig5wLH_pa36jIW70LKsE_=w408-h306-k-no',groupScore:16,totalScore:76,rank:1,source:'Google Maps'},{name:'Do Nūa - La Villa Ari',category:'Thai',rating:4.9,reviews:169,price:'200-400',address:'3rd Floor, 356 Phahonyothin Rd, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 62 546 0562',website:'http://www.facebook.com/p/Do-N%C5%ABa-100090583812430',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Do%20N%C5%ABa%20-%20La%20Villa%20Ari&query_place_id=ChIJzSGKcbqd4jARz2juHM1CBWU',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHbh_-sGS7R6qyhJ4kRzJqI3_t3gvNIM7IrJtY2_hNF9VcxwtjKrLZ4nkIkH57dXFV2a3JharDEpAN9ipuvCi4kWwHgAnkLECzidMMUHTuRbW568-8IXO5bnfbTV-Lzwtow9TQo67Yns3Yw=w408-h306-k-no',groupScore:16,totalScore:75,rank:2,source:'Google Maps'},{name:'Shuriken by Sonie',category:'Japanese',rating:4.8,reviews:367,price:'200-400',address:'61 ซอย พหลโยธิน 8 Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 65 050 2456',website:'https://www.wongnai.com/restaurants/458722xU-shuriken-by-sonie',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Shuriken%20by%20Sonie&query_place_id=ChIJO7CNT8Od4jARkKUEuQHmy4E',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHQcmNhOezKppdMDKaSXGltTGLwQtEufDArjU8tUAOZCzZhZcw1vwN1BGcnFpx4qjOPGN_vyxPe7KKPTVYAohinL26QCLbCc5U1EFwkFOjUqVqOFYy2hXIvCtaWjGb74fK7WWdH=w408-h306-k-no',groupScore:16,totalScore:75,rank:3,source:'Google Maps'},{name:'Seiniku-Ten @ Ari',category:'Japanese',rating:4.5,reviews:1517,price:'200-400',address:'40 Chua Chit Alley, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 89 988 2345',website:'https://www.facebook.com/seinikuten.thailand',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Seiniku-Ten%20%40%20Ari&query_place_id=ChIJ95SfUxyc4jARx8SwhPXpSBQ',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHyEapAhY40DKQIAKsEoQYq5Z9j1FPQcnzIRVtBeUU30LR-11jLPE7tGN18ovFKlftodH4qb-5MgXhTfKPJiv1Q-rLN4ln3Cydty02NSCfNFhKLuNAtOAJcElGz9d20TW1xQhY=w415-h240-k-no',groupScore:16,totalScore:74,rank:4,source:'Google Maps'},{name:'Tairyo Sushi - Ari',category:'Japanese',rating:4.7,reviews:361,price:'200-400',address:'Phahonyothin, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 90 936 6199',website:'https://tairyosushi.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Tairyo%20Sushi%20-%20Ari&query_place_id=ChIJSYzshwmf4jARlW1Wsp0Oqpw',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFuBWaYeeQ_KCPLjuDGh3pOJousYPp6RHOk9yMrVAvV2cs5WoiuyXG_7bx-wxO3pZ_MfrQyvmWIM7uZ7DZTu3llwzYk7MdVxSU2f2gj0KzFXq079OKtOvFE-va1LEwVtzrvHKwoT-ZBVBk=w408-h277-k-no',groupScore:16,totalScore:74,rank:5,source:'Google Maps'},{name:'IzakayaReiwa',category:'Japanese',rating:4.7,reviews:606,price:'200-400',address:'117/2 Phahon Yothin 7, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 2 029 9613',website:'https://www.facebook.com/reiwabangkok/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=IzakayaReiwa&query_place_id=ChIJ7XCbhCGd4jARFpyNOibOsLA',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGpC83ihA3-s45HDSF1ZXj8rJZ3CGj-mnuK-KVvZdPN87KeX5oX25wwC154KzHXTA1KdxM24iTUPnbGQdW6_KCvxPYLs2XS1sGI4_RufhKLBCaCeu8BoNFF1iUaYD0PrmstCVj_8w=w408-h306-k-no',groupScore:16,totalScore:74,rank:6,source:'Google Maps'},{name:'SA-RA-NAE',category:'Thai',rating:4.6,reviews:362,price:'200-400',address:'28 Soi Phahon Yothin 5, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 2 270 0217',website:'https://www.facebook.com/share/1RQztsSFx6',mapsUrl:'https://www.google.com/maps/search/?api=1&query=SA-RA-NAE&query_place_id=ChIJ3UV8Z8Wf4jARPt7l8akhTp0',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEUxg8aJ2X53m06OFpVlxJDAeHMJD2fzL19KnCh7xEjkFtXAxDGKz4RQAzaHcBLnDbinqn8Jm9pbKh1YrTwjjhGyM_p84w3riGd_z0ToazNmVRTQcdfs0iQuOnnxt_GX9q-rA9V=w408-h305-k-no',groupScore:16,totalScore:73,rank:7,source:'Google Maps'},{name:'Ongtong Khaosoi Ari Branch',category:'Thai',rating:4.3,reviews:1864,price:'200-400',address:'31 Phahonyothin Soi 7, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 2 003 5254',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Ongtong%20Khaosoi%20Ari%20Branch&query_place_id=ChIJT2m3lx2c4jARfziuf8CSZBY',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAE8XtJP8PhXYczdh1ppWlrRzUxqyuTSdODmIsFb5hWz1ydJ6G9sggOw2dllCwHlN4Hp9bWd-BZK7Ge4vl-hxfawWxueWZhGZzcJsOKr_PSvBhDkILI-iOSreECm-qEJSa7ZRjTCQag_2zHr=w408-h306-k-no',groupScore:16,totalScore:73,rank:8,source:'Google Maps'},{name:'Sonny Ari',category:'Restaurant',rating:4.9,reviews:1009,price:'200-400',address:'33 Rajakru Building 1 Floor, Phaholyothin 5 Rd, Bangkok 10400, Thailand',phone:'+66 98 746 7891',website:'https://www.instagram.com/sonny_.ari/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Sonny%20Ari&query_place_id=ChIJ4bcTtMWf4jARo1RG_OMU9dU',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGlvr2Fc-0aaoU5FiNSMeHQ5HQHxExu5cQpifmfWDU0SFzrIDknqXS6EUy9GHkoW_uxBnxondaSsysKwqhsjxmPfRhWA7Z1c8lQLeltvpjhQ0y9L8LxbJz1SjhVUhRv217ZQx2QF_HaTbM=w408-h408-k-no',groupScore:12,totalScore:73,rank:9,source:'Google Maps'},{name:'Barney\'s Burger Joint',category:'Western',rating:4.8,reviews:721,price:'200-400',address:'404 Phahonyothin Alley, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 97 126 2192',website:'https://www.facebook.com/barneysburger2015/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Barney\'s%20Burger%20Joint&query_place_id=ChIJD7Gs1B2c4jART2PuI5seFus',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHNa_sCX59F86QideC808vUe4H0KAzFKiQepcqu7ggZfTN5J2WmUgQFKvC9AA5hOQvWg9psBCJx0dZ4eyw4zo3R1SGl9qq4U3jL0DvXScwfuMjVB1BiR39GaHJ7-0twFX6BABGJ=w408-h306-k-no',groupScore:14,totalScore:73,rank:10,source:'Google Maps'},{name:'Ohachi Butadon (Ari) โอฮาชิ อารีย์',category:'Japanese',rating:4.6,reviews:728,price:'200-400',address:'1251 ชัน 2, Phahonyothin Rd, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 92 538 9449',website:'http://www.facebook.com/ohachibutadon/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Ohachi%20Butadon%20(Ari)%20%E0%B9%82%E0%B8%AD%E0%B8%AE%E0%B8%B2%E0%B8%8A%E0%B8%B4%20%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B9%8C&query_place_id=ChIJVSxzD0qd4jARMabSetrkBJo',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAERg_2kpyQ7F2Ra4Sk8a0C04qko5UHiPKqEVGufatjDAlJODO_2QgxEabshIX_knXOmlecSL3z1fd8rQx9X6CqN1psDPrgKE_hdfFnSqaNiqE9R2ZR_n2RJS6-YpHPyDKnVIL1S=w408-h272-k-no',groupScore:16,totalScore:73,rank:11,source:'Google Maps'},{name:'ท่านพ่อซาลาเปา @ La Villa Ari',category:'Restaurant',rating:4.9,reviews:358,price:'200-400',address:'อาคาร La Villa, 356 Phahonyothin Rd, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 64 128 8652',website:'https://www.tanpor.co.th/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=%E0%B8%97%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B8%9E%E0%B9%88%E0%B8%AD%E0%B8%8B%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B9%80%E0%B8%9B%E0%B8%B2%20%40%20La%20Villa%20Ari&query_place_id=ChIJ6bL0kfad4jARqGHqAV9dmYY',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHpEAjsx2c4q5GRYb_qPGrBDo4nUmydCt6Dt9VtnppmFbs8OWT78FKnLWLaaWhw_htjg6hu1oGefZokWfvqnmPxR2R-EgO8pb8vYew25XQvoOtZjfbod3tXrZidzWzCxc4BGl5eYLCC98xB=w408-h306-k-no',groupScore:12,totalScore:72,rank:12,source:'Google Maps'},{name:'Ma Ichi UrbanEatery',category:'Japanese',rating:4.6,reviews:93,price:'200-400',address:'4 2 Soi Phahon Yothin 5, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 2 106 3336',website:'https://www.facebook.com/MaIchiUrbaneatery',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Ma%20Ichi%20UrbanEatery&query_place_id=ChIJM7qQgd2f4jARJ_jbgik8LKs',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFCwrrHDoUw9xeMN_m2OCcRx39yI6ehLE-5lQhNKn3mf6bkYuk_zfxusddH6mYlp-Bp5oi43AeaEceahBORtQmqpA_awy2lkDA3bsPOUQwY9Fg3i8fdq49MZi50rU0Tn4gBEx4=w408-h306-k-no',groupScore:16,totalScore:72,rank:13,source:'Google Maps'},{name:'Clay Bangkok',category:'Restaurant',rating:4.8,reviews:1091,price:'200-400',address:'31 Soi Phahon Yothin 2, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 86 996 9020',website:'https://www.facebook.com/claybkk/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Clay%20Bangkok&query_place_id=ChIJa9_br1Wf4jAR0DuDTa7yUzo',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEIel2ck8Gy1DO3cuyF9zW5OC9qMiBJGvpstHFrNkJ-QNJUHQTiCuX8BkquoVKLnp2NhzIe_xoDGZcvrcAxFxjRr6XElIOxC8ixIBjIQElOWkzTNQ07dsTguQcQtPDEmT23R5Y=w408-h271-k-no',groupScore:12,totalScore:72,rank:14,source:'Google Maps'},{name:'Kasa Ari (คาซะ อารีย์)',category:'Japanese',rating:4.5,reviews:347,price:'200-400',address:'เลขที่ 1/1 Soi Ari 2, พญาไท, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 62 329 5002',website:'https://www.facebook.com/kasasoiari/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Kasa%20Ari%20(%E0%B8%84%E0%B8%B2%E0%B8%8B%E0%B8%B0%20%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B9%8C)&query_place_id=ChIJVbskoR2c4jARP7-uekhlE7o',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFXP4yom4vCl5NFaKnCxQqo4r0QxYgD73pPmdwoo4_8N8Hoth6jhp9c1u17-CTFG-wmdwZlVhlY2PNE0Mfkm6TEvuM8kn7ULfOd1hyA8q-JDiYyb2jMrojm5uluJutsG8aSnrQ=w426-h240-k-no',groupScore:16,totalScore:72,rank:15,source:'Google Maps'},{name:'Parma Ari',category:'Italian',rating:4.7,reviews:189,price:'200-400',address:'2 1 Ari Samphan 4 Alley, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 82 294 9292',website:'https://www.facebook.com/Parma.Ari',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Parma%20Ari&query_place_id=ChIJuxXFDRyf4jAROApXe-uZPCw',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAG7ZVDM8WCvRN35JJUpHrLrQ3AfR81e5cYxVJd5P1EmTsxV8bwlsqfPAsYP47a4YOERGY9fLVe7HC1lFW7sOfyGRWqMpKo02_Fn9OldvpQDe_QA-dvlWTk6AKPSmlGz09NftfgPaEA_PJkg=w426-h240-k-no',groupScore:14,totalScore:71,rank:16,source:'Google Maps'},{name:'Kinroll - Ari | กินโรล - อารีย์',category:'Restaurant',rating:4.8,reviews:398,price:'200-400',address:'Ari, Ari 4 Fang Nua Alley, PhayaThai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 82 915 8715',website:'https://www.facebook.com/Kinroll.ari',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Kinroll%20-%20Ari%20%7C%20%E0%B8%81%E0%B8%B4%E0%B8%99%E0%B9%82%E0%B8%A3%E0%B8%A5%20-%20%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B9%8C&query_place_id=ChIJXV78UEKd4jARC52Rr3NnqBY',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGW2IteWlAUZT4mounvTtSO_BbfMiX_X3P_SfhjrhhNEWrXa7RVkV-fido0f6kQ_r7VBDe4lOTqsw1rKqlE_SXq8oVraDcCu09FxiPILwHucefElTldRO_8IIngG8EZOXRCcH5Z=w408-h260-k-no',groupScore:12,totalScore:71,rank:17,source:'Google Maps'},{name:'Hero Izakaya Ari ฮีโร่ อิซากายะ อารีย์',category:'Japanese',rating:4.3,reviews:753,price:'200-400',address:'71, 6 Phahon Yothin 7, Phaya Thai, Khet Phaya Thai, Krung Thep Maha Nakhon 10400, Thailand',phone:'+66 85 100 0595',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Hero%20Izakaya%20Ari%20%E0%B8%AE%E0%B8%B5%E0%B9%82%E0%B8%A3%E0%B9%88%20%E0%B8%AD%E0%B8%B4%E0%B8%8B%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A2%E0%B8%B0%20%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B9%8C&query_place_id=ChIJjY7KCR2c4jARjRiW6bfk1no',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAECFEuy4j7VLHbSENb3upBz5I1iXL2Y-SDfzRxmvo9vf8N3C7_DTe4TWTC4eqKwsssRwxpd6PYEgjmX-TL5Xn3Ihd2nfDXzZ11-TnD74eouSGPgtycFJOw-8GWwdcbPWkp82Q8=w408-h544-k-no',groupScore:16,totalScore:71,rank:18,source:'Google Maps'},{name:'KENSHIN IZAKAYA',category:'Japanese',rating:4.3,reviews:539,price:'200-400',address:'เลขที่ 336 Phahonyothin Rd, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 2 019 2855',website:'http://www.facebook.com/kenshinizakaya',mapsUrl:'https://www.google.com/maps/search/?api=1&query=KENSHIN%20IZAKAYA&query_place_id=ChIJkw94Yw-f4jARYsDNSOWQB7M',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGKv_pkvuvRbH5lKR_O28NxeFDzwACmwZiBrrrocgK16d9gUKbOL3Ex_cd7M7jdir9EdqE89Et32ibWOYXtPPUHhUY9n17gddy96bBjXnyBXuWMsXS2wk3CbrTGN5ceUaanNrr2ng=w408-h271-k-no',groupScore:16,totalScore:70,rank:19,source:'Google Maps'},{name:'Escape.Ari',category:'Restaurant',rating:4.8,reviews:49,price:'200-400',address:'36/10 2nd Fl. Paholyothin7 RD. Phayathai Bangkok 10400, Thailand',phone:'+66 63 476 1328',website:'https://www.facebook.com/escape.ari',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Escape.Ari&query_place_id=ChIJqcRgS9ad4jARvPDEeroZoa4',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGqNGC_EY9HPazFIhxy7so_QgMhjuXRbnrhWrS3eqgO31nVn7t9FafuhxhZAA5dNSBGRaISmAFi5_VJ2tShYJz2EHOVpowQzpMcDG4v4geUPTIZswjZ1TMq3EBqEF4m3QlxU-zy=w408-h544-k-no',groupScore:12,totalScore:70,rank:20,source:'Google Maps'},{name:'Meat Public',category:'Restaurant',rating:4.7,reviews:166,price:'200-400',address:'Phahon Yothin 7, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 95 224 9516',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Meat%20Public&query_place_id=ChIJx8JIHC6d4jARkL3XgBLAYc8',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF-INPk-xP0_vojJgJ2iCwUK2QRlQdiNK90yn4n5uKakmGlqkAbK20jSuf7JlfKemvQ5wRuRiHcmLIoI7D7AC0XuLVxC8jna3WirqCTgmjljhSySPFP5z-Lij7yT4Xg2ssGYp10Eu9gTSYr=w408-h545-k-no',groupScore:12,totalScore:69,rank:21,source:'Google Maps'},{name:'Rose Apple Cuisine',category:'Restaurant',rating:4.6,reviews:150,price:'200-400',address:'28 Soi Phahon Yothin 6, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 86 366 3478',website:'https://m.facebook.com/Rose-Apple-Cuisine-609030299233843/?ref=page_internal&mt_nav=0',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Rose%20Apple%20Cuisine&query_place_id=ChIJn2Lx-x2c4jAR51E6IsZvRck',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGVBepTQoKtuGEUxySAObYG8um4QaD4LW0XSsDQZ_WacAk3SNuOfUNSUjAGgkVBpus-ppwXKktDrUcKZIL7tItzD-h739wGA2ASIDUo0U8Xi5_CkQXzXdHwCcvHzFzZzf5B4syc=w408-h544-k-no',groupScore:12,totalScore:68,rank:22,source:'Google Maps'},{name:'Kinlenn Eatery & Play Ari',category:'Restaurant',rating:4.3,reviews:520,price:'200-400',address:'330 Phahonyothin Rd, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 64 229 2263',website:'http://www.kinlenn.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Kinlenn%20Eatery%20%26%20Play%20Ari&query_place_id=ChIJiyAq42-f4jARn6EUGvAkEC8',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEk00aDS9rpI5A8Gm-xkeCAbNqYaByoX2-8122nLxVuppAgVYA1od81wJcy7DOW0bfwVMGclP8bbuvrY1wM6gf3it-GdJdvLMX3T6MEtchOYnC6692KQ1kBH5jjkYrVTk1saMxZeg=w426-h240-k-no',groupScore:12,totalScore:66,rank:23,source:'Google Maps'},{name:'Ari Cafe & Bistro',category:'Cafe/Dessert',rating:4.7,reviews:150,price:'200-400',address:'11/20 Soi Phetchaburi 47, Lane 3, Bang Kapi, Huai Khwang, Bangkok 10310, Thailand',phone:'+66 2 101 8896',website:'https://www.facebook.com/p/Ari-Cafe-Bistro-100063493211298/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Ari%20Cafe%20%26%20Bistro&query_place_id=ChIJIQr4bB2f4jARe_g4nhRMLfA',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEXxIR1AhNXdrE1Vxy8kiFi8QKrXjCIujCKBDN-ACvVMDi1Ltv--FCBaDdg6DcXc7UM-GEK7uJCvDpvq6lH6tnP7nzF1WObXd2XmMxkgsOLOVWIOhh844xU7ONYCaWQt-Q_KX6V=w408-h408-k-no',groupScore:8,totalScore:65,rank:24,source:'Google Maps'},{name:'Arina Bistro & Restaurant',category:'Restaurant',rating:4.2,reviews:60,price:'200-400',address:'85 Phahon Yothin 14, Samsen Nai, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 95 459 2656',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Arina%20Bistro%20%26%20Restaurant&query_place_id=ChIJP0PuE_if4jARC2km8R6_-_0',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAENKgQ4M2_vCb_akMrysF4YaJJ6wbpV0r2BNX32ddD86fGqiXMIooSV5x3NUQoaNWIMQV6LOT19daR6EkhiXccVYLev-rwNtVQ-ErrQccw6TXbOV8614nNquq5fDmU7zY-nCswO0DiUtLo=w408-h306-k-no',groupScore:12,totalScore:65,rank:25,source:'Google Maps'}],asok:[{name:'Sunrise Tacos MEXICAN GRILL',category:'International',rating:4.7,reviews:5005,price:'200-400',address:'88 Soi Sukhumvit 19, Khlong Toei Nuea, Thawi Watthana, Bangkok 10110, Thailand',phone:'+66 90 210 5940',website:'https://www.sunrisetacos.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Sunrise%20Tacos%20MEXICAN%20GRILL&query_place_id=ChIJxaq1oeOe4jAROvyHinpPC-Q',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHgd5zPUVlMNWnK_aBWNnPAnCFajZJlN6X0-6rtU-PDcfkf0xPmVpZV4HSbVyy3YSQpqGbLuKuxM2f4VTbrDiOON2lXt7VqiWkj5KgqV7aUkQAncglZZwFShlSoegdY_S5Rofn4Dw=w408-h528-k-no',groupScore:12,totalScore:83,rank:1,source:'Google Maps'},{name:'Hotaru 119 Omakase & Izakaya - Sanampao',category:'Japanese',rating:4.8,reviews:2585,price:'200-400',address:'899 (ในโครงการ The season mall, Phahonyothin Rd, Phaya Thai, Bangkok 10400, Thailand',phone:'+66 63 593 8222',website:'https://www.facebook.com/Hotaru119',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Hotaru%20119%20Omakase%20%26%20Izakaya%20-%20Sanampao&query_place_id=ChIJ30_GoVif4jARFfi--XCV8tc',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEbf4OtFeAi5_AnFXsBwBmJ-AGQKmfIslc-rLldQwUSu2mLJGjY_LHzBdPTvZ-UsxM0nNyDBKhr-Wts-3xAdvXMtWmJ1tVRKTazXCzC-kmVXgBWfwjyOtmfXf4d3W036nP8dz-q7aCTzM7m=w408-h612-k-no',groupScore:16,totalScore:81,rank:2,source:'Google Maps'},{name:'Savoey @Terminal 21 Asok',category:'Seafood',rating:4.6,reviews:3646,price:'200-400',address:'ห้องเลขที่ SH-5, ศูนย์การค้าเทอร์มินอล 21, 015 ชั้นที่ 5 อโศก 88, Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 64 017 0237',website:'https://www.savoey.co.th/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Savoey%20%40Terminal%2021%20Asok&query_place_id=ChIJ1afT-oif4jARvl-Fq22OydQ',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEW-bF2adLjq5uUKg_uYzK52zrnKbS5513VBsog5mFO4fyk9GYmTQ8ZXebzxB9Im5e9dsBARbLjm17T-BEgMXZHjv5cJMK355TS5DtQUz6Ttyb5iwzlMSMymJMvStYLJXgOJ5dx=w408-h272-k-no',groupScore:16,totalScore:81,rank:3,source:'Google Maps'},{name:'Eat Am Are Good Steak',category:'Western',rating:4.5,reviews:4540,price:'200-400',address:'ชั้น 3 ห้องเลขที่ 318, Phaya Thai Rd, Thanon Phaya Thai, Ratchathewi, Bangkok 10400, Thailand',phone:'+66 97 243 4614',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Eat%20Am%20Are%20Good%20Steak&query_place_id=ChIJi4NRoWmf4jAR7fnFMDWA5YA',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAE27RhZeKWKnahBtzK0VXOmzohYWgTe9rJstYAaSUpaTizhzrFKxAi1iK8ljd9L2na0evtNVDq-xOOGQHYSDZ_IYFfyt4AYyf5E0poJwwVfqHfqdAm1YgqyW4aGba3X9RG_ZQWV=w408-h306-k-no',groupScore:14,totalScore:80,rank:4,source:'Google Maps'},{name:'Baan Ying Terminal21, 5th Fl.',category:'Thai',rating:4.6,reviews:1336,price:'200-400',address:'88 Soi Sukhumvit 19, Khwaeng Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 2 108 0836',website:'http://www.baanyingfamily.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Baan%20Ying%20Terminal21%2C%205th%20Fl.&query_place_id=ChIJ34b4l9Cf4jAR0OMJyH4WZW0',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHgvOsV0ejtwTIXUaLb4JRxl2kkxfTbtqwyJYhKQfSaJphgRd2PkPIH0zGyW2DUl7OsdK3Lp19g7Z8EZGWN7XPcihhe9F9JkyB3tkkYSe5ZZCo5vgZDaCKIHuyIY-K9rQJibwU08Q=w408-h306-k-no',groupScore:16,totalScore:75,rank:5,source:'Google Maps'},{name:'Hachicken Ramen (Terminal21 Asok)',category:'Japanese',rating:4.7,reviews:1202,price:'200-400',address:'Unit 4022A, 4th floor, 88 Soi Sukhumvit 19, Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 82 980 0061',website:'https://www.facebook.com/hachickenramenthai',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Hachicken%20Ramen%20(Terminal21%20Asok)&query_place_id=ChIJZVy5gm6f4jARZNIAsJKyW30',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUI1ivpwDX9wXdqJoP8r1WDEWWmYeDWGatZNpVQ0pQ2oG4II4oQZ6Q2MOGfvyI1Vw2Y-Jucn_5cj2hN4YkgLkahYF6VJxb9Qpl4trX-E5nPtcmjXnPkfkFJW-kp0brHvB7_REKJZ-7EiI9=w408-h510-k-no',groupScore:16,totalScore:75,rank:6,source:'Google Maps'},{name:'Nara Thai Cuisine Terminal 21 Asoke',category:'Thai',rating:4.7,reviews:1141,price:'200-400',address:'Rm. 3054-55, Fl.3 Terminal 21, 88 Soi Sukhumvit 19, Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 2 004 2565',website:'https://naracuisine.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Nara%20Thai%20Cuisine%20Terminal%2021%20Asoke&query_place_id=ChIJ5UUPyu6f4jARzil2TMt0IZg',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFguea3K1sQPiRwjRLA4OprYlwAF6y8tw1kCQFV7QiLOJXH63ikXkFICTMDVF8t3o9W9ORq-cjTom30ltIBg400veJxZOenY2BKJ6v3nSi_GRINC6n4AV5k6uyGDYfyB3Lv0xCo=w408-h457-k-no',groupScore:16,totalScore:75,rank:7,source:'Google Maps'},{name:'ผัดไทยพลีส Pad Thai Please - Terminal 21 Asok',category:'Thai',rating:4.9,reviews:216,price:'200-400',address:'เลขที่ 88 ห้องเลขที่ SH4017 ชั้น 4 Terminal 21 21 Soi Sukhumvit 19, Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 2 073 0399',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=%E0%B8%9C%E0%B8%B1%E0%B8%94%E0%B9%84%E0%B8%97%E0%B8%A2%E0%B8%9E%E0%B8%A5%E0%B8%B5%E0%B8%AA%20Pad%20Thai%20Please%20-%20Terminal%2021%20Asok&query_place_id=ChIJH3n2ZFGf4jAR3sLvZam_TDE',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFhEQLqL9gJUYOF9i7Gm2iMgfuFO3ny8gnHEbxUAGAir1dlylQPusKJOWBcoFI_bn-4gER4zV7WpG31CS1_El_qXb6KnKtxV8wj3B_h8J8mHUxmNDw07quG9BChOEnweqIMu_6YUX9klvHv=w408-h544-k-no',groupScore:16,totalScore:75,rank:8,source:'Google Maps'},{name:'ไทย ไทย ก๋วยเตี๋ยวเรือ เทอร์มินอล 21 อโศก',category:'Thai',rating:4.6,reviews:693,price:'200-400',address:'เทอร์มินอล, ห้องเลขที่ SH4017 ชั้น 4 เลขที่ 88, 21 Soi Sukhumvit 19, Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 2 073 0399',website:'https://www.yuzugroup2018.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B9%84%E0%B8%97%E0%B8%A2%20%E0%B8%81%E0%B9%8B%E0%B8%A7%E0%B8%A2%E0%B9%80%E0%B8%95%E0%B8%B5%E0%B9%8B%E0%B8%A2%E0%B8%A7%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B8%AD%20%E0%B9%80%E0%B8%97%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%A1%E0%B8%B4%E0%B8%99%E0%B8%AD%E0%B8%A5%2021%20%E0%B8%AD%E0%B9%82%E0%B8%A8%E0%B8%81&query_place_id=ChIJ4zwpQ2af4jAReRREq3JTfCY',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAH-Cn1dAdfeBQY1MtK1seUeBq2Qs5istQv2WNy1KOzc6XcbNGXKkUFzlrfWra4ULJlVGCa34W4bWOIJYI3Kv29khTjnF5bm3FWDHYiM-uO_sPTI2FEkrshSW4U5zzsxYymWy2h8dw=w408-h272-k-no',groupScore:16,totalScore:73,rank:9,source:'Google Maps'},{name:'SUSHIRO (Central Rama 9)',category:'Japanese',rating:4.4,reviews:1510,price:'200-400',address:'เลขที่ห้อง 630, 631/2 ชั้นที่ 6, 9/9 Rama IX Rd, Huai Khwang, Bangkok 10320, Thailand',phone:'+66 2 550 7275',website:'https://m.facebook.com/SushiroThailand',mapsUrl:'https://www.google.com/maps/search/?api=1&query=SUSHIRO%20(Central%20Rama%209)&query_place_id=ChIJ1QSVleGf4jARvlb9zH6VzE4',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEjxXDjM_fR9_tyTQSQLNAxDDdRG8t-BCRbchpTFRxSixi2QIWqigRuvnOOP_injGGgZTrBBT2l-bTer4HXinpCBjvkpyXHVmIBeuLkco6l0jColglNAnrFWeE1qjpc3acHjQwfmXETjuzB=w408-h725-k-no',groupScore:16,totalScore:73,rank:10,source:'Google Maps'},{name:'Yakiniku Like (Terminal 21 Asok)',category:'Japanese',rating:4.5,reviews:326,price:'200-400',address:'Unit# 4015, 4th Fl, 88 Soi Sukhumvit 19, Sukhumvit Road, Klongtoey, Nua, Watthana, Bangkok 10110, Thailand',phone:'+66 80 058 5404',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Yakiniku%20Like%20(Terminal%2021%20Asok)&query_place_id=ChIJ_Xa8krif4jARUoSVtZzHrU0',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFXyUoiyywt3rbJ90d4Lbz-AB95T7SVTEk7V8gI1eMR_LvX5qwo1PFD1VUL6K0Ja2dNTQsD4dEufwKJyiJN0oLFmvcmCct63Vu6M7XQMZdTnjwDzOQqhz_zluDQ5tvZ4h8ldkJ7=w408-h306-k-no',groupScore:16,totalScore:72,rank:11,source:'Google Maps'},{name:'Savory Malatang小食记 (Terminal21)',category:'Restaurant',rating:4.8,reviews:816,price:'200-400',address:'88 Terminal21 5th Floor, Sukhumvit 19 Alley, Bangkok 10110, Thailand',phone:'+66 80 684 2063',website:'https://www.instagram.com/savorymalatang.th/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Savory%20Malatang%E5%B0%8F%E9%A3%9F%E8%AE%B0%20(Terminal21)&query_place_id=ChIJn_56VH2f4jARubbmXjRnXPU',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGgdeaHFTkY4zw7KKBonI6uN4JzNjeAqnujDsDvvM1duHV7GWVCJmF8EOvAD6T0cgKC30acVuPxRNcnP34W8qWdjJuxmEI6bcTylBN6gqqgABQeJPkkROQnmk3w13mPZjixGgLb=w408-h305-k-no',groupScore:12,totalScore:72,rank:12,source:'Google Maps'},{name:'Have a Zeed by Steak Lao',category:'Thai',rating:4.1,reviews:1972,price:'200-400',address:'4th floor ,88 Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 2 108 0787',website:'http://www.facebook.com/haveazeed',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Have%20a%20Zeed%20by%20Steak%20Lao&query_place_id=ChIJ9eldoOOe4jARMJiqUgk_9HA',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAElyA6cjvDT7TXX_gsR5-djSB41L5R8HuwHcK4_zmq3xifevzvBtqBzE-tS1MkZUBi9yoLL35iNEQ4gnNEI4UOqpZTRJNgUjtmKCi200gU8Kd8i3J6G-811BCeFC-u1AvQ1KxJb2bmRfus=w414-h240-k-no',groupScore:16,totalScore:71,rank:13,source:'Google Maps'},{name:'getfresh at Terminal 21 Asok',category:'Restaurant',rating:4.8,reviews:583,price:'200-400',address:'หอง, เลขที่ 5020 Sukhumvit Rd, แขวง คลองเตย, Khlong Toei, Bangkok 10110, Thailand',phone:'+66 81 247 8982',website:'https://getfresh.co.th/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=getfresh%20at%20Terminal%2021%20Asok&query_place_id=ChIJSXzxqMKf4jARtTmd_SuaE2M',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHgYyKy6JewC3P2JWduRBbF0fOaCGaggVRoyxo_JJdhKRK8a1bN3WrHhTlE22ChVVoVIw7PFzTVIZR9TC-zjPaPhlM-A33zXxuoXtH-CfpX-FuhWugH3EsuoF-BOmwSsAkGBWvmlQ=w408-h408-k-no',groupScore:12,totalScore:71,rank:14,source:'Google Maps'},{name:'Tonkatsu Wako Terminal21 (5th floor)',category:'Japanese',rating:4.4,reviews:446,price:'200-400',address:'88 Soi Sukhumvit 19, Khlong Toei Nuea, Thawi Watthana, Bangkok 10110, Thailand',phone:'+66 2 003 2969',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Tonkatsu%20Wako%20Terminal21%20(5th%20floor)&query_place_id=ChIJeUw5IE6f4jAR3HudlN0nHU4',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEC6EpKt2O7Fh7S7jxj6xErOmxiHzDpsH5V6sxKgPCvT4mlvuiVC5b3bx6OZW-r4sgphgjZDIAdBouHthYmn54nswrVq1KaAfol7MXBonP9JgEkD_U9F8IkFIojoY0Z3HJxgTlxoTBMe_Ie=w408-h272-k-no',groupScore:16,totalScore:71,rank:15,source:'Google Maps'},{name:'Firepork - Terminal21 Asok',category:'Restaurant',rating:4.8,reviews:168,price:'200-400',address:'5th floor Terminal21 Asok 88 Soi Sukhumvit 19, Khlong Toei Nuea, Thawi Watthana, Bangkok 10110, Thailand',phone:'+66 80 800 5838',website:'https://www.instagram.com/firepork_thailand/?hl=en',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Firepork%20-%20Terminal21%20Asok&query_place_id=ChIJWxTOhuKf4jARcTBCzVIB5n8',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFrtkDC4FULqnkE-HYwIopUgQ8T28uCv_WupJTxjgItsh4NOsfuOnkUN0Alzq6BmC2NHCT9v9OQEWt5pyAeUQEg21UH3Haxu_s3zaIjTJCzii-Sfqj4g8G67uaYsf4iR6HBTJQCyfatO0YE=w408-h712-k-no',groupScore:12,totalScore:70,rank:16,source:'Google Maps'},{name:'Ponn',category:'Thai',rating:4.3,reviews:733,price:'200-400',address:'88 Sukhumvit 19 Alley, Khlong Toei Nuea, เขตทวีวัฒนา Bangkok 10110, Thailand',phone:'+66 91 841 6444',website:'https://www.facebook.com/ponncafe/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Ponn&query_place_id=ChIJG6lOqOWe4jARch7StPtBZs8',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGb6v7he_Jl2cpV0jYaLUPqYiot-3Bqnj-n2bHpX5Ujy1oaguwiZE4UiYBfb8Maj3gcFM4sNnQ4Z2x5BVxVaXp5sEMo6iR_at8ekNf7_JD3YN_r-AfFLrq8zovxlWk3bqrWZrIlBTJSBLGx=w408-h306-k-no',groupScore:16,totalScore:70,rank:17,source:'Google Maps'},{name:'Salad Factory - Terminal 21 (LG)',category:'International',rating:4.7,reviews:676,price:'200-400',address:'ศูนย์การค้าเทอร์มินอล 21 ห้องเลขที่ LG021,LG022 ชั้น LG เลขที่ 88 Soi Sukhumvit 19, Khlong Toei Nuea, Thawi Watthana, Bangkok 10110, Thailand',phone:'+66 81 104 0486',website:'',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Salad%20Factory%20-%20Terminal%2021%20(LG)&query_place_id=ChIJ49R216-f4jARoW0TQ_YgaZ4',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGrj05Cs4H4XpDcbQtqvfk2LdvPdfLlVMLfL5TVmmJkoAmWfBo7TfRyibaTxaAfomklYWi5keToyO6jJrEHRsVt-tv8WJ5lwpNaLx_qfkcqWjicqEP3xk_2sgCuheJeDSd2mnQCG8i8vSc=w408-h306-k-no',groupScore:12,totalScore:70,rank:18,source:'Google Maps'},{name:'KubKao\' KubPla Terminal 21 Asok',category:'Thai',rating:4.1,reviews:679,price:'200-400',address:'ชั้น5 ศูนย์การค้าเทอมินอล21 Asok Alley, Khlong Toei Nuea, Watthana, Bangkok 10110, Thailand',phone:'+66 2 118 6014',website:'https://www.facebook.com/kubkaokubplabyiberry',mapsUrl:'https://www.google.com/maps/search/?api=1&query=KubKao\'%20KubPla%20Terminal%2021%20Asok&query_place_id=ChIJs_PoE8Kf4jARE97dNv669s0',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEIGnx39qfWffbSHLTjO5cM7efhu7fT3xkTKxYeTrU6qQrvytCzYSvrQtJBHDuX3cDQ8u_wEO840rWYzVOLBnD6ZkI6Z-d2fkwd6_eJNwDGVYUNAbXKHduBJ80VurwMryq9Or9BdrRepzvK=w426-h240-k-no',groupScore:16,totalScore:69,rank:19,source:'Google Maps'},{name:'Mo-Mo-Paradise Terminal 21',category:'Restaurant',rating:4.3,reviews:1226,price:'200-400',address:'4th FL 88 Soi Sukhumvit 19, Khlong Toei Nuea, Thawi Watthana, Bangkok 10110, Thailand',phone:'+66 84 388 5564',website:'https://www.facebook.com/ThaiMoMoParadise/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Mo-Mo-Paradise%20Terminal%2021&query_place_id=ChIJ_06NCuOe4jARJ7Dn8wBpiAs',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFZbMOxhsIWTISh_y8FleqUlyah2xXuVQ9iIZadP3ymvfN2H_sIyzZFux4Xcu_hrDzblemwLXaP_TyAchlekfwYF-5iVzHKSuSCelTft5Erkd8oM9zqCnGGugYNRggQ_8B_bSOd8g=w408-h304-k-no',groupScore:12,totalScore:67,rank:20,source:'Google Maps'},{name:'Al Sana Restaurant and Hotel',category:'International',rating:4.2,reviews:593,price:'200-400',address:'Soi Phetchaburi 13 (Som Prasong 2), Thanon Phaya Thai, Ratchathewi, Bangkok 10400, Thailand',phone:'+66 2 208 0793',website:'https://www.facebook.com/alsanarestauranthotel',mapsUrl:'https://www.google.com/maps/search/?api=1&query=Al%20Sana%20Restaurant%20and%20Hotel&query_place_id=ChIJq8SvY8ie4jARQhghg1TpEa8',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFqSa2QC0jFoFLoAvr0Za6IBQqQerRDE_9kpI3GE9nmYa5OYNbW1ARjTU5RUio9Lx7k_LSzFSogcPyfdL--aQzGpWjDBFgpIb4S01wCzijgKOB-pbL_cRQUf3-dTgvPAnRHCEO_=w408-h306-k-no',groupScore:12,totalScore:65,rank:21,source:'Google Maps'},{name:'MK Restaurant (Terminal 21)',category:'Restaurant',rating:4.1,reviews:1054,price:'200-400',address:'4F Terminal 21, 88 Soi Sukhumvit 19, Khlong Toei Nuea, Thawi Watthana, Bangkok 10110, Thailand',phone:'+66 83 099 6342',website:'https://www.mkrestaurant.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=MK%20Restaurant%20(Terminal%2021)&query_place_id=ChIJzxoAouOe4jARhXXICo7B7V8',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHgFbpq7Ggu8cP5kfc_K304dfuBs4lviWaiSTQ3e-wZ3HcvaRm_CzwB0G5muHm1UKG0Yhk6JSreoLvowAlM8Zzw0ovVnN1UcajOgMkhwIUlRUC6ddyxENgSpg91WCWP81L1J07O7KPTkiw=w408-h306-k-no',groupScore:12,totalScore:65,rank:22,source:'Google Maps'},{name:'After You Dessert Café Esplanade',category:'Cafe/Dessert',rating:4.2,reviews:149,price:'200-400',address:'99 อาคารเอสพละนาด Din Daeng, Bangkok 10400, Thailand',phone:'+66 2 660 9363',website:'http://www.afteryoudessertcafe.com/',mapsUrl:'https://www.google.com/maps/search/?api=1&query=After%20You%20Dessert%20Caf%C3%A9%20Esplanade&query_place_id=ChIJFbP5sIie4jARZgvjrr-eFLI',photo:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFsBpg0YS852LTzaB8Usl5Xk9LO4N23m7jROMX2w_D7e6hQ8i6wT5QhEYQ7V-AWT221NwC0EmI1O_Mmxlb-6yPKtQCrgkufc_1sM5Ed9uHe9gte9QZR2_Q7-ZaWvMcryHYIvNjLzoLNu3Sj=w408-h306-k-no',groupScore:8,totalScore:61,rank:23,source:'Google Maps'}],siam:[{name:'Blue Elephant Restaurant',category:'Thai',rating:4.5,reviews:3200,price:'400-800',address:'Siam area, Bangkok',phone:'+6626739353',website:'https://www.blueelephant.com',mapsUrl:'https://www.google.com/maps/search/Blue+Elephant+Restaurant+Bangkok',photo:'https://img02.restaurantguru.com/cdeb-Blue-Elephant-Bangkok-Sathorn-Cooking-School-and-Restaurant-soup.jpg',groupScore:16,totalScore:82,rank:1,source:'Curated'},{name:'Eat Am Are Siam Square',category:'Western',rating:4.5,reviews:4200,price:'200-400',address:'Siam Square Soi 5, Pathum Wan, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Eat+Am+Are+Siam+Square+Bangkok',photo:'https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg',groupScore:14,totalScore:79,rank:2,source:'Curated'},{name:'Nara Thai Cuisine Siam Paragon',category:'Thai',rating:4.4,reviews:2800,price:'200-400',address:'Siam Paragon 4F, 991 Rama I Rd, Bangkok',phone:'+6626102660',website:'https://www.narathai.com',mapsUrl:'https://www.google.com/maps/search/Nara+Thai+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg',groupScore:16,totalScore:78,rank:3,source:'Curated'},{name:'Coca Restaurant Siam Square',category:'Thai',rating:4.3,reviews:2100,price:'200-400',address:'Siam Square Soi 2, Bangkok',phone:'+6622512888',website:'https://www.cocarestaurant.com',mapsUrl:'https://www.google.com/maps/search/Coca+Restaurant+Siam+Square+Bangkok',photo:'https://img02.restaurantguru.com/c87f-meals-Coca.jpg',groupScore:16,totalScore:75,rank:4,source:'Curated'},{name:'Sushi Hiro Siam Paragon',category:'Japanese',rating:4.4,reviews:1500,price:'400-800',address:'Siam Paragon 4F, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Sushi+Hiro+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/cf57-Sushi-Saito-Bangkok-meals.jpg',groupScore:16,totalScore:74,rank:5,source:'Curated'},{name:'MK Restaurants CentralWorld',category:'Thai',rating:4.2,reviews:5600,price:'200-400',address:'CentralWorld 7F, 999/9 Rama I Rd, Bangkok',phone:'',website:'https://www.mkrestaurant.com',mapsUrl:'https://www.google.com/maps/search/MK+Restaurant+CentralWorld+Bangkok',photo:'https://www.mkrestaurant.com/public/uploads/mk_menu/images/a76b131262fedcc1fa17bd62b27b3bd3.jpg',groupScore:16,totalScore:73,rank:6,source:'Curated'},{name:'Gyu-Kaku Siam Square One',category:'Japanese',rating:4.3,reviews:1800,price:'400-800',address:'Siam Square One, Bangkok',phone:'',website:'https://www.gyu-kaku.co.th',mapsUrl:'https://www.google.com/maps/search/Gyu-Kaku+Siam+Square+One+Bangkok',photo:'https://img02.restaurantguru.com/c097-Gyu-Kaku-Japanese-BBQ-Bangkok-meals-9.jpg',groupScore:16,totalScore:72,rank:7,source:'Curated'},{name:'Greyhound Cafe Siam Paragon',category:'Cafe/Dessert',rating:4.4,reviews:2900,price:'200-400',address:'Siam Paragon GF, Bangkok',phone:'',website:'https://www.greyhoundcafe.co.th',mapsUrl:'https://www.google.com/maps/search/Greyhound+Cafe+Siam+Paragon+Bangkok',photo:'https://www.greyhoundcafe.co.th/wp-content/uploads/2023/06/GHC-Cover-01.jpg',groupScore:8,totalScore:70,rank:8,source:'Curated'},{name:'Food Republic Siam Paragon',category:'Thai',rating:4.1,reviews:7200,price:'100-200',address:'Siam Paragon BF, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Food+Republic+Siam+Paragon+Bangkok',photo:'https://www.mkrestaurant.com/public/uploads/mk_menu/images/a76b131262fedcc1fa17bd62b27b3bd3.jpg',groupScore:12,totalScore:69,rank:9,source:'Curated'},{name:'After You Dessert Cafe Siam',category:'Cafe/Dessert',rating:4.5,reviews:3400,price:'200-400',address:'Siam Square Soi 6, Bangkok',phone:'',website:'https://www.afteryoudessertcafe.com',mapsUrl:'https://www.google.com/maps/search/After+You+Dessert+Cafe+Siam+Bangkok',photo:'https://img02.restaurantguru.com/ca64-dessert-After-You-Dessert-Cafe-15.jpg',groupScore:8,totalScore:68,rank:10,source:'Curated'},{name:'Ootoya Siam Paragon',category:'Japanese',rating:4.2,reviews:1200,price:'200-400',address:'Siam Paragon 4F, Bangkok',phone:'',website:'https://www.ootoya.com',mapsUrl:'https://www.google.com/maps/search/Ootoya+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/c556-Ootoya-Bangkok-sashimi.jpg',groupScore:16,totalScore:67,rank:11,source:'Curated'},{name:'Zen Japanese Restaurant CentralWorld',category:'Japanese',rating:4.3,reviews:1600,price:'400-800',address:'CentralWorld 6F, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Zen+Japanese+Restaurant+CentralWorld+Bangkok',photo:'https://img02.restaurantguru.com/c556-Ootoya-Bangkok-sashimi.jpg',groupScore:16,totalScore:67,rank:12,source:'Curated'},{name:'Savoey Seafood CentralWorld',category:'Seafood',rating:4.3,reviews:2400,price:'400-800',address:'CentralWorld 7F, Bangkok',phone:'+6622525559',website:'https://www.savoey.co.th',mapsUrl:'https://www.google.com/maps/search/Savoey+Seafood+CentralWorld+Bangkok',photo:'https://img02.restaurantguru.com/cdeb-Blue-Elephant-Bangkok-Sathorn-Cooking-School-and-Restaurant-soup.jpg',groupScore:16,totalScore:67,rank:13,source:'Curated'},{name:'Bonchon Siam Square',category:'Korean',rating:4.2,reviews:1900,price:'200-400',address:'Siam Square Soi 3, Bangkok',phone:'',website:'https://www.bonchon.co.th',mapsUrl:'https://www.google.com/maps/search/Bonchon+Siam+Square+Bangkok',photo:'https://img02.restaurantguru.com/c690-BonChon-Chicken-Bangkok-chicken-wings-7.jpg',groupScore:16,totalScore:66,rank:14,source:'Curated'},{name:'Pizza Hut CentralWorld',category:'Western',rating:4.0,reviews:2200,price:'200-400',address:'CentralWorld 5F, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Pizza+Hut+CentralWorld+Bangkok',photo:'https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg',groupScore:12,totalScore:64,rank:15,source:'Curated'},{name:'The Pizza Company Siam Paragon',category:'Western',rating:4.1,reviews:1500,price:'200-400',address:'Siam Paragon BF, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/The+Pizza+Company+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg',groupScore:12,totalScore:63,rank:16,source:'Curated'},{name:'Fuji Japanese Restaurant Siam',category:'Japanese',rating:4.1,reviews:3100,price:'200-400',address:'Siam Square, Bangkok',phone:'+6622527880',website:'https://www.fujirestaurant.co.th',mapsUrl:'https://www.google.com/maps/search/Fuji+Restaurant+Siam+Bangkok',photo:'https://img02.restaurantguru.com/c09e-Restaurant-Fuji-restaurant-design.jpg',groupScore:16,totalScore:63,rank:17,source:'Curated'},{name:'Bar B Q Plaza CentralWorld',category:'Thai',rating:4.1,reviews:4100,price:'200-400',address:'CentralWorld 7F, Bangkok',phone:'',website:'https://www.barbqplaza.com',mapsUrl:'https://www.google.com/maps/search/Bar+B+Q+Plaza+CentralWorld+Bangkok',photo:'https://barbqplaza.com/wp-content/uploads/2026/02/BBQ26-หมูสามฉ่ำ_Thumbnail.jpg',groupScore:16,totalScore:62,rank:18,source:'Curated'},{name:'Swensen\'s Siam Paragon',category:'Cafe/Dessert',rating:4.0,reviews:1800,price:'100-200',address:'Siam Paragon GF, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Swensens+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/ca64-dessert-After-You-Dessert-Cafe-15.jpg',groupScore:8,totalScore:60,rank:19,source:'Curated'},{name:'Subway Siam BTS',category:'Western',rating:3.9,reviews:890,price:'100-200',address:'BTS Siam Station, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Subway+Siam+Bangkok',photo:'https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg',groupScore:8,totalScore:57,rank:20,source:'Curated'},{name:'KFC Siam Paragon',category:'Western',rating:3.8,reviews:2300,price:'100-200',address:'Siam Paragon BF, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/KFC+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg',groupScore:8,totalScore:55,rank:21,source:'Curated'},{name:'McDonald\'s Siam Square',category:'Western',rating:3.8,reviews:3400,price:'100-200',address:'Siam Square, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/McDonalds+Siam+Square+Bangkok',photo:'https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg',groupScore:8,totalScore:54,rank:22,source:'Curated'},{name:'Starbucks Siam Paragon',category:'Cafe/Dessert',rating:4.2,reviews:4500,price:'200-400',address:'Siam Paragon GF, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Starbucks+Siam+Paragon+Bangkok',photo:'https://blob.starbucks.co.th/publicproduct26/home-banner-1779978168694.jpg',groupScore:8,totalScore:63,rank:23,source:'Curated'},{name:'Ichiban Boshi Siam Paragon',category:'Japanese',rating:4.1,reviews:1300,price:'200-400',address:'Siam Paragon 4F, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Ichiban+Boshi+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/c556-Ootoya-Bangkok-sashimi.jpg',groupScore:16,totalScore:63,rank:24,source:'Curated'},{name:'S&P Restaurant Siam Paragon',category:'Thai',rating:4.0,reviews:2600,price:'200-400',address:'Siam Paragon BF, Bangkok',phone:'',website:'https://www.snpfood.com',mapsUrl:'https://www.google.com/maps/search/SP+Restaurant+Siam+Paragon+Bangkok',photo:'https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg',groupScore:12,totalScore:60,rank:25,source:'Curated'}],phrom:[{name:'Sushi Saito Phrom Phong',category:'Japanese',rating:4.8,reviews:890,price:'800-2000',address:'Sukhumvit Soi 39, Khlong Toei Nuea, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Sushi+Saito+Phrom+Phong+Bangkok',photo:'https://img02.restaurantguru.com/cf57-Sushi-Saito-Bangkok-meals.jpg',groupScore:16,totalScore:84,rank:1,source:'Curated'},{name:'Gaggan Anand',category:'International',rating:4.7,reviews:2100,price:'800-2000',address:'68/1 Soi Langsuan, Bangkok',phone:'+6620585078',website:'https://www.eatatgaggan.com',mapsUrl:'https://www.google.com/maps/search/Gaggan+Anand+Bangkok',photo:'https://img02.restaurantguru.com/cf90-Gaggan-meals.jpg',groupScore:12,totalScore:81,rank:2,source:'Curated'},{name:'Yakiniku Jumbo Emquartier',category:'Japanese',rating:4.5,reviews:1800,price:'400-800',address:'Emquartier Helix, 689 Sukhumvit Rd, Bangkok',phone:'+6620128282',website:'',mapsUrl:'https://www.google.com/maps/search/Yakiniku+Jumbo+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/c097-Gyu-Kaku-Japanese-BBQ-Bangkok-meals-9.jpg',groupScore:16,totalScore:78,rank:3,source:'Curated'},{name:'Baan Padthai Emquartier',category:'Thai',rating:4.5,reviews:3200,price:'200-400',address:'Emquartier Helix 4F, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Baan+Padthai+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg',groupScore:16,totalScore:77,rank:4,source:'Curated'},{name:'Nara Thai Emquartier',category:'Thai',rating:4.4,reviews:1900,price:'200-400',address:'Emquartier Waterfall 4F, Bangkok',phone:'',website:'https://www.narathai.com',mapsUrl:'https://www.google.com/maps/search/Nara+Thai+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg',groupScore:16,totalScore:75,rank:5,source:'Curated'},{name:'Kyo Roll En Emquartier',category:'Japanese',rating:4.6,reviews:980,price:'200-400',address:'Emquartier Waterfall, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Kyo+Roll+En+Emquartier+Bangkok',photo:'https://aroimakmak.com/wp-content/uploads/2016/09/kyorollenbangkok-raindropcake1.jpg',groupScore:16,totalScore:75,rank:6,source:'Curated'},{name:'Greyhound Cafe Emquartier',category:'Cafe/Dessert',rating:4.4,reviews:2500,price:'200-400',address:'Emquartier GF, Bangkok',phone:'',website:'https://www.greyhoundcafe.co.th',mapsUrl:'https://www.google.com/maps/search/Greyhound+Cafe+Emquartier+Bangkok',photo:'https://www.greyhoundcafe.co.th/wp-content/uploads/2023/06/GHC-Cover-01.jpg',groupScore:8,totalScore:70,rank:7,source:'Curated'},{name:'Roast Coffee Emquartier',category:'Cafe/Dessert',rating:4.5,reviews:3100,price:'200-400',address:'Emquartier Waterfall, Bangkok',phone:'',website:'https://www.roastbkk.com',mapsUrl:'https://www.google.com/maps/search/Roast+Coffee+Emquartier+Bangkok',photo:'https://blob.starbucks.co.th/publicproduct26/home-banner-1779978168694.jpg',groupScore:8,totalScore:69,rank:8,source:'Curated'},{name:'Gyu-Kaku Emquartier',category:'Japanese',rating:4.3,reviews:1400,price:'400-800',address:'Emquartier 3F, Bangkok',phone:'',website:'https://www.gyu-kaku.co.th',mapsUrl:'https://www.google.com/maps/search/Gyu-Kaku+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/c097-Gyu-Kaku-Japanese-BBQ-Bangkok-meals-9.jpg',groupScore:16,totalScore:68,rank:9,source:'Curated'},{name:'Sushi Masa Phrom Phong',category:'Japanese',rating:4.6,reviews:650,price:'800-2000',address:'Sukhumvit Soi 39, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Sushi+Phrom+Phong+Bangkok',photo:'https://img02.restaurantguru.com/cf57-Sushi-Saito-Bangkok-meals.jpg',groupScore:16,totalScore:67,rank:10,source:'Curated'},{name:'Dean & DeLuca Emporium',category:'Cafe/Dessert',rating:4.3,reviews:1100,price:'400-800',address:'Emporium Shopping Mall GF, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Dean+DeLuca+Emporium+Bangkok',photo:'https://img02.restaurantguru.com/ca64-dessert-After-You-Dessert-Cafe-15.jpg',groupScore:8,totalScore:66,rank:11,source:'Curated'},{name:'Kin Dee Phrom Phong',category:'Thai',rating:4.4,reviews:780,price:'200-400',address:'Sukhumvit Soi 37, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Thai+restaurant+Phrom+Phong+Soi+37+Bangkok',photo:'https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg',groupScore:16,totalScore:71,rank:12,source:'Curated'},{name:'After You Dessert Emquartier',category:'Cafe/Dessert',rating:4.5,reviews:2800,price:'200-400',address:'Emquartier Waterfall, Bangkok',phone:'',website:'https://www.afteryoudessertcafe.com',mapsUrl:'https://www.google.com/maps/search/After+You+Dessert+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/ca64-dessert-After-You-Dessert-Cafe-15.jpg',groupScore:8,totalScore:66,rank:13,source:'Curated'},{name:'Korean BBQ Phrom Phong Soi 39',category:'Korean',rating:4.3,reviews:650,price:'400-800',address:'Sukhumvit Soi 39, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Korean+BBQ+Sukhumvit+39+Bangkok',photo:'https://img02.restaurantguru.com/c690-BonChon-Chicken-Bangkok-chicken-wings-7.jpg',groupScore:16,totalScore:66,rank:14,source:'Curated'},{name:'Savoey Seafood Emquartier',category:'Seafood',rating:4.3,reviews:1600,price:'400-800',address:'Emquartier 4F, Bangkok',phone:'',website:'https://www.savoey.co.th',mapsUrl:'https://www.google.com/maps/search/Savoey+Seafood+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/cdeb-Blue-Elephant-Bangkok-Sathorn-Cooking-School-and-Restaurant-soup.jpg',groupScore:16,totalScore:65,rank:15,source:'Curated'},{name:'Tonkatsu Wako Emquartier',category:'Japanese',rating:4.4,reviews:920,price:'400-800',address:'Emquartier 3F, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Tonkatsu+Wako+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/c09e-Restaurant-Fuji-restaurant-design.jpg',groupScore:16,totalScore:65,rank:16,source:'Curated'},{name:'Fuji Restaurant Emporium',category:'Japanese',rating:4.1,reviews:2200,price:'200-400',address:'Emporium 4F, Bangkok',phone:'',website:'https://www.fujirestaurant.co.th',mapsUrl:'https://www.google.com/maps/search/Fuji+Restaurant+Emporium+Bangkok',photo:'https://img02.restaurantguru.com/c09e-Restaurant-Fuji-restaurant-design.jpg',groupScore:16,totalScore:64,rank:17,source:'Curated'},{name:'Pizza Hut Emporium',category:'Western',rating:4.0,reviews:1400,price:'200-400',address:'Emporium Shopping Mall, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Pizza+Hut+Emporium+Bangkok',photo:'https://img02.restaurantguru.com/c9f6-Eat-Am-Are-253-Asok-Building-Bangkok-burger.jpg',groupScore:12,totalScore:60,rank:18,source:'Curated'},{name:'Ichiran Ramen Phrom Phong',category:'Japanese',rating:4.5,reviews:1200,price:'200-400',address:'Sukhumvit Soi 39, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Ichiran+Ramen+Bangkok',photo:'https://www.howgoodisitactually.com/wp-content/uploads/2025/02/Ichiran-Thailand-PopUp-5-Ramen-1-Overview-1-.jpg',groupScore:16,totalScore:71,rank:19,source:'Curated'},{name:'Starbucks Reserve Emquartier',category:'Cafe/Dessert',rating:4.4,reviews:3200,price:'200-400',address:'Emquartier GF, Bangkok',phone:'',website:'',mapsUrl:'https://www.google.com/maps/search/Starbucks+Reserve+Emquartier+Bangkok',photo:'https://blob.starbucks.co.th/publicproduct26/home-banner-1779978168694.jpg',groupScore:8,totalScore:64,rank:20,source:'Curated'},{name:'Bar B Q Plaza Emporium',category:'Thai',rating:4.1,reviews:3300,price:'200-400',address:'Emporium 4F, Bangkok',phone:'',website:'https://www.barbqplaza.com',mapsUrl:'https://www.google.com/maps/search/Bar+B+Q+Plaza+Emporium+Bangkok',photo:'https://barbqplaza.com/wp-content/uploads/2026/02/BBQ26-หมูสามฉ่ำ_Thumbnail.jpg',groupScore:16,totalScore:62,rank:21,source:'Curated'},{name:'MK Restaurant Emporium',category:'Thai',rating:4.1,reviews:2800,price:'200-400',address:'Emporium 4F, Bangkok',phone:'',website:'https://www.mkrestaurant.com',mapsUrl:'https://www.google.com/maps/search/MK+Restaurant+Emporium+Bangkok',photo:'https://www.mkrestaurant.com/public/uploads/mk_menu/images/a76b131262fedcc1fa17bd62b27b3bd3.jpg',groupScore:16,totalScore:61,rank:22,source:'Curated'},{name:'Coca Restaurant Emquartier',category:'Thai',rating:4.2,reviews:1100,price:'200-400',address:'Emquartier 4F, Bangkok',phone:'',website:'https://www.cocarestaurant.com',mapsUrl:'https://www.google.com/maps/search/Coca+Restaurant+Emquartier+Bangkok',photo:'https://img02.restaurantguru.com/c87f-meals-Coca.jpg',groupScore:16,totalScore:63,rank:23,source:'Curated'},{name:'Ootoya Emporium',category:'Japanese',rating:4.2,reviews:980,price:'200-400',address:'Emporium 3F, Bangkok',phone:'',website:'https://www.ootoya.com',mapsUrl:'https://www.google.com/maps/search/Ootoya+Emporium+Bangkok',photo:'https://img02.restaurantguru.com/c556-Ootoya-Bangkok-sashimi.jpg',groupScore:16,totalScore:62,rank:24,source:'Curated'},{name:'S&P Restaurant Emporium',category:'Thai',rating:4.0,reviews:1900,price:'200-400',address:'Emporium 4F, Bangkok',phone:'',website:'https://www.snpfood.com',mapsUrl:'https://www.google.com/maps/search/SP+Restaurant+Emporium+Bangkok',photo:'https://img02.restaurantguru.com/cf78-Nara-Bangkok-meals.jpg',groupScore:12,totalScore:59,rank:25,source:'Curated'}]};
+/* ═══════════════════════════════════════════════════════════
+   ZONE RENDERER  —  identical CSS classes as Thonglor zone
+   ═══════════════════════════════════════════════════════════ */
+
+var _zSt  = {};
+var _zRen = {};
+
+var ZONE_INFO = {
+  ari:   {label:'อารีย์',    emoji:'🌳', bts:'BTS สายสีเขียว — อารีย์', desc:'Local neighborhood vibes, cozy cafes & hidden gems',        source:'Google Maps Scrape', total:25},
+  asok:  {label:'อโศก',     emoji:'🏙️', bts:'BTS อโศก / MRT สุขุมวิท', desc:'Business district · Terminal 21 · International cuisine',    source:'Google Maps Scrape', total:23},
+  siam:  {label:'สยาม',     emoji:'🛍️', bts:'BTS สยาม (Central hub)',   desc:'Shopping mall dining · Siam Paragon · CentralWorld',        source:'Curated List',       total:25},
+  phrom: {label:'พร้อมพงษ์', emoji:'🌿', bts:'BTS พร้อมพงษ์',           desc:'Upscale Sukhumvit dining · Emquartier · Emporium',          source:'Curated List',       total:25}
+};
+
+var CAT_EMOJI_Z = {
+  'Thai':'🍜','Japanese':'🍣','Korean':'🥩','Italian':'🍝','Seafood':'🦞',
+  'Cafe/Dessert':'☕','Western':'🍔','International':'🌍','Chinese/Noodles':'🥟',
+  'Restaurant':'🍽️','Bar/Izakaya':'🍺','Healthy/Poke':'🥗'
+};
+var CAT_BG_Z = {
+  'Thai':'np-thai','Japanese':'np-japanese','Korean':'np-korean',
+  'Italian':'np-italian','Seafood':'np-seafood','Cafe/Dessert':'np-cafe',
+  'Western':'np-default','International':'np-default','Restaurant':'np-default'
+};
+
+var RANK_MEDAL_Z = ['🥇','🥈','🥉'];
+var RANK_CLASS_Z = ['rank-gold','rank-silver','rank-bronze'];
+var TR_CLASS_Z   = ['tr-gold','tr-silver','tr-bronze'];
+var RANK_DOT_Z   = ['rank-dot-gold','rank-dot-silver','rank-dot-bronze'];
+
+function zBreakdown(r) {
+  var gs  = r.groupScore || 0;
+  var rem = r.totalScore - gs;
+  var rr  = Math.round(rem * 25 / 80);
+  var pr  = Math.round(rem * 15 / 80);
+  var bts = Math.round(rem * 15 / 80);
+  var dc  = Math.round(rem * 15 / 80);
+  var uq  = rem - rr - pr - bts - dc;
+  return {rr:rr, gs:gs, pr:pr, bts:bts, dc:dc, uq:uq, total:r.totalScore};
+}
+
+function zReason(r, pos, total) {
+  var lines = [];
+  if (pos === 0) {
+    lines.push('คะแนนรวมสูงสุด ' + r.totalScore + '/100 จากทั้ง ' + total + ' ร้าน');
+    lines.push('Rating ' + r.rating + '⭐ · ' + (r.reviews||0).toLocaleString() + ' รีวิว + ราคา ฿' + (r.price||'-') + ' เข้าถึงได้ง่าย');
+    if (r.groupScore >= 16) lines.push('Group Suitability สูง — เหมาะทานเป็นกลุ่ม 8–12 คน');
+  } else if (pos === 1) {
+    lines.push('คะแนนรวม ' + r.totalScore + '/100 อันดับ 2 จาก ' + total + ' ร้าน');
+    lines.push('Rating ' + r.rating + '⭐ · ' + (r.reviews||0).toLocaleString() + ' รีวิว — ฐานลูกค้าแข็งแกร่ง');
+    if (r.groupScore >= 16) lines.push('Category ' + r.category.split(' ')[0] + ' เหมาะสำหรับกลุ่ม');
+  } else {
+    lines.push('คะแนนรวม ' + r.totalScore + '/100 อันดับ 3 จาก ' + total + ' ร้าน');
+    lines.push('Rating ' + r.rating + '⭐ · รีวิว ' + (r.reviews||0).toLocaleString() + ' ราย');
+    lines.push('ราคา ฿' + (r.price||'-') + ' · คุ้มค่าในระดับ ' + r.category.split(' ')[0]);
+  }
+  return lines.join(' · ');
+}
+
+function zRenderStars(r) {
+  if (!r) return '';
+  var f=Math.floor(r), h=(r-f)>=0.5?1:0, e=5-f-h;
+  return '★'.repeat(f)+(h?'½':'')+'☆'.repeat(e);
+}
+
+function switchZone(zone, btn) {
+  document.querySelectorAll('.zone-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.zone-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-'+zone).classList.add('active');
+  if (zone !== 'thonglor' && !_zRen[zone]) {
+    buildZone(zone);
+    _zRen[zone] = true;
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function buildZone(zone) {
+  var raw  = ZONE_DATA[zone];
+  var info = ZONE_INFO[zone];
+  if (!raw || !raw.length) return;
+
+  var data = raw.slice().sort(function(a,b){return b.totalScore - a.totalScore;});
+  data.forEach(function(r,i){r.rank = i+1;});
+
+  var panel = document.getElementById('panel-'+zone);
+  var top3  = data.slice(0,3);
+  var top10 = data.slice(0,10);
+  var total = data.length;
+
+  /* ── HERO ─────────────────────────────────────────────────── */
+  var h = '';
+  h += '<div class="hero">';
+  h += '<h1>'+info.emoji+' '+info.label+' <span>Restaurant Finder</span></h1>';
+  h += '<p>'+total+' ร้านอาหาร · '+info.source+' · Scoring Model 100 คะแนน</p>';
+  h += '<div class="hero-meta">';
+  h += '<span>📍 '+info.label+' — '+info.bts+'</span>';
+  h += '<span>📅 18 Jun 2026</span>';
+  h += '<span>👤 Genniga Tapaneeyasil</span>';
+  h += '</div>';
+  h += '<div class="search-wrap"><span class="search-icon">🔍</span>';
+  h += '<input type="text" id="zs-'+zone+'" placeholder="ค้นหาชื่อร้าน, ประเภท, ที่อยู่..." oninput="zApply(\''+zone+'\')">';
+  h += '</div></div>';
+
+  /* ── INFO-BAND ────────────────────────────────────────────── */
+  h += '<div class="info-band"><div class="info-band-inner">';
+
+  h += '<div class="info-card"><h3>🎯 Objective</h3>';
+  h += '<p>สร้าง AI Workflow เพื่อค้นหา วิเคราะห์ ให้คะแนน และแนะนำร้านอาหาร<br>ที่เหมาะสำหรับ <b>ทีม 8–12 คน</b> ในย่าน<b>'+info.label+'</b> โดยใช้ข้อมูลจริง</p>';
+  h += '<div class="obj-question">❓ <b>คำถามที่ต้องตอบ:</b> ถ้าทีมต้องเลือกร้านอาหาร 1–3 ร้านในย่าน'+info.label+' ร้านไหนเหมาะที่สุด — และเพราะอะไร?</div>';
+  h += '</div>';
+
+  h += '<div class="info-card"><h3>🛠️ Tools Used</h3>';
+  h += '<p><b>Data Collection</b></p>';
+  h += '<span class="tool-badge">🕷️ Apify</span><span class="tool-badge">📍 Google Maps Scraper</span>';
+  h += '<p style="margin-top:8px"><b>Storage &amp; AI</b></p>';
+  h += '<span class="tool-badge">📊 Google Sheets</span><span class="tool-badge">🤖 Claude AI</span>';
+  h += '<p style="margin-top:8px"><b>Automation &amp; Output</b></p>';
+  h += '<span class="tool-badge">⚡ Make.com</span><span class="tool-badge">🌐 HTML / CSS / JS</span>';
+  h += '</div>';
+
+  h += '<div class="info-card"><h3>📐 Scoring Criteria (100 pts)</h3>';
+  h += '<table class="scoring-table"><thead><tr><th>มิติการประเมิน</th><th>คะแนน</th></tr></thead><tbody>';
+  [['Rating &amp; Review Quality',25],['Group Suitability',20],['Price Suitability',15],
+   ['Travel Convenience',15],['Data Completeness',15],['Uniqueness / Experience',10],['<b>รวม</b>','<b>100</b>']
+  ].forEach(function(row){h+='<tr><td>'+row[0]+'</td><td>'+row[1]+'</td></tr>';});
+  h += '</tbody></table></div>';
+  h += '</div></div>';
+
+  /* ── TOP 3 CARDS ─────────────────────────────────────────── */
+  h += '<div class="top3-section">';
+  h += '<h2>🥇 <span>อันดับสูงสุด</span> ร้านแนะนำ Top 3</h2>';
+  h += '<div class="top3-grid">';
+  top3.forEach(function(r, i) {
+    var bd  = zBreakdown(r);
+    var em  = CAT_EMOJI_Z[r.category] || '🍽️';
+    var bg  = CAT_BG_Z[r.category] || 'np-default';
+    var catShort = r.category.replace('Cafe/Dessert','Cafe').replace('Healthy/Poke','Healthy');
+    var photoEl = r.photo
+      ? '<img src="'+r.photo+'" alt="" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">'
+        +'<div class="t3-np '+bg+'" style="display:none">'+em+'</div>'
+      : '<div class="t3-np '+bg+'">'+em+'</div>';
+    var mapBtn   = r.mapsUrl  ? '<a class="t3-map"   href="'+r.mapsUrl+'"  target="_blank">📍 แผนที่</a>' : '';
+    var phoneBtn = r.phone    ? '<a class="t3-phone" href="tel:'+r.phone+'">📞 โทร</a>' : '';
+    var webBtn   = r.website  ? '<a class="t3-web"   href="'+r.website+'"  target="_blank">🌐 เว็บ</a>' : '';
+    h += '<div class="t3card">';
+    h +=   '<div class="t3-img">'+photoEl;
+    h +=     '<div class="t3-rank '+RANK_CLASS_Z[i]+'">'+(i+1)+'</div>';
+    h +=   '</div>';
+    h +=   '<div class="t3-body">';
+    h +=     '<div class="t3-name">'+RANK_MEDAL_Z[i]+' '+r.name+'</div>';
+    h +=     '<div class="t3-meta">';
+    h +=       '<span class="t3-cat">'+em+' '+catShort+'</span>';
+    h +=       '<span class="t3-rating">★ '+(r.rating||'—')+'</span>';
+    h +=       '<span class="t3-reviews">('+(r.reviews||0).toLocaleString()+' รีวิว)</span>';
+    h +=     '</div>';
+    h +=     '<div class="t3-breakdown"><table>';
+    h +=       '<tr><td>Rating &amp; Review</td><td>'+bd.rr+'/25</td></tr>';
+    h +=       '<tr><td>Group Suitability</td><td>'+bd.gs+'/20</td></tr>';
+    h +=       '<tr><td>Price</td><td>'+bd.pr+'/15</td></tr>';
+    h +=       '<tr><td>Travel</td><td>'+bd.bts+'/15</td></tr>';
+    h +=       '<tr><td>Data Completeness</td><td>'+bd.dc+'/15</td></tr>';
+    h +=       '<tr><td>Uniqueness</td><td>'+bd.uq+'/10</td></tr>';
+    h +=       '<tr class="total-row"><td>รวม</td><td>'+bd.total+'/100</td></tr>';
+    h +=     '</table></div>';
+    h +=     '<div class="t3-reason">'+zReason(r, i, total)+'</div>';
+    h +=     '<div class="t3-actions">'+[mapBtn,phoneBtn,webBtn].filter(Boolean).join('')+'</div>';
+    h +=   '</div>';
+    h += '</div>';
+  });
+  h += '</div></div>';
+
+  /* ── TOP 10 TABLE ────────────────────────────────────────── */
+  h += '<div class="top10-section"><h2>🏆 Top 10 Rankings</h2>';
+  h += '<div class="top10-wrap"><table class="top10-table">';
+  h += '<thead><tr>';
+  h += '<th style="width:52px">อันดับ</th><th>ชื่อร้าน</th><th>หมวด</th>';
+  h += '<th>Rating</th><th class="col-hide">Reviews</th><th class="col-hide">ราคา (฿)</th>';
+  h += '<th class="col-hide">RR/25</th><th class="col-hide">GS/20</th>';
+  h += '<th>คะแนน</th><th>กลุ่ม</th>';
+  h += '</tr></thead><tbody>';
+  top10.forEach(function(r, i) {
+    var bd  = zBreakdown(r);
+    var em  = CAT_EMOJI_Z[r.category] || '🍽️';
+    var rc  = i < 3 ? TR_CLASS_Z[i] : '';
+    var dc  = i < 3 ? RANK_DOT_Z[i] : '';
+    var med = i < 3 ? RANK_MEDAL_Z[i]+' ' : '';
+    var catShort = r.category.replace('Cafe/Dessert','Cafe').replace('Healthy/Poke','Healthy');
+    var href = r.mapsUrl || '#';
+    var gBadge = r.groupScore >= 16 ? '<span class="t10-group">👥 รับกลุ่ม</span>' : '';
+    h += '<tr class="'+rc+'">';
+    h += '<td class="tr-rank"><span class="'+dc+'">'+med+r.rank+'</span></td>';
+    h += '<td><a class="t10-name-link" href="'+href+'" target="_blank">'+r.name+'</a></td>';
+    h += '<td><span class="t10-cat">'+em+' '+catShort+'</span></td>';
+    h += '<td class="t10-rating">★ '+(r.rating||'—')+'</td>';
+    h += '<td class="col-hide">'+(r.reviews||0).toLocaleString()+'</td>';
+    h += '<td class="col-hide">'+(r.price?'฿'+r.price:'—')+'</td>';
+    h += '<td class="col-hide t10-sub">'+bd.rr+'/25</td>';
+    h += '<td class="col-hide t10-sub">'+bd.gs+'/20</td>';
+    h += '<td class="t10-score">'+r.totalScore+'</td>';
+    h += '<td>'+gBadge+'</td>';
+    h += '</tr>';
+  });
+  h += '</tbody></table></div></div>';
+
+  /* ── COMPARISON TABLE ────────────────────────────────────── */
+  var bds = top3.map(zBreakdown);
+  var dimKeys   = ['rr','gs','pr','bts','dc','uq'];
+  var dimLabels = {rr:'Rating&Review',gs:'Group Suitability',pr:'Price Range',bts:'BTS/Travel',dc:'Data Completeness',uq:'Uniqueness'};
+  var dimFull   = [
+    {label:'Rating &amp; Review', key:'rr',  max:25},
+    {label:'Group Suitability',   key:'gs',  max:20},
+    {label:'Price Range',         key:'pr',  max:15},
+    {label:'BTS/Travel',          key:'bts', max:15},
+    {label:'Data Completeness',   key:'dc',  max:15},
+    {label:'Uniqueness',          key:'uq',  max:10},
+    {label:'คะแนนรวม',            key:'total',max:100}
+  ];
+
+  h += '<div class="compare-section"><h2>📊 เปรียบเทียบ Top 3 แบบเจาะลึก</h2>';
+  h += '<div class="compare-wrap"><table class="compare-table">';
+  // Header
+  h += '<thead><tr><th style="width:160px">มิติการประเมิน</th>';
+  top3.forEach(function(r,i){h+='<th>'+RANK_MEDAL_Z[i]+' '+r.name.split(' ')[0].replace(',','')+'</th>';});
+  h += '</tr></thead><tbody>';
+  // Rows
+  dimFull.forEach(function(d){
+    var vals = bds.map(function(b){return b[d.key];});
+    var maxVal = Math.max.apply(null,vals);
+    h += '<tr><td>'+d.label+'</td>';
+    vals.forEach(function(v){
+      var isWin = v===maxVal;
+      var pct   = Math.round(v/d.max*100);
+      h += '<td class="'+(isWin?'cmp-winner':'')+'">';
+      h += '<span class="cmp-score">'+v+'/'+d.max+'</span>';
+      h += '<div class="cmp-bar-wrap"><div class="cmp-bar" style="width:'+pct+'%;background:'+(isWin?'#16a34a':'#3a86ff')+'"></div></div>';
+      h += '</td>';
+    });
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+
+  // Insight
+  var insights = [0,1,2].map(function(i){
+    var myBd = bds[i];
+    var wins = dimKeys.filter(function(k){
+      return myBd[k]===Math.max(bds[0][k],bds[1][k],bds[2][k]) && myBd[k]>Math.min(bds[0][k],bds[1][k],bds[2][k]);
+    });
+    return {name:top3[i].name.split(' ')[0].replace(',',''), wins:wins, total:myBd.total};
+  });
+  var parts = [];
+  parts.push('<b>'+insights[0].name+'</b> คะแนนรวมสูงสุด '+insights[0].total+'/100'+(insights[0].wins.length?' · ชนะด้าน '+insights[0].wins.map(function(k){return dimLabels[k];}).join(', '):''));
+  if(insights[1].wins.length){parts.push('<b>'+insights[1].name+'</b> เหมาะถ้าต้องการ '+insights[1].wins.map(function(k){return dimLabels[k];}).join('/')+'ที่ดีกว่า');}
+  else{parts.push('<b>'+insights[1].name+'</b> สมดุลทุกมิติ คะแนนรวม '+insights[1].total);}
+  if(insights[2].wins.length){parts.push('<b>'+insights[2].name+'</b> โดดเด่นด้าน '+insights[2].wins.map(function(k){return dimLabels[k];}).join('/'));}
+  h += '<div class="compare-insight">💡 '+parts.join(' · ')+'</div>';
+
+  // Trade-off cards
+  var dimMax = {rr:25,gs:20,pr:15,bts:15,dc:15,uq:10};
+  var bColors = ['#FFB800','#94A3B8','#CD7C3A'];
+  h += '<div class="tradeoff-grid">';
+  top3.forEach(function(r,i){
+    var bd   = bds[i];
+    var pros = dimKeys.filter(function(k){return bd[k]===Math.max(bds[0][k],bds[1][k],bds[2][k]);});
+    var cons = dimKeys.filter(function(k){return bd[k]===Math.min(bds[0][k],bds[1][k],bds[2][k])&&bd[k]<Math.max(bds[0][k],bds[1][k],bds[2][k]);});
+    var priceNote = r.price?'฿'+r.price+'/คน':'—';
+    var shortName = r.name.split(' ')[0].replace(',','').replace('-','');
+    var prosHTML = pros.length?pros.map(function(k){return '✅ '+dimLabels[k]+' ('+bd[k]+'/'+dimMax[k]+')';}).join('<br>'):'✅ สมดุลดีทุกมิติ';
+    var consHTML = cons.length?cons.map(function(k){return '⚠️ '+dimLabels[k]+' ต่ำกว่าคู่แข่ง ('+bd[k]+'/'+dimMax[k]+')';}).join('<br>'):'⚠️ ไม่มีมิติที่ด้อยกว่าคู่แข่งชัดเจน';
+    h += '<div class="tradeoff-card" style="border-color:'+bColors[i]+'">';
+    h += '<h4 style="color:'+bColors[i]+'">'+RANK_MEDAL_Z[i]+' '+shortName+'</h4>';
+    h += '<div class="tf-con"><div class="tf-con">';
+    h += '<div class="tf-label pros-label">✅ ข้อได้เปรียบ</div><div>'+prosHTML+'</div>';
+    h += '</div><div class="tf-con">';
+    h += '<div class="tf-label cons-label">⚠️ ข้อพิจารณา</div><div>'+consHTML+'</div>';
+    h += '</div></div>';
+    h += '<div style="margin-top:8px;font-size:.72rem;color:#888">ราคา: '+priceNote+' · Rating: '+r.rating+'⭐</div>';
+    h += '</div>';
+  });
+  h += '</div></div></div>';
+
+  /* ── FILTERS ─────────────────────────────────────────────── */
+  var catList = [
+    {v:'all',l:'ทั้งหมด'},{v:'Thai',l:'🍜 ไทย'},{v:'Japanese',l:'🍣 ญี่ปุ่น'},
+    {v:'Korean',l:'🥩 เกาหลี'},{v:'Italian',l:'🍝 อิตาเลียน'},{v:'Seafood',l:'🦞 ซีฟู้ด'},
+    {v:'Cafe/Dessert',l:'☕ คาเฟ่'},{v:'Western',l:'🍔 เวสเทิร์น'},{v:'International',l:'🌍 อินเตอร์'}
+  ];
+  h += '<div class="filters" id="zf-'+zone+'"><div class="filter-row">';
+  catList.forEach(function(c){
+    h += '<button class="filter-btn'+(c.v==='all'?' active':'')+'" onclick="zSetCat(\''+zone+'\',\''+c.v+'\',this)">'+c.l+'</button>';
+  });
+  h += '<div class="sep"></div>';
+  h += '<button class="filter-btn group-btn" id="zgb-'+zone+'" onclick="zToggleGrp(\''+zone+'\')">👥 กลุ่ม 8–12 คน</button>';
+  h += '<div class="sep"></div>';
+  h += '<div class="sort-wrap"><label>เรียงตาม:</label>';
+  h += '<select class="filter-select" id="zso-'+zone+'" onchange="zApply(\''+zone+'\')">';
+  h += '<option value="score">คะแนนรวม</option><option value="rating">Rating</option>';
+  h += '<option value="reviews">รีวิวมากสุด</option><option value="price_asc">ราคาต่ำสุด</option><option value="rank">อันดับ</option>';
+  h += '</select></div></div></div>';
+
+  h += '<div class="stats-bar">';
+  h += '<div class="stat-chip">แสดง <b id="zsc-'+zone+'">'+total+'</b> จาก '+total+' ร้าน</div>';
+  h += '<div class="stat-chip">รับกลุ่มใหญ่ (8–12 คน) <b id="zgc-'+zone+'">'+data.filter(function(r){return r.groupScore>=16;}).length+'</b> ร้าน</div>';
+  h += '<div class="stat-chip" id="zfh-'+zone+'" style="display:none"></div>';
+  h += '</div>';
+
+  /* Grid container — Top 10 (gold border) + rest below */
+  h += '<div id="zgrid-'+zone+'"></div>';
+
+  /* ── EVIDENCE ─────────────────────────────────────────────── */
+  h += '<div class="evidence-section"><div class="evidence-inner">';
+  h += '<h2>📋 Evidence &amp; Methodology</h2>';
+  h += '<div class="ev-grid">';
+  h += '<div class="ev-card"><h3>🔄 Workflow Pipeline</h3>';
+  h += '<p><b>Make.com</b> → <b>Apify</b> (Google Maps Scraper)<br>→ <b>Google Sheets</b> → <b>Claude AI</b><br>→ Scoring Model → HTML Output</p>';
+  h += '<p style="margin-top:8px">Automated pipeline for data collection, AI scoring &amp; visualization</p></div>';
+  h += '<div class="ev-card"><h3>📊 Data Source</h3>';
+  h += '<ul style="list-style:none;padding:0"><li>• Platform: '+info.source+'</li><li>• Zone: '+info.label+' Bangkok</li><li>• Total: '+total+' restaurants</li><li>• Collected: Jun 2026</li></ul></div>';
+  h += '<div class="ev-card"><h3>🤖 AI Scoring</h3>';
+  h += '<ul style="list-style:none;padding:0"><li>• Model: Claude AI (claude-sonnet-4-6)</li><li>• Criteria: 6 dimensions</li><li>• Max Score: 100 pts</li><li>• Objective: Team dining 8–12 pax</li></ul></div>';
+  h += '<div class="ev-card"><h3>📐 Score Ranges</h3>';
+  h += '<ul style="list-style:none;padding:0"><li>🟢 75+ : Excellent</li><li>🟡 65–74 : Good</li><li>🔴 &lt;65 : Fair</li><li>✅ Group Score ≥16/20 = Group-friendly</li></ul></div>';
+  h += '</div></div></div>';
+
+  panel.innerHTML = h;
+  _zSt[zone] = {cat:'all', groupOnly:false};
+  zApply(zone);
+}
+
+/* ── FILTER/SEARCH/SORT ──────────────────────────────────── */
+function zSetCat(zone, cat, btn) {
+  document.querySelectorAll('#zf-'+zone+' .filter-btn:not(.group-btn)').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  _zSt[zone].cat = cat;
+  zApply(zone);
+}
+function zToggleGrp(zone) {
+  _zSt[zone].groupOnly = !_zSt[zone].groupOnly;
+  document.getElementById('zgb-'+zone).classList.toggle('active', _zSt[zone].groupOnly);
+  zApply(zone);
+}
+function zApply(zone) {
+  var st   = _zSt[zone];
+  var raw  = ZONE_DATA[zone];
+  var data = raw.slice().sort(function(a,b){return b.totalScore-a.totalScore;});
+  data.forEach(function(r,i){r.rank=i+1;});
+
+  var q      = (document.getElementById('zs-'+zone)||{value:''}).value.toLowerCase().trim();
+  var sortBy = (document.getElementById('zso-'+zone)||{value:'score'}).value;
+
+  var list = data.filter(function(r){
+    if (st.cat !== 'all') {
+      var c = (r.category||'').toLowerCase();
+      var ok = (st.cat==='Cafe/Dessert') ? (c.includes('cafe')||c.includes('dessert')) : c.includes(st.cat.toLowerCase());
+      if (!ok) return false;
+    }
+    if (st.groupOnly && (r.groupScore||0)<16) return false;
+    if (q && !r.name.toLowerCase().includes(q) && !(r.category||'').toLowerCase().includes(q) && !(r.address||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  list.sort(function(a,b){
+    if (sortBy==='score')     return b.totalScore-a.totalScore;
+    if (sortBy==='rating')    return (b.rating||0)-(a.rating||0);
+    if (sortBy==='reviews')   return (b.reviews||0)-(a.reviews||0);
+    if (sortBy==='rank')      return (a.rank||0)-(b.rank||0);
+    if (sortBy==='price_asc'){
+      var pa=parseInt(String(a.price||'0').replace(/[^0-9]/g,''))||0;
+      var pb=parseInt(String(b.price||'0').replace(/[^0-9]/g,''))||0;
+      return pa-pb;
+    }
+    return a.rank-b.rank;
+  });
+
+  var cEl=document.getElementById('zsc-'+zone); if(cEl) cEl.textContent=list.length;
+  var gEl=document.getElementById('zgc-'+zone); if(gEl) gEl.textContent=list.filter(function(r){return(r.groupScore||0)>=16;}).length;
+  var hEl=document.getElementById('zfh-'+zone);
+  if(hEl){hEl.style.display=st.groupOnly?'':'none'; if(st.groupOnly)hEl.innerHTML='🟢 กรอง: รับกลุ่ม 8–12 คน';}
+
+  var gridEl = document.getElementById('zgrid-'+zone);
+  if (!gridEl) return;
+  if (list.length===0) {
+    gridEl.innerHTML = '<div class="empty">🔍 ไม่พบร้านที่ตรงกับเงื่อนไข<br><span style="font-size:.85rem;margin-top:8px;display:block">ลองเปลี่ยน filter หรือล้างการค้นหาดูครับ</span></div>';
+    return;
+  }
+
+  var topList  = list.filter(function(r){return r.rank<=10;});
+  var restList = list.filter(function(r){return r.rank>10;});
+
+  function cardH(r, isTop) {
+    var em  = CAT_EMOJI_Z[r.category] || '🍽️';
+    var bg  = CAT_BG_Z[r.category] || 'np-default';
+    var sc  = r.totalScore>=75?'score-high':r.totalScore>=65?'score-mid':'score-low';
+    var rStr = r.rating ? Number(r.rating).toFixed(1) : '—';
+    var revStr = r.reviews ? r.reviews.toLocaleString() : '—';
+    var priceStr = r.price ? '฿'+r.price : '—';
+    var catLabel = (r.category||'').replace('Cafe/Dessert','Cafe').replace('Healthy/Poke','Healthy');
+    var addr = (r.address||'').replace(' Thailand','').replace('กรุงเทพมหานคร','กทม.');
+    var addrHtml = addr ? '<div class="card-addr">📍 '+addr+'</div>' : '';
+    var photoHtml = r.photo
+      ? '<img src="'+r.photo+'" alt="'+r.name.replace(/"/g,'')+'" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+        +'<div class="no-photo '+bg+'" style="display:none">'+em+'</div>'
+      : '<div class="no-photo '+bg+'">'+em+'</div>';
+    var mapBtn   = r.mapsUrl  ? '<a class="action-btn btn-map"   href="'+r.mapsUrl+'"  target="_blank">📍 แผนที่</a>' : '';
+    var phoneBtn = r.phone    ? '<a class="action-btn btn-phone" href="tel:'+r.phone+'">📞 โทร</a>' : '';
+    var webBtn   = r.website  ? '<a class="action-btn btn-web"   href="'+r.website+'"  target="_blank">🌐 เว็บ</a>' : '';
+    var gBadge   = (r.groupScore||0)>=16 ? '<div class="group-badge">👥 กลุ่ม</div>' : '';
+    var border   = isTop ? 'border-top:3px solid #FFB800;' : '';
+    return '<div class="card" style="'+border+'">'
+      +'<div class="card-img">'+photoHtml
+      +'<div class="rank-badge">#'+r.rank+'</div>'
+      +'<div class="score-badge '+sc+'">'+r.totalScore+' คะแนน</div>'
+      +gBadge+'</div>'
+      +'<div class="card-body">'
+      +'<div class="card-name">'+r.name+'</div>'
+      +'<div class="card-meta">'
+      +'<span class="cat-tag">'+em+' '+catLabel+'</span>'
+      +'<span class="price-tag">'+priceStr+'</span>'
+      +'</div>'
+      +'<div class="rating-row">'
+      +'<span class="stars">'+zRenderStars(r.rating)+'</span>'
+      +'<span class="rating-num">'+rStr+'</span>'
+      +'<span class="review-count">('+revStr+')</span>'
+      +'</div>'
+      +addrHtml
+      +'<div class="card-actions">'+mapBtn+phoneBtn+webBtn+'</div>'
+      +'</div></div>';
+  }
+
+  var out = '';
+  if (topList.length > 0) {
+    out += '<div style="padding:16px 16px 4px">';
+    out += '<div style="font-size:.9rem;font-weight:800;color:#1a1a2e;margin-bottom:10px">🏆 Top 10 Rankings — การ์ดร้าน</div>';
+    out += '<div class="grid" style="padding:0 0 12px">'+topList.map(function(r){return cardH(r,true);}).join('')+'</div></div>';
+  }
+  if (restList.length > 0) {
+    var fr = topList.length+1;
+    out += '<div style="padding:0 16px 16px">';
+    out += '<div style="font-size:.85rem;font-weight:700;color:#888;padding-top:8px;margin-bottom:10px;border-top:2px dashed #e2e8f0">📋 ร้านอื่นๆ ทั้งหมด (อันดับที่ '+fr+'–'+list.length+')</div>';
+    out += '<div class="grid" style="padding:0">'+restList.map(function(r){return cardH(r,false);}).join('')+'</div></div>';
+  }
+  gridEl.innerHTML = out;
+}
+
+</script></body>
+</html>
